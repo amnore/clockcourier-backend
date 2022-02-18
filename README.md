@@ -1,3 +1,3 @@
-# Backend-ClockCourier
+# LMCC
 
-后端项目
+**L**A**M**ARS by **C**lock **C**ouriers, backend.
