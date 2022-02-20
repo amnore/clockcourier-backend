@@ -1,9 +1,3 @@
-server:
-  port: 8082
-
 spring:
-  datasource:
-    url: jdbc:mysql://114.116.230.11:3306/lmcc?autoReconnect=true&failOverReadOnly=false
-    driver-class-name: com.mysql.cj.jdbc.Driver
-    username: xiayi
-    password: 1928yI2333!
+  profiles:
+    active: #spring.profiles.active#
