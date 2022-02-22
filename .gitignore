@@ -5,6 +5,10 @@ target/
 !**/src/test/**/target/
 **/application-*
 
+### doc ###
+**/*.csv
+**/*.txt
+
 ### STS ###
 .apt_generated
 .classpath
