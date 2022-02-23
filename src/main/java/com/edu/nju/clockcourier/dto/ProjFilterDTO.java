@@ -1,5 +1,7 @@
 package com.edu.nju.clockcourier.dto;
 
+import com.edu.nju.clockcourier.constant.ProjSortRule;
+
 public class ProjFilterDTO {
 
     private String name;
@@ -16,7 +18,7 @@ public class ProjFilterDTO {
 
     private Integer page;
 
-    private String sort;
+    private ProjSortRule sort;
 
     private Boolean isReverse;
 }

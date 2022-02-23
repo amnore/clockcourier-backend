@@ -1,4 +1,4 @@
-package com.edu.nju.clockcourier.util;
+package com.edu.nju.clockcourier.constant;
 
 import lombok.Getter;
 

@@ -1,13 +1,15 @@
 package com.edu.nju.clockcourier.dto;
 
+import com.edu.nju.clockcourier.constant.DepType;
+
 public class RepoDepFilterDTO {
 
-   private String dependencyProjectName;
+    private String dependencyProjectName;
 
-   private String dependencyType;
+    private DepType dependencyType;
 
-   private Integer page;
+    private Integer page;
 
-   private Boolean isReverse;
+    private Boolean isReverse;
 
 }

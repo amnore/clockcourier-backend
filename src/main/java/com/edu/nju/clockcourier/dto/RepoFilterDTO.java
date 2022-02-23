@@ -1,5 +1,7 @@
 package com.edu.nju.clockcourier.dto;
 
+import com.edu.nju.clockcourier.constant.RepoSortRule;
+
 public class RepoFilterDTO {
 
     private String hostType;
@@ -16,8 +18,8 @@ public class RepoFilterDTO {
 
     private Integer page;
 
-    private String sort;
+    private RepoSortRule sort;
 
     private Boolean isReverse;
-    
+
 }

@@ -1,7 +1,7 @@
 package com.edu.nju.clockcourier.vo;
 
-import com.edu.nju.clockcourier.util.ReturnCode;
-import com.edu.nju.clockcourier.util.ReturnMessage;
+import com.edu.nju.clockcourier.constant.ReturnCode;
+import com.edu.nju.clockcourier.constant.ReturnMessage;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;

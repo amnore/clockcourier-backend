@@ -1,4 +1,4 @@
-package com.edu.nju.clockcourier.util;
+package com.edu.nju.clockcourier.constant;
 
 import lombok.Getter;
 
@@ -6,12 +6,13 @@ import lombok.Getter;
 public enum ReturnMessage {
 
     Success("Success."),
-    Failure("Failure.");
+    Failure("Failure."),
+    UnknownExp("UnknownExp: ");
 
     private final String msg;
 
     ReturnMessage(String msg) {
         this.msg = msg;
     }
-    
+
 }
