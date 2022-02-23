@@ -10,7 +10,7 @@ import com.edu.nju.clockcourier.vo.ResponseVO;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
-@RequestMapping("/api/it1/project")
+@RequestMapping("/project")
 public class ProjectController {
 
     @PostMapping("/query")
