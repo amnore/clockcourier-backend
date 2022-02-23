@@ -70,7 +70,7 @@ public class RequestLogger {
         Date time = new Date(startTime);
         SimpleDateFormat sdFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String now = sdFormatter.format(time);
-
+       
         log.setStartTime(now);
         log.setUri(request.getRequestURI());
         log.setUrl(request.getRequestURL().toString());
