@@ -25,7 +25,7 @@ public class RepositoryPO {
 
     private Date updateTimestamp;
 
-    private Date lastPushTimestamp;
+    private Date latestPushTimestamp;
 
     private Boolean fork;
 
@@ -42,5 +42,5 @@ public class RepositoryPO {
     private String defaultBranch;
 
     private String licenses;
-    
+
 }

@@ -37,7 +37,7 @@
 | `homepage_url` | varchar(1024) | 仓库地址 |
 | `create_timestamp` | timestamp | 初次收集该仓库数据的时间戳 |
 | `update_timestamp` | timestamp | 更新该仓库数据的时间戳 |
-| `last_push_timestamp` | timestamp | 最后一次进行 push 操作的时间戳 |
+| `latest_push_timestamp` | timestamp | 最后一次进行 push 操作的时间戳 |
 | `fork` | boolean | 是否能进行 fork 操作 |
 | `fork_count` | integer | fork 数量 |
 | `watcher_count` | integer | watcher 数量 |

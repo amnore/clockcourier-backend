@@ -22,4 +22,5 @@ public class RepositoryDependencyPO {
     private String dependencyRequirements;
 
     private String dependencyType;
+    
 }

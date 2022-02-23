@@ -23,7 +23,7 @@ public class ProjectPO {
 
     private Date updateTimestamp;
 
-    private Date lastReleasePublishTimestamp;
+    private Date latestReleasePublishTimestamp;
 
     private String latestReleaseNumber;
 
@@ -32,4 +32,5 @@ public class ProjectPO {
     private String repositoryUrl;
 
     private String licenses;
+    
 }
