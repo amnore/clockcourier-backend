@@ -1,12 +1,10 @@
 package com.edu.nju.clockcourier.po;
 
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.Date;
 
 @Data
-@NoArgsConstructor
 public class ProjectPO {
 
     private Integer projectId;

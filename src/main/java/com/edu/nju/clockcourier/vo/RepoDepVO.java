@@ -1,5 +1,10 @@
 package com.edu.nju.clockcourier.vo;
 
+import lombok.Data;
+import lombok.NoArgsConstructor;
+
+@Data
+@NoArgsConstructor
 public class RepoDepVO {
 
     private Integer dependencyId;
@@ -19,4 +24,5 @@ public class RepoDepVO {
     private String dependencyRequirements;
 
     private String dependencyType;
+
 }

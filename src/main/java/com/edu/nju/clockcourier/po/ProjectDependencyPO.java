@@ -1,5 +1,8 @@
 package com.edu.nju.clockcourier.po;
 
+import lombok.Data;
+
+@Data
 public class ProjectDependencyPO {
 
     private Integer dependencyId;
@@ -21,6 +24,5 @@ public class ProjectDependencyPO {
     private String dependencyRequirements;
 
     private String dependencyType;
-
 
 }

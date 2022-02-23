@@ -1,5 +1,8 @@
 package com.edu.nju.clockcourier.po;
 
+import lombok.Data;
+
+@Data
 public class RepositoryDependencyPO {
 
     private Integer dependencyId;

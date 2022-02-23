@@ -45,4 +45,5 @@ public class RepositoryVO {
     private String defaultBranch;
 
     private List<String> licenses;
+    
 }

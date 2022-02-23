@@ -4,7 +4,7 @@ public class ProjFilterDTO {
 
     private String name;
 
-    private String platfrom;
+    private String platform;
 
     private String language;
 

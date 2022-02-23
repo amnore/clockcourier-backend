@@ -36,4 +36,5 @@ public class ProjectVO {
     private Integer repositoryUrl;
 
     private List<String> licenses;
+    
 }
