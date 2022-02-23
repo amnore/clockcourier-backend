@@ -21,6 +21,8 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.servlet.http.HttpServletRequest;
 import java.lang.reflect.Method;
+import java.text.SimpleDateFormat;
+import java.util.Date;
 
 @Component
 @Aspect
@@ -32,7 +34,7 @@ public class RequestLogger {
     @Pointcut("execution(public * com.edu.nju.clockcourier.controller.*.*(..))")
     public void webLog() {
     }
-    
+
     @Around("webLog()")
     public Object doAround(ProceedingJoinPoint joinPoint) throws Throwable {
         long startTime = System.currentTimeMillis();
@@ -64,7 +66,12 @@ public class RequestLogger {
         log.setParameter(ReflectUtil.getParameter(method, joinPoint.getArgs()));
         log.setResult(result);
         log.setSpendTime((int) (endTime - startTime));
-        log.setStartTime(startTime);
+
+        Date time = new Date(startTime);
+        SimpleDateFormat sdFormatter = new SimpleDateFormat("yyyy-MM-dd");
+        String now = sdFormatter.format(time);
+        
+        log.setStartTime(now);
         log.setUri(request.getRequestURI());
         log.setUrl(request.getRequestURL().toString());
 
