@@ -17,6 +17,7 @@ public class RepositoryPO {
 
     private String language;
 
+    //原来的数据库中出现拼写错误，decription，已修复
     private String description;
 
     private String homepageUrl;
@@ -27,7 +28,8 @@ public class RepositoryPO {
 
     private Date latestPushTimestamp;
 
-    private Boolean fork;
+    //由于Mysql无法设置为Boolean，因此改为Integer
+    private Integer fork;
 
     private Integer forkCount;
 
