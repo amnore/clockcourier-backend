@@ -10,9 +10,8 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-//使用提示:此方法生成的Mapper文件中会出现两个id为"...POResult"的方法，需要手动修改其中一个的id，不然会出现error
-//参考修改方法为 "...PO2Result"
-
+// 使用提示: 此方法生成的Mapper文件中会出现两个id为"...POResult"的方法，需要手动修改其中一个的id，不然会出现error
+// 参考修改方法为 "...PO2Result"
 public class MybatisGeneratorUtil {
     public static void main(String[] args) throws Exception {
 
@@ -33,4 +32,5 @@ public class MybatisGeneratorUtil {
         // 打印信息
         warnings.forEach(System.err::println);
     }
+
 }

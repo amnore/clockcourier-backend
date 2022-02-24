@@ -11,7 +11,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-public class ReflectUtil {
+public class Reflecter {
     // 根据方法和传入的参数获取请求参数
     public static Object getParameter(Method method, Object[] args) {
         List<Object> argList = new ArrayList<>();

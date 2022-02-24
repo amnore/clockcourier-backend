@@ -1,10 +1,9 @@
-package com.edu.nju.clockcourier.config;
+package com.edu.nju.clockcourier.util;
 
 import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.json.JSONUtil;
 import com.edu.nju.clockcourier.po.LogPO;
-import com.edu.nju.clockcourier.util.ReflectUtil;
 import io.swagger.annotations.ApiOperation;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
@@ -63,14 +62,14 @@ public class RequestLogger {
         log.setBasePath(StrUtil.removeSuffix(urlStr, URLUtil.url(urlStr).getPath()));
         log.setIp(request.getRemoteUser());
         log.setMethod(request.getMethod());
-        log.setParameter(ReflectUtil.getParameter(method, joinPoint.getArgs()));
+        log.setParameter(Reflecter.getParameter(method, joinPoint.getArgs()));
         log.setResult(result);
         log.setSpendTime((int) (endTime - startTime));
 
         Date time = new Date(startTime);
         SimpleDateFormat sdFormatter = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
         String now = sdFormatter.format(time);
-       
+
         log.setStartTime(now);
         log.setUri(request.getRequestURI());
         log.setUrl(request.getRequestURL().toString());
