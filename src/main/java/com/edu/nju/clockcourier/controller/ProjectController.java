@@ -26,7 +26,7 @@ public class ProjectController {
 
     @GetMapping("/{projectId}/get")
     public ResponseVO<ProjectVO> get(@PathVariable String projectId) {
-        return ResponseVO.success(projectService.getProject(Integer.parseInt(projectId)));
+        return ResponseVO.<ProjectVO>success(projectService.getProject(Integer.parseInt(projectId)));
     }
 
     @PostMapping("/{projectId}/dependency/query")
