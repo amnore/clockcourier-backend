@@ -1,4 +1,4 @@
-package com.edu.nju.clockcourier.dao;
+package com.edu.nju.clockcourier.dao.mapper;
 
 import com.edu.nju.clockcourier.po.ProjectDependencyPO;
 import org.apache.ibatis.annotations.*;

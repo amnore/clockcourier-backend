@@ -1,4 +1,4 @@
-package com.edu.nju.clockcourier.dao;
+package com.edu.nju.clockcourier.dao.mapper;
 
 import static com.edu.nju.clockcourier.dao.support.RepositoryDependencyPODynamicSqlSupport.*;
 import static org.mybatis.dynamic.sql.SqlBuilder.*;
