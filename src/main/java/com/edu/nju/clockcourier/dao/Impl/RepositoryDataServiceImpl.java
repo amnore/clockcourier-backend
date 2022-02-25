@@ -1,8 +1,11 @@
 package com.edu.nju.clockcourier.dao.Impl;
 
+import com.edu.nju.clockcourier.dao.RepositoryDataService;
 import com.edu.nju.clockcourier.dao.mapper.RepositoryMapper;
+import org.springframework.stereotype.Service;
 
-public class RepositoryDataServiceImpl {
+@Service
+public class RepositoryDataServiceImpl implements RepositoryDataService {
 
     private final RepositoryMapper repositoryMapper;
 

@@ -17,7 +17,7 @@ class ProjectMapperTest {
 
     @Test
     void selectByPrimaryKey() {
-//        System.out.println(projectPOMapper.selectByPrimaryKey(31613));
+//        System.out.println(projectMapper.selectByPrimaryKey(31613));
     }
 
 

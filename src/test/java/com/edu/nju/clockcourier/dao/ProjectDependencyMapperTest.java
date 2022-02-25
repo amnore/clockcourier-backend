@@ -17,6 +17,6 @@ class ProjectDependencyMapperTest {
 
     @Test
     void selectByPrimaryKey() {
-//        System.out.println(projectDependencyPOMapper.selectByPrimaryKey(4266479));
+//        System.out.println(projectDependencyMapper.selectByPrimaryKey(4266479));
     }
 }

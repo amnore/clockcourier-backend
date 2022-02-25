@@ -3,15 +3,21 @@ package com.edu.nju.clockcourier.controller;
 
 import com.edu.nju.clockcourier.dto.ProjDepFilterDTO;
 import com.edu.nju.clockcourier.dto.ProjFilterDTO;
+import com.edu.nju.clockcourier.service.ProjectService;
 import com.edu.nju.clockcourier.vo.ProjectListVO;
 import com.edu.nju.clockcourier.vo.ProjectVO;
 import com.edu.nju.clockcourier.vo.RepoDepListVO;
 import com.edu.nju.clockcourier.vo.ResponseVO;
 import org.springframework.web.bind.annotation.*;
 
+import javax.annotation.Resource;
+
 @RestController
 @RequestMapping("/project")
 public class ProjectController {
+
+    @Resource
+    ProjectService projectService;
 
     @PostMapping("/query")
     public ResponseVO<ProjectListVO> query(@RequestBody ProjFilterDTO filter) {
@@ -20,7 +26,7 @@ public class ProjectController {
 
     @GetMapping("/{projectId}/get")
     public ResponseVO<ProjectVO> get(@PathVariable String projectId) {
-        return ResponseVO.success(null);
+        return ResponseVO.success(projectService.getProject(Integer.parseInt(projectId)));
     }
 
     @PostMapping("/{projectId}/dependency/query")
