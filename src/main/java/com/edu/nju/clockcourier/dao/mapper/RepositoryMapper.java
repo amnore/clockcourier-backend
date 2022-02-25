@@ -1,6 +1,6 @@
 package com.edu.nju.clockcourier.dao.mapper;
 
-import static com.edu.nju.clockcourier.dao.support.RepositoryPODynamicSqlSupport.*;
+import static com.edu.nju.clockcourier.dao.support.RepositoryDSS.*;
 import static org.mybatis.dynamic.sql.SqlBuilder.*;
 
 import com.edu.nju.clockcourier.po.RepositoryPO;
@@ -32,7 +32,7 @@ import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 @Mapper
-public interface RepositoryPOMapper {
+public interface RepositoryMapper {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     BasicColumn[] selectList = BasicColumn.columnList(repositoryId, hostType, repositoryName, repositoryOwner, language, description, homepageUrl, createTimestamp, updateTimestamp, latestPushTimestamp, fork, forkCount, watcherCount, starCount, contributorCount, openIssueCount, defaultBranch, licenses);
 

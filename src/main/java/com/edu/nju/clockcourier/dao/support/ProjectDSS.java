@@ -6,7 +6,7 @@ import javax.annotation.Generated;
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
-public final class ProjectPODynamicSqlSupport {
+public final class ProjectDSS {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final ProjectPO projectPO = new ProjectPO();
 

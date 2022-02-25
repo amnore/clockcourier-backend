@@ -1,6 +1,6 @@
 package com.edu.nju.clockcourier.dao.mapper;
 
-import static com.edu.nju.clockcourier.dao.support.RepositoryDependencyPODynamicSqlSupport.*;
+import static com.edu.nju.clockcourier.dao.support.RepositoryDependencyDSS.*;
 import static org.mybatis.dynamic.sql.SqlBuilder.*;
 
 import com.edu.nju.clockcourier.po.RepositoryDependencyPO;
@@ -32,7 +32,7 @@ import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
 @Mapper
-public interface RepositoryDependencyPOMapper {
+public interface RepositoryDependencyMapper {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     BasicColumn[] selectList = BasicColumn.columnList(dependencyId, repositoryId, repositoryName, repositoryOwner, hostType, dependencyProjectId, dependencyProjectName, dependencyRequirements, dependencyType);
 

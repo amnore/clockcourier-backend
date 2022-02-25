@@ -23,11 +23,11 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import static com.edu.nju.clockcourier.dao.support.ProjectDependencyPODynamicSqlSupport.*;
+import static com.edu.nju.clockcourier.dao.support.ProjectDependencyDSS.*;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 
 @Mapper
-public interface ProjectDependencyPOMapper {
+public interface ProjectDependencyMapper {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     BasicColumn[] selectList = BasicColumn.columnList(dependencyId, projectId, projectName, platform, projectVersion, dependencyProjectId, dependencyProjectName, dependencyProjectPlatform, dependencyRequirements, dependencyType);
 

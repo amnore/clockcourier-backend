@@ -1,18 +1,18 @@
 package com.edu.nju.clockcourier.dao;
 
-import com.edu.nju.clockcourier.dao.mapper.ProjectDependencyPOMapper;
+import com.edu.nju.clockcourier.dao.mapper.ProjectDependencyMapper;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class ProjectDependencyPOMapperTest {
+class ProjectDependencyMapperTest {
 
-    private final ProjectDependencyPOMapper projectDependencyPOMapper;
+    private final ProjectDependencyMapper projectDependencyMapper;
 
     @Autowired
-    public ProjectDependencyPOMapperTest(ProjectDependencyPOMapper projectDependencyPOMapper){
-        this.projectDependencyPOMapper=projectDependencyPOMapper;
+    public ProjectDependencyMapperTest(ProjectDependencyMapper projectDependencyMapper){
+        this.projectDependencyMapper = projectDependencyMapper;
     }
 
     @Test

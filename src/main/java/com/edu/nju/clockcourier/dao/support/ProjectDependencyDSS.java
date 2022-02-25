@@ -5,7 +5,7 @@ import javax.annotation.Generated;
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
-public final class ProjectDependencyPODynamicSqlSupport {
+public final class ProjectDependencyDSS {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final ProjectDependencyPO projectDependencyPO = new ProjectDependencyPO();
 
