@@ -7,16 +7,19 @@ import com.edu.nju.clockcourier.vo.RepoDepListVO;
 import com.edu.nju.clockcourier.vo.RepositoryListVO;
 import com.edu.nju.clockcourier.vo.RepositoryVO;
 import com.edu.nju.clockcourier.vo.ResponseVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
 
 @RestController
 @RequestMapping("/repository")
 public class RepositoryController {
 
-    @Resource
     RepositoryService repositoryService;
+
+    @Autowired
+    public RepositoryController(RepositoryService repositoryService) {
+        this.repositoryService = repositoryService;
+    }
 
     @PostMapping("/query")
     public ResponseVO<RepositoryListVO> query(@RequestBody RepoFilterDTO filter) {

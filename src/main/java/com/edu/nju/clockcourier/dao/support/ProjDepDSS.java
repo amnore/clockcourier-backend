@@ -1,45 +1,34 @@
 package com.edu.nju.clockcourier.dao.support;
 
-import java.sql.JDBCType;
-import javax.annotation.Generated;
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
-public final class ProjectDependencyDSS {
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+import java.sql.JDBCType;
+
+public final class ProjDepDSS {
+
     public static final ProjectDependencyPO projectDependencyPO = new ProjectDependencyPO();
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<Integer> dependencyId = projectDependencyPO.dependencyId;
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<Integer> projectId = projectDependencyPO.projectId;
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<String> projectName = projectDependencyPO.projectName;
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<String> platform = projectDependencyPO.platform;
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<String> projectVersion = projectDependencyPO.projectVersion;
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<Integer> dependencyProjectId = projectDependencyPO.dependencyProjectId;
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<String> dependencyProjectName = projectDependencyPO.dependencyProjectName;
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<String> dependencyProjectPlatform = projectDependencyPO.dependencyProjectPlatform;
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<String> dependencyRequirements = projectDependencyPO.dependencyRequirements;
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<String> dependencyType = projectDependencyPO.dependencyType;
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final class ProjectDependencyPO extends SqlTable {
         public final SqlColumn<Integer> dependencyId = column("dependency_id", JDBCType.INTEGER);
 
@@ -65,4 +54,5 @@ public final class ProjectDependencyDSS {
             super("project_dependencies");
         }
     }
+    
 }

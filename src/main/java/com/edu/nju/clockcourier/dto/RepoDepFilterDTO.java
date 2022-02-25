@@ -1,12 +1,13 @@
 package com.edu.nju.clockcourier.dto;
 
-import com.edu.nju.clockcourier.constant.DepType;
+import lombok.Data;
 
+@Data
 public class RepoDepFilterDTO {
 
     private String dependencyProjectName;
 
-    private DepType dependencyType;
+    private String dependencyType;
 
     private Integer page;
 

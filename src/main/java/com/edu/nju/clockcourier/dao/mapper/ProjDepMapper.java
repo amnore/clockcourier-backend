@@ -18,36 +18,32 @@ import org.mybatis.dynamic.sql.update.render.UpdateStatementProvider;
 import org.mybatis.dynamic.sql.util.SqlProviderAdapter;
 import org.mybatis.dynamic.sql.util.mybatis3.MyBatis3Utils;
 
-import javax.annotation.Generated;
+import javax.annotation.processing.Generated;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 
-import static com.edu.nju.clockcourier.dao.support.ProjectDependencyDSS.*;
+import static com.edu.nju.clockcourier.dao.support.ProjDepDSS.*;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 
 @Mapper
-public interface ProjectDependencyMapper {
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+@Generated("org.mybatis.generator.api.MyBatisGenerator")
+public interface ProjDepMapper {
+
     BasicColumn[] selectList = BasicColumn.columnList(dependencyId, projectId, projectName, platform, projectVersion, dependencyProjectId, dependencyProjectName, dependencyProjectPlatform, dependencyRequirements, dependencyType);
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     long count(SelectStatementProvider selectStatement);
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @DeleteProvider(type = SqlProviderAdapter.class, method = "delete")
     int delete(DeleteStatementProvider deleteStatement);
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @InsertProvider(type = SqlProviderAdapter.class, method = "insert")
     int insert(InsertStatementProvider<ProjectDependencyPO> insertStatement);
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @InsertProvider(type = SqlProviderAdapter.class, method = "insertMultiple")
     int insertMultiple(MultiRowInsertStatementProvider<ProjectDependencyPO> multipleInsertStatement);
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @Results(id = "ProjectDependencyPOResult", value = {
             @Result(column = "dependency_id", property = "dependencyId", jdbcType = JdbcType.INTEGER, id = true),
@@ -63,33 +59,27 @@ public interface ProjectDependencyMapper {
     })
     Optional<ProjectDependencyPO> selectOne(SelectStatementProvider selectStatement);
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @ResultMap("ProjectDependencyPOResult")
     List<ProjectDependencyPO> selectMany(SelectStatementProvider selectStatement);
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     @UpdateProvider(type = SqlProviderAdapter.class, method = "update")
     int update(UpdateStatementProvider updateStatement);
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default long count(CountDSLCompleter completer) {
         return MyBatis3Utils.countFrom(this::count, projectDependencyPO, completer);
     }
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int delete(DeleteDSLCompleter completer) {
         return MyBatis3Utils.deleteFrom(this::delete, projectDependencyPO, completer);
     }
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int deleteByPrimaryKey(Integer dependencyId_) {
         return delete(c ->
                 c.where(dependencyId, isEqualTo(dependencyId_))
         );
     }
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int insert(ProjectDependencyPO record) {
         return MyBatis3Utils.insert(this::insert, record, projectDependencyPO, c ->
                 c.map(dependencyId).toProperty("dependencyId")
@@ -105,7 +95,6 @@ public interface ProjectDependencyMapper {
         );
     }
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int insertMultiple(Collection<ProjectDependencyPO> records) {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, projectDependencyPO, c ->
                 c.map(dependencyId).toProperty("dependencyId")
@@ -121,7 +110,6 @@ public interface ProjectDependencyMapper {
         );
     }
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int insertSelective(ProjectDependencyPO record) {
         return MyBatis3Utils.insert(this::insert, record, projectDependencyPO, c ->
                 c.map(dependencyId).toPropertyWhenPresent("dependencyId", record::getDependencyId)
@@ -137,34 +125,28 @@ public interface ProjectDependencyMapper {
         );
     }
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default Optional<ProjectDependencyPO> selectOne(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectOne(this::selectOne, selectList, projectDependencyPO, completer);
     }
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default List<ProjectDependencyPO> select(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectList(this::selectMany, selectList, projectDependencyPO, completer);
     }
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default List<ProjectDependencyPO> selectDistinct(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectDistinct(this::selectMany, selectList, projectDependencyPO, completer);
     }
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default Optional<ProjectDependencyPO> selectByPrimaryKey(Integer dependencyId_) {
         return selectOne(c ->
                 c.where(dependencyId, isEqualTo(dependencyId_))
         );
     }
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int update(UpdateDSLCompleter completer) {
         return MyBatis3Utils.update(this::update, projectDependencyPO, completer);
     }
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     static UpdateDSL<UpdateModel> updateAllColumns(ProjectDependencyPO record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(dependencyId).equalTo(record::getDependencyId)
                 .set(projectId).equalTo(record::getProjectId)
@@ -178,7 +160,6 @@ public interface ProjectDependencyMapper {
                 .set(dependencyType).equalTo(record::getDependencyType);
     }
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     static UpdateDSL<UpdateModel> updateSelectiveColumns(ProjectDependencyPO record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(dependencyId).equalToWhenPresent(record::getDependencyId)
                 .set(projectId).equalToWhenPresent(record::getProjectId)
@@ -192,7 +173,6 @@ public interface ProjectDependencyMapper {
                 .set(dependencyType).equalToWhenPresent(record::getDependencyType);
     }
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int updateByPrimaryKey(ProjectDependencyPO record) {
         return update(c ->
                 c.set(projectId).equalTo(record::getProjectId)
@@ -208,7 +188,6 @@ public interface ProjectDependencyMapper {
         );
     }
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     default int updateByPrimaryKeySelective(ProjectDependencyPO record) {
         return update(c ->
                 c.set(projectId).equalToWhenPresent(record::getProjectId)
@@ -223,4 +202,5 @@ public interface ProjectDependencyMapper {
                         .where(dependencyId, isEqualTo(record::getDependencyId))
         );
     }
+
 }

@@ -12,12 +12,13 @@ public class RepositoryServiceImpl implements RepositoryService {
     private final RepositoryDataService repositoryDataService;
 
     @Autowired
-    public RepositoryServiceImpl (RepositoryDataService repositoryDataService){
-        this.repositoryDataService=repositoryDataService;
+    public RepositoryServiceImpl(RepositoryDataService repositoryDataService) {
+        this.repositoryDataService = repositoryDataService;
     }
 
     @Override
     public RepositoryVO getRepository(Integer id) {
         return RepositoryVO.Build(repositoryDataService.getRepository(id));
     }
+    
 }

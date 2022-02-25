@@ -7,7 +7,8 @@ public enum ReturnMessage {
 
     Success("Success."),
     Failure("Failure."),
-    UnknownExp("UnknownExp: ");
+    UnknownExp("UnknownExp: "),
+    NoSuchProjectExp("No such Project. Plz check project id.");
 
     private final String msg;
 

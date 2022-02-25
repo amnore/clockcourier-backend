@@ -1,6 +1,5 @@
 package com.edu.nju.clockcourier.vo;
 
-import com.edu.nju.clockcourier.constant.DepType;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
@@ -26,6 +25,6 @@ public class ProjDepVO {
 
     private String dependencyRequirements;
 
-    private DepType dependencyType;
+    private String dependencyType;
 
 }

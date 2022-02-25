@@ -17,7 +17,6 @@ public class RepositoryPO {
 
     private String language;
 
-    //原来的数据库中出现拼写错误，decription，已修复
     private String description;
 
     private String homepageUrl;
@@ -28,7 +27,6 @@ public class RepositoryPO {
 
     private Date latestPushTimestamp;
 
-    //由于Mysql无法设置为Boolean，因此改为Integer
     private Integer fork;
 
     private Integer forkCount;
@@ -44,5 +42,16 @@ public class RepositoryPO {
     private String defaultBranch;
 
     private String licenses;
+
+    private static RepositoryPO nullInstance;
+
+    public static RepositoryPO getNullInstance() {
+        if (nullInstance == null) nullInstance = new RepositoryPO();
+        return nullInstance;
+    }
+
+    public static boolean isNullInstance(RepositoryPO po) {
+        return po == nullInstance;
+    }
 
 }

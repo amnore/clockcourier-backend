@@ -1,7 +1,8 @@
 package com.edu.nju.clockcourier.dto;
 
-import com.edu.nju.clockcourier.constant.DepType;
+import lombok.Data;
 
+@Data
 public class ProjDepFilterDTO {
 
     private String projectVersion;
@@ -10,7 +11,7 @@ public class ProjDepFilterDTO {
 
     private String dependencyProjectPlatform;
 
-    private DepType dependencyType;
+    private String dependencyType;
 
     private Integer page;
 

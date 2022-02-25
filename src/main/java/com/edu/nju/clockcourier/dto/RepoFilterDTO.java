@@ -1,7 +1,9 @@
 package com.edu.nju.clockcourier.dto;
 
 import com.edu.nju.clockcourier.constant.RepoSortRule;
+import lombok.Data;
 
+@Data
 public class RepoFilterDTO {
 
     private String hostType;

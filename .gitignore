@@ -9,6 +9,7 @@ target/
 ### doc ###
 **/*.csv
 **/*.txt
+**/*.sql
 
 ### STS ###
 .apt_generated

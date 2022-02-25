@@ -5,8 +5,6 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
 
@@ -51,29 +49,25 @@ public class RepositoryVO {
 
     private List<String> licenses;
 
-    public static RepositoryVO Build(RepositoryPO repository){
-        boolean fork;
-        if(repository.getFork()==1)fork=true;
-        else fork=false;
+    public static RepositoryVO Build(RepositoryPO repository) {
         return new RepositoryVO(repository.getRepositoryId(),
-                                repository.getHostType(),
-                                repository.getRepositoryName(),
-                                repository.getRepositoryOwner(),
-                                repository.getLanguage(),
-                                repository.getDescription(),
-                                repository.getHomepageUrl(),
-                                repository.getCreateTimestamp(),
-                                repository.getUpdateTimestamp(),
-                                repository.getLatestPushTimestamp(),
-                                fork,
-                                repository.getForkCount(),
-                                repository.getWatcherCount(),
-                                repository.getStarCount(),
-                                repository.getContributorCount(),
-                                repository.getOpenIssueCount(),
-                                repository.getDefaultBranch(),
-                                new ArrayList<String>(Arrays.asList(repository.getLicenses())));
-
+                repository.getHostType(),
+                repository.getRepositoryName(),
+                repository.getRepositoryOwner(),
+                repository.getLanguage(),
+                repository.getDescription(),
+                repository.getHomepageUrl(),
+                repository.getCreateTimestamp(),
+                repository.getUpdateTimestamp(),
+                repository.getLatestPushTimestamp(),
+                (repository.getFork() == 1),
+                repository.getForkCount(),
+                repository.getWatcherCount(),
+                repository.getStarCount(),
+                repository.getContributorCount(),
+                repository.getOpenIssueCount(),
+                repository.getDefaultBranch(),
+                List.of(repository.getLicenses().split(",")));
     }
-    
+
 }

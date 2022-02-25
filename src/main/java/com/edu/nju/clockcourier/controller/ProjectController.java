@@ -8,25 +8,28 @@ import com.edu.nju.clockcourier.vo.ProjectListVO;
 import com.edu.nju.clockcourier.vo.ProjectVO;
 import com.edu.nju.clockcourier.vo.RepoDepListVO;
 import com.edu.nju.clockcourier.vo.ResponseVO;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
-
-import javax.annotation.Resource;
 
 @RestController
 @RequestMapping("/project")
 public class ProjectController {
 
-    @Resource
     ProjectService projectService;
+
+    @Autowired
+    public ProjectController(ProjectService projectService) {
+        this.projectService = projectService;
+    }
 
     @PostMapping("/query")
     public ResponseVO<ProjectListVO> query(@RequestBody ProjFilterDTO filter) {
-        return ResponseVO.success(null);
+        return ResponseVO.success(projectService.getProjects(filter));
     }
 
     @GetMapping("/{projectId}/get")
     public ResponseVO<ProjectVO> get(@PathVariable String projectId) {
-        return ResponseVO.<ProjectVO>success(projectService.getProject(Integer.parseInt(projectId)));
+        return ResponseVO.success(projectService.getProject(Integer.parseInt(projectId)));
     }
 
     @PostMapping("/{projectId}/dependency/query")

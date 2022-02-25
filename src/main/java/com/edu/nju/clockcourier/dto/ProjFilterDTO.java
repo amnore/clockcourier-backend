@@ -1,7 +1,9 @@
 package com.edu.nju.clockcourier.dto;
 
 import com.edu.nju.clockcourier.constant.ProjSortRule;
+import lombok.Data;
 
+@Data
 public class ProjFilterDTO {
 
     private String name;
@@ -14,11 +16,10 @@ public class ProjFilterDTO {
 
     private String latestReleaseN;
 
-    private String dependency;
-
     private Integer page;
 
     private ProjSortRule sort;
 
     private Boolean isReverse;
+
 }
