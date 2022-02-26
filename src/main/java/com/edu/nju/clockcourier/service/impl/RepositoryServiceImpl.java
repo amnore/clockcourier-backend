@@ -1,7 +1,11 @@
 package com.edu.nju.clockcourier.service.impl;
 
 import com.edu.nju.clockcourier.dao.RepositoryDataService;
+import com.edu.nju.clockcourier.dto.RepoDepFilterDTO;
+import com.edu.nju.clockcourier.dto.RepoFilterDTO;
 import com.edu.nju.clockcourier.service.RepositoryService;
+import com.edu.nju.clockcourier.vo.RepoDepListVO;
+import com.edu.nju.clockcourier.vo.RepositoryListVO;
 import com.edu.nju.clockcourier.vo.RepositoryVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -20,5 +24,15 @@ public class RepositoryServiceImpl implements RepositoryService {
     public RepositoryVO getRepository(Integer id) {
         return RepositoryVO.Build(repositoryDataService.getRepository(id));
     }
-    
+
+    @Override
+    public RepositoryListVO getRepositories(RepoFilterDTO repoFilterDTO) {
+        return null;
+    }
+
+    @Override
+    public RepoDepListVO getDependencies(Integer repositoryId, RepoDepFilterDTO repoDepFilterDTO) {
+        return null;
+    }
+
 }

@@ -4,10 +4,7 @@ package com.edu.nju.clockcourier.controller;
 import com.edu.nju.clockcourier.dto.ProjDepFilterDTO;
 import com.edu.nju.clockcourier.dto.ProjFilterDTO;
 import com.edu.nju.clockcourier.service.ProjectService;
-import com.edu.nju.clockcourier.vo.ProjectListVO;
-import com.edu.nju.clockcourier.vo.ProjectVO;
-import com.edu.nju.clockcourier.vo.RepoDepListVO;
-import com.edu.nju.clockcourier.vo.ResponseVO;
+import com.edu.nju.clockcourier.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -33,9 +30,9 @@ public class ProjectController {
     }
 
     @PostMapping("/{projectId}/dependency/query")
-    public ResponseVO<RepoDepListVO> queryDependencies(@PathVariable String projectId,
+    public ResponseVO<ProjDepListVO> queryDependencies(@PathVariable String projectId,
                                                        @RequestBody ProjDepFilterDTO filter) {
-        return ResponseVO.success(null);
+        return ResponseVO.success(projectService.getDependencies(Integer.parseInt(projectId),filter));
     }
 
 }

@@ -23,7 +23,7 @@ public class RepositoryController {
 
     @PostMapping("/query")
     public ResponseVO<RepositoryListVO> query(@RequestBody RepoFilterDTO filter) {
-        return ResponseVO.success(null);
+        return ResponseVO.success(repositoryService.getRepositories(filter));
     }
 
     @GetMapping("/{repositoryId}/get")
@@ -34,7 +34,7 @@ public class RepositoryController {
     @PostMapping("/{repositoryId}/dependency/query")
     public ResponseVO<RepoDepListVO> queryDependencies(@PathVariable String repositoryId,
                                                        @RequestBody RepoDepFilterDTO filter) {
-        return ResponseVO.success(null);
+        return ResponseVO.success(repositoryService.getDependencies(Integer.parseInt(repositoryId),filter));
     }
 
 }
