@@ -70,11 +70,11 @@ public interface ProjectMapper {
     int update(UpdateStatementProvider updateStatement);
 
     default long count(CountDSLCompleter completer) {
-        return MyBatis3Utils.countFrom(this::count, projectPO, completer);
+        return MyBatis3Utils.countFrom(this::count, PROJECTS, completer);
     }
 
     default int delete(DeleteDSLCompleter completer) {
-        return MyBatis3Utils.deleteFrom(this::delete, projectPO, completer);
+        return MyBatis3Utils.deleteFrom(this::delete, PROJECTS, completer);
     }
 
     default int deleteByPrimaryKey(Integer projectId_) {
@@ -84,7 +84,7 @@ public interface ProjectMapper {
     }
 
     default int insert(ProjectPO record) {
-        return MyBatis3Utils.insert(this::insert, record, projectPO, c ->
+        return MyBatis3Utils.insert(this::insert, record, PROJECTS, c ->
                 c.map(projectId).toProperty("projectId")
                         .map(projectName).toProperty("projectName")
                         .map(platform).toProperty("platform")
@@ -102,7 +102,7 @@ public interface ProjectMapper {
     }
 
     default int insertMultiple(Collection<ProjectPO> records) {
-        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, projectPO, c ->
+        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, PROJECTS, c ->
                 c.map(projectId).toProperty("projectId")
                         .map(projectName).toProperty("projectName")
                         .map(platform).toProperty("platform")
@@ -120,7 +120,7 @@ public interface ProjectMapper {
     }
 
     default int insertSelective(ProjectPO record) {
-        return MyBatis3Utils.insert(this::insert, record, projectPO, c ->
+        return MyBatis3Utils.insert(this::insert, record, PROJECTS, c ->
                 c.map(projectId).toPropertyWhenPresent("projectId", record::getProjectId)
                         .map(projectName).toPropertyWhenPresent("projectName", record::getProjectName)
                         .map(platform).toPropertyWhenPresent("platform", record::getPlatform)
@@ -138,15 +138,15 @@ public interface ProjectMapper {
     }
 
     default Optional<ProjectPO> selectOne(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectOne(this::selectOne, selectList, projectPO, completer);
+        return MyBatis3Utils.selectOne(this::selectOne, selectList, PROJECTS, completer);
     }
 
     default List<ProjectPO> select(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectList(this::selectMany, selectList, projectPO, completer);
+        return MyBatis3Utils.selectList(this::selectMany, selectList, PROJECTS, completer);
     }
 
     default List<ProjectPO> selectDistinct(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectDistinct(this::selectMany, selectList, projectPO, completer);
+        return MyBatis3Utils.selectDistinct(this::selectMany, selectList, PROJECTS, completer);
     }
 
     default Optional<ProjectPO> selectByPrimaryKey(Integer projectId_) {
@@ -156,7 +156,7 @@ public interface ProjectMapper {
     }
 
     default int update(UpdateDSLCompleter completer) {
-        return MyBatis3Utils.update(this::update, projectPO, completer);
+        return MyBatis3Utils.update(this::update, PROJECTS, completer);
     }
 
     static UpdateDSL<UpdateModel> updateAllColumns(ProjectPO record, UpdateDSL<UpdateModel> dsl) {
@@ -227,5 +227,5 @@ public interface ProjectMapper {
         );
     }
 
-    
+
 }

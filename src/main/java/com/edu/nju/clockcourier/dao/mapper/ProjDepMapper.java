@@ -67,11 +67,11 @@ public interface ProjDepMapper {
     int update(UpdateStatementProvider updateStatement);
 
     default long count(CountDSLCompleter completer) {
-        return MyBatis3Utils.countFrom(this::count, projectDependencyPO, completer);
+        return MyBatis3Utils.countFrom(this::count, PROJECT_DEPENDENCIES, completer);
     }
 
     default int delete(DeleteDSLCompleter completer) {
-        return MyBatis3Utils.deleteFrom(this::delete, projectDependencyPO, completer);
+        return MyBatis3Utils.deleteFrom(this::delete, PROJECT_DEPENDENCIES, completer);
     }
 
     default int deleteByPrimaryKey(Integer dependencyId_) {
@@ -81,7 +81,7 @@ public interface ProjDepMapper {
     }
 
     default int insert(ProjectDependencyPO record) {
-        return MyBatis3Utils.insert(this::insert, record, projectDependencyPO, c ->
+        return MyBatis3Utils.insert(this::insert, record, PROJECT_DEPENDENCIES, c ->
                 c.map(dependencyId).toProperty("dependencyId")
                         .map(projectId).toProperty("projectId")
                         .map(projectName).toProperty("projectName")
@@ -96,7 +96,7 @@ public interface ProjDepMapper {
     }
 
     default int insertMultiple(Collection<ProjectDependencyPO> records) {
-        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, projectDependencyPO, c ->
+        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, PROJECT_DEPENDENCIES, c ->
                 c.map(dependencyId).toProperty("dependencyId")
                         .map(projectId).toProperty("projectId")
                         .map(projectName).toProperty("projectName")
@@ -111,7 +111,7 @@ public interface ProjDepMapper {
     }
 
     default int insertSelective(ProjectDependencyPO record) {
-        return MyBatis3Utils.insert(this::insert, record, projectDependencyPO, c ->
+        return MyBatis3Utils.insert(this::insert, record, PROJECT_DEPENDENCIES, c ->
                 c.map(dependencyId).toPropertyWhenPresent("dependencyId", record::getDependencyId)
                         .map(projectId).toPropertyWhenPresent("projectId", record::getProjectId)
                         .map(projectName).toPropertyWhenPresent("projectName", record::getProjectName)
@@ -126,15 +126,15 @@ public interface ProjDepMapper {
     }
 
     default Optional<ProjectDependencyPO> selectOne(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectOne(this::selectOne, selectList, projectDependencyPO, completer);
+        return MyBatis3Utils.selectOne(this::selectOne, selectList, PROJECT_DEPENDENCIES, completer);
     }
 
     default List<ProjectDependencyPO> select(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectList(this::selectMany, selectList, projectDependencyPO, completer);
+        return MyBatis3Utils.selectList(this::selectMany, selectList, PROJECT_DEPENDENCIES, completer);
     }
 
     default List<ProjectDependencyPO> selectDistinct(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectDistinct(this::selectMany, selectList, projectDependencyPO, completer);
+        return MyBatis3Utils.selectDistinct(this::selectMany, selectList, PROJECT_DEPENDENCIES, completer);
     }
 
     default Optional<ProjectDependencyPO> selectByPrimaryKey(Integer dependencyId_) {
@@ -144,7 +144,7 @@ public interface ProjDepMapper {
     }
 
     default int update(UpdateDSLCompleter completer) {
-        return MyBatis3Utils.update(this::update, projectDependencyPO, completer);
+        return MyBatis3Utils.update(this::update, PROJECT_DEPENDENCIES, completer);
     }
 
     static UpdateDSL<UpdateModel> updateAllColumns(ProjectDependencyPO record, UpdateDSL<UpdateModel> dsl) {

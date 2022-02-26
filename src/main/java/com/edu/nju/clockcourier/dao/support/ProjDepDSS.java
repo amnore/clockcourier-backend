@@ -7,29 +7,29 @@ import java.sql.JDBCType;
 
 public final class ProjDepDSS {
 
-    public static final ProjectDependencyPO projectDependencyPO = new ProjectDependencyPO();
+    public static final ProjectDependencies PROJECT_DEPENDENCIES = new ProjectDependencies();
 
-    public static final SqlColumn<Integer> dependencyId = projectDependencyPO.dependencyId;
+    public static final SqlColumn<Integer> dependencyId = PROJECT_DEPENDENCIES.dependencyId;
 
-    public static final SqlColumn<Integer> projectId = projectDependencyPO.projectId;
+    public static final SqlColumn<Integer> projectId = PROJECT_DEPENDENCIES.projectId;
 
-    public static final SqlColumn<String> projectName = projectDependencyPO.projectName;
+    public static final SqlColumn<String> projectName = PROJECT_DEPENDENCIES.projectName;
 
-    public static final SqlColumn<String> platform = projectDependencyPO.platform;
+    public static final SqlColumn<String> platform = PROJECT_DEPENDENCIES.platform;
 
-    public static final SqlColumn<String> projectVersion = projectDependencyPO.projectVersion;
+    public static final SqlColumn<String> projectVersion = PROJECT_DEPENDENCIES.projectVersion;
 
-    public static final SqlColumn<Integer> dependencyProjectId = projectDependencyPO.dependencyProjectId;
+    public static final SqlColumn<Integer> dependencyProjectId = PROJECT_DEPENDENCIES.dependencyProjectId;
 
-    public static final SqlColumn<String> dependencyProjectName = projectDependencyPO.dependencyProjectName;
+    public static final SqlColumn<String> dependencyProjectName = PROJECT_DEPENDENCIES.dependencyProjectName;
 
-    public static final SqlColumn<String> dependencyProjectPlatform = projectDependencyPO.dependencyProjectPlatform;
+    public static final SqlColumn<String> dependencyProjectPlatform = PROJECT_DEPENDENCIES.dependencyProjectPlatform;
 
-    public static final SqlColumn<String> dependencyRequirements = projectDependencyPO.dependencyRequirements;
+    public static final SqlColumn<String> dependencyRequirements = PROJECT_DEPENDENCIES.dependencyRequirements;
 
-    public static final SqlColumn<String> dependencyType = projectDependencyPO.dependencyType;
+    public static final SqlColumn<String> dependencyType = PROJECT_DEPENDENCIES.dependencyType;
 
-    public static final class ProjectDependencyPO extends SqlTable {
+    public static final class ProjectDependencies extends SqlTable {
         public final SqlColumn<Integer> dependencyId = column("dependency_id", JDBCType.INTEGER);
 
         public final SqlColumn<Integer> projectId = column("project_id", JDBCType.INTEGER);
@@ -50,9 +50,9 @@ public final class ProjDepDSS {
 
         public final SqlColumn<String> dependencyType = column("dependency_type", JDBCType.VARCHAR);
 
-        public ProjectDependencyPO() {
+        public ProjectDependencies() {
             super("project_dependencies");
         }
     }
-    
+
 }

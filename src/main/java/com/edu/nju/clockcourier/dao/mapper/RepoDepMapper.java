@@ -76,11 +76,11 @@ public interface RepoDepMapper {
     int update(UpdateStatementProvider updateStatement);
 
     default long count(CountDSLCompleter completer) {
-        return MyBatis3Utils.countFrom(this::count, repositoryDependencyPO, completer);
+        return MyBatis3Utils.countFrom(this::count, REPOSITORY_DEPENDENCIES, completer);
     }
 
     default int delete(DeleteDSLCompleter completer) {
-        return MyBatis3Utils.deleteFrom(this::delete, repositoryDependencyPO, completer);
+        return MyBatis3Utils.deleteFrom(this::delete, REPOSITORY_DEPENDENCIES, completer);
     }
 
     default int deleteByPrimaryKey(Integer dependencyId_) {
@@ -90,7 +90,7 @@ public interface RepoDepMapper {
     }
 
     default int insert(RepositoryDependencyPO record) {
-        return MyBatis3Utils.insert(this::insert, record, repositoryDependencyPO, c ->
+        return MyBatis3Utils.insert(this::insert, record, REPOSITORY_DEPENDENCIES, c ->
                 c.map(dependencyId).toProperty("dependencyId")
                         .map(repositoryId).toProperty("repositoryId")
                         .map(repositoryName).toProperty("repositoryName")
@@ -104,7 +104,7 @@ public interface RepoDepMapper {
     }
 
     default int insertMultiple(Collection<RepositoryDependencyPO> records) {
-        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, repositoryDependencyPO, c ->
+        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, REPOSITORY_DEPENDENCIES, c ->
                 c.map(dependencyId).toProperty("dependencyId")
                         .map(repositoryId).toProperty("repositoryId")
                         .map(repositoryName).toProperty("repositoryName")
@@ -118,7 +118,7 @@ public interface RepoDepMapper {
     }
 
     default int insertSelective(RepositoryDependencyPO record) {
-        return MyBatis3Utils.insert(this::insert, record, repositoryDependencyPO, c ->
+        return MyBatis3Utils.insert(this::insert, record, REPOSITORY_DEPENDENCIES, c ->
                 c.map(dependencyId).toPropertyWhenPresent("dependencyId", record::getDependencyId)
                         .map(repositoryId).toPropertyWhenPresent("repositoryId", record::getRepositoryId)
                         .map(repositoryName).toPropertyWhenPresent("repositoryName", record::getRepositoryName)
@@ -132,15 +132,15 @@ public interface RepoDepMapper {
     }
 
     default Optional<RepositoryDependencyPO> selectOne(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectOne(this::selectOne, selectList, repositoryDependencyPO, completer);
+        return MyBatis3Utils.selectOne(this::selectOne, selectList, REPOSITORY_DEPENDENCIES, completer);
     }
 
     default List<RepositoryDependencyPO> select(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectList(this::selectMany, selectList, repositoryDependencyPO, completer);
+        return MyBatis3Utils.selectList(this::selectMany, selectList, REPOSITORY_DEPENDENCIES, completer);
     }
 
     default List<RepositoryDependencyPO> selectDistinct(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectDistinct(this::selectMany, selectList, repositoryDependencyPO, completer);
+        return MyBatis3Utils.selectDistinct(this::selectMany, selectList, REPOSITORY_DEPENDENCIES, completer);
     }
 
     default Optional<RepositoryDependencyPO> selectByPrimaryKey(Integer dependencyId_) {
@@ -150,7 +150,7 @@ public interface RepoDepMapper {
     }
 
     default int update(UpdateDSLCompleter completer) {
-        return MyBatis3Utils.update(this::update, repositoryDependencyPO, completer);
+        return MyBatis3Utils.update(this::update, REPOSITORY_DEPENDENCIES, completer);
     }
 
     static UpdateDSL<UpdateModel> updateAllColumns(RepositoryDependencyPO record, UpdateDSL<UpdateModel> dsl) {

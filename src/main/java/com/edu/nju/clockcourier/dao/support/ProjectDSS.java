@@ -8,35 +8,36 @@ import java.util.Date;
 
 public final class ProjectDSS {
 
-    public static final ProjectPO projectPO = new ProjectPO();
+    public static final Projects PROJECTS = new Projects();
 
-    public static final SqlColumn<Integer> projectId = projectPO.projectId;
+    public static final SqlColumn<Integer> projectId = PROJECTS.projectId;
 
-    public static final SqlColumn<String> projectName = projectPO.projectName;
+    public static final SqlColumn<String> projectName = PROJECTS.projectName;
 
-    public static final SqlColumn<String> platform = projectPO.platform;
+    public static final SqlColumn<String> platform = PROJECTS.platform;
 
-    public static final SqlColumn<String> language = projectPO.language;
+    public static final SqlColumn<String> language = PROJECTS.language;
 
-    public static final SqlColumn<String> description = projectPO.description;
+    public static final SqlColumn<String> description = PROJECTS.description;
 
-    public static final SqlColumn<String> homepageUrl = projectPO.homepageUrl;
+    public static final SqlColumn<String> homepageUrl = PROJECTS.homepageUrl;
 
-    public static final SqlColumn<Date> createTimestamp = projectPO.createTimestamp;
+    public static final SqlColumn<Date> createTimestamp = PROJECTS.createTimestamp;
 
-    public static final SqlColumn<Date> updateTimestamp = projectPO.updateTimestamp;
+    public static final SqlColumn<Date> updateTimestamp = PROJECTS.updateTimestamp;
 
-    public static final SqlColumn<Date> latestReleasePublishTimestamp = projectPO.latestReleasePublishTimestamp;
+    public static final SqlColumn<Date> latestReleasePublishTimestamp = PROJECTS.latestReleasePublishTimestamp;
 
-    public static final SqlColumn<String> latestReleaseNumber = projectPO.latestReleaseNumber;
+    public static final SqlColumn<String> latestReleaseNumber = PROJECTS.latestReleaseNumber;
 
-    public static final SqlColumn<Integer> repositoryId = projectPO.repositoryId;
+    public static final SqlColumn<Integer> repositoryId = PROJECTS.repositoryId;
 
-    public static final SqlColumn<String> repositoryUrl = projectPO.repositoryUrl;
+    public static final SqlColumn<String> repositoryUrl = PROJECTS.repositoryUrl;
 
-    public static final SqlColumn<String> licenses = projectPO.licenses;
+    public static final SqlColumn<String> licenses = PROJECTS.licenses;
 
-    public static final class ProjectPO extends SqlTable {
+    public static final class Projects extends SqlTable {
+
         public final SqlColumn<Integer> projectId = column("project_id", JDBCType.INTEGER);
 
         public final SqlColumn<String> projectName = column("project_name", JDBCType.VARCHAR);
@@ -63,7 +64,7 @@ public final class ProjectDSS {
 
         public final SqlColumn<String> licenses = column("licenses", JDBCType.VARCHAR);
 
-        public ProjectPO() {
+        public Projects() {
             super("projects");
         }
     }

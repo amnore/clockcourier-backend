@@ -75,11 +75,11 @@ public interface RepositoryMapper {
     int update(UpdateStatementProvider updateStatement);
 
     default long count(CountDSLCompleter completer) {
-        return MyBatis3Utils.countFrom(this::count, repositoryPO, completer);
+        return MyBatis3Utils.countFrom(this::count, REPOSITORIES, completer);
     }
 
     default int delete(DeleteDSLCompleter completer) {
-        return MyBatis3Utils.deleteFrom(this::delete, repositoryPO, completer);
+        return MyBatis3Utils.deleteFrom(this::delete, REPOSITORIES, completer);
     }
 
     default int deleteByPrimaryKey(Integer repositoryId_) {
@@ -89,7 +89,7 @@ public interface RepositoryMapper {
     }
 
     default int insert(RepositoryPO record) {
-        return MyBatis3Utils.insert(this::insert, record, repositoryPO, c ->
+        return MyBatis3Utils.insert(this::insert, record, REPOSITORIES, c ->
                 c.map(repositoryId).toProperty("repositoryId")
                         .map(hostType).toProperty("hostType")
                         .map(repositoryName).toProperty("repositoryName")
@@ -112,7 +112,7 @@ public interface RepositoryMapper {
     }
 
     default int insertMultiple(Collection<RepositoryPO> records) {
-        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, repositoryPO, c ->
+        return MyBatis3Utils.insertMultiple(this::insertMultiple, records, REPOSITORIES, c ->
                 c.map(repositoryId).toProperty("repositoryId")
                         .map(hostType).toProperty("hostType")
                         .map(repositoryName).toProperty("repositoryName")
@@ -135,7 +135,7 @@ public interface RepositoryMapper {
     }
 
     default int insertSelective(RepositoryPO record) {
-        return MyBatis3Utils.insert(this::insert, record, repositoryPO, c ->
+        return MyBatis3Utils.insert(this::insert, record, REPOSITORIES, c ->
                 c.map(repositoryId).toPropertyWhenPresent("repositoryId", record::getRepositoryId)
                         .map(hostType).toPropertyWhenPresent("hostType", record::getHostType)
                         .map(repositoryName).toPropertyWhenPresent("repositoryName", record::getRepositoryName)
@@ -158,15 +158,15 @@ public interface RepositoryMapper {
     }
 
     default Optional<RepositoryPO> selectOne(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectOne(this::selectOne, selectList, repositoryPO, completer);
+        return MyBatis3Utils.selectOne(this::selectOne, selectList, REPOSITORIES, completer);
     }
 
     default List<RepositoryPO> select(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectList(this::selectMany, selectList, repositoryPO, completer);
+        return MyBatis3Utils.selectList(this::selectMany, selectList, REPOSITORIES, completer);
     }
 
     default List<RepositoryPO> selectDistinct(SelectDSLCompleter completer) {
-        return MyBatis3Utils.selectDistinct(this::selectMany, selectList, repositoryPO, completer);
+        return MyBatis3Utils.selectDistinct(this::selectMany, selectList, REPOSITORIES, completer);
     }
 
     default Optional<RepositoryPO> selectByPrimaryKey(Integer repositoryId_) {
@@ -176,7 +176,7 @@ public interface RepositoryMapper {
     }
 
     default int update(UpdateDSLCompleter completer) {
-        return MyBatis3Utils.update(this::update, repositoryPO, completer);
+        return MyBatis3Utils.update(this::update, REPOSITORIES, completer);
     }
 
     static UpdateDSL<UpdateModel> updateAllColumns(RepositoryPO record, UpdateDSL<UpdateModel> dsl) {

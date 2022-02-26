@@ -8,45 +8,46 @@ import java.util.Date;
 
 public final class RepositoryDSS {
 
-    public static final RepositoryPO repositoryPO = new RepositoryPO();
+    public static final Repositories REPOSITORIES = new Repositories();
 
-    public static final SqlColumn<Integer> repositoryId = repositoryPO.repositoryId;
+    public static final SqlColumn<Integer> repositoryId = REPOSITORIES.repositoryId;
 
-    public static final SqlColumn<String> hostType = repositoryPO.hostType;
+    public static final SqlColumn<String> hostType = REPOSITORIES.hostType;
 
-    public static final SqlColumn<String> repositoryName = repositoryPO.repositoryName;
+    public static final SqlColumn<String> repositoryName = REPOSITORIES.repositoryName;
 
-    public static final SqlColumn<String> repositoryOwner = repositoryPO.repositoryOwner;
+    public static final SqlColumn<String> repositoryOwner = REPOSITORIES.repositoryOwner;
 
-    public static final SqlColumn<String> language = repositoryPO.language;
+    public static final SqlColumn<String> language = REPOSITORIES.language;
 
-    public static final SqlColumn<String> description = repositoryPO.description;
+    public static final SqlColumn<String> description = REPOSITORIES.description;
 
-    public static final SqlColumn<String> homepageUrl = repositoryPO.homepageUrl;
+    public static final SqlColumn<String> homepageUrl = REPOSITORIES.homepageUrl;
 
-    public static final SqlColumn<Date> createTimestamp = repositoryPO.createTimestamp;
+    public static final SqlColumn<Date> createTimestamp = REPOSITORIES.createTimestamp;
 
-    public static final SqlColumn<Date> updateTimestamp = repositoryPO.updateTimestamp;
+    public static final SqlColumn<Date> updateTimestamp = REPOSITORIES.updateTimestamp;
 
-    public static final SqlColumn<Date> latestPushTimestamp = repositoryPO.latestPushTimestamp;
+    public static final SqlColumn<Date> latestPushTimestamp = REPOSITORIES.latestPushTimestamp;
 
-    public static final SqlColumn<Integer> fork = repositoryPO.fork;
+    public static final SqlColumn<Integer> fork = REPOSITORIES.fork;
 
-    public static final SqlColumn<Integer> forkCount = repositoryPO.forkCount;
+    public static final SqlColumn<Integer> forkCount = REPOSITORIES.forkCount;
 
-    public static final SqlColumn<Integer> watcherCount = repositoryPO.watcherCount;
+    public static final SqlColumn<Integer> watcherCount = REPOSITORIES.watcherCount;
 
-    public static final SqlColumn<Integer> starCount = repositoryPO.starCount;
+    public static final SqlColumn<Integer> starCount = REPOSITORIES.starCount;
 
-    public static final SqlColumn<Integer> contributorCount = repositoryPO.contributorCount;
+    public static final SqlColumn<Integer> contributorCount = REPOSITORIES.contributorCount;
 
-    public static final SqlColumn<Integer> openIssueCount = repositoryPO.openIssueCount;
+    public static final SqlColumn<Integer> openIssueCount = REPOSITORIES.openIssueCount;
 
-    public static final SqlColumn<String> defaultBranch = repositoryPO.defaultBranch;
+    public static final SqlColumn<String> defaultBranch = REPOSITORIES.defaultBranch;
 
-    public static final SqlColumn<String> licenses = repositoryPO.licenses;
+    public static final SqlColumn<String> licenses = REPOSITORIES.licenses;
 
-    public static final class RepositoryPO extends SqlTable {
+    public static final class Repositories extends SqlTable {
+
         public final SqlColumn<Integer> repositoryId = column("repository_id", JDBCType.INTEGER);
 
         public final SqlColumn<String> hostType = column("host_type", JDBCType.VARCHAR);
@@ -83,9 +84,9 @@ public final class RepositoryDSS {
 
         public final SqlColumn<String> licenses = column("licenses", JDBCType.VARCHAR);
 
-        public RepositoryPO() {
+        public Repositories() {
             super("repositories");
         }
     }
-    
+
 }

@@ -7,27 +7,27 @@ import java.sql.JDBCType;
 
 public final class RepoDepDSS {
 
-    public static final RepositoryDependencyPO repositoryDependencyPO = new RepositoryDependencyPO();
+    public static final RepositoryDependencies REPOSITORY_DEPENDENCIES = new RepositoryDependencies();
 
-    public static final SqlColumn<Integer> dependencyId = repositoryDependencyPO.dependencyId;
+    public static final SqlColumn<Integer> dependencyId = REPOSITORY_DEPENDENCIES.dependencyId;
 
-    public static final SqlColumn<Integer> repositoryId = repositoryDependencyPO.repositoryId;
+    public static final SqlColumn<Integer> repositoryId = REPOSITORY_DEPENDENCIES.repositoryId;
 
-    public static final SqlColumn<String> repositoryName = repositoryDependencyPO.repositoryName;
+    public static final SqlColumn<String> repositoryName = REPOSITORY_DEPENDENCIES.repositoryName;
 
-    public static final SqlColumn<String> repositoryOwner = repositoryDependencyPO.repositoryOwner;
+    public static final SqlColumn<String> repositoryOwner = REPOSITORY_DEPENDENCIES.repositoryOwner;
 
-    public static final SqlColumn<String> hostType = repositoryDependencyPO.hostType;
+    public static final SqlColumn<String> hostType = REPOSITORY_DEPENDENCIES.hostType;
 
-    public static final SqlColumn<Integer> dependencyProjectId = repositoryDependencyPO.dependencyProjectId;
+    public static final SqlColumn<Integer> dependencyProjectId = REPOSITORY_DEPENDENCIES.dependencyProjectId;
 
-    public static final SqlColumn<String> dependencyProjectName = repositoryDependencyPO.dependencyProjectName;
+    public static final SqlColumn<String> dependencyProjectName = REPOSITORY_DEPENDENCIES.dependencyProjectName;
 
-    public static final SqlColumn<String> dependencyRequirements = repositoryDependencyPO.dependencyRequirements;
+    public static final SqlColumn<String> dependencyRequirements = REPOSITORY_DEPENDENCIES.dependencyRequirements;
 
-    public static final SqlColumn<String> dependencyType = repositoryDependencyPO.dependencyType;
+    public static final SqlColumn<String> dependencyType = REPOSITORY_DEPENDENCIES.dependencyType;
 
-    public static final class RepositoryDependencyPO extends SqlTable {
+    public static final class RepositoryDependencies extends SqlTable {
         public final SqlColumn<Integer> dependencyId = column("dependency_id", JDBCType.INTEGER);
 
         public final SqlColumn<Integer> repositoryId = column("repository_id", JDBCType.INTEGER);
@@ -46,9 +46,9 @@ public final class RepoDepDSS {
 
         public final SqlColumn<String> dependencyType = column("dependency_type", JDBCType.VARCHAR);
 
-        public RepositoryDependencyPO() {
+        public RepositoryDependencies() {
             super("repository_dependencies");
         }
     }
-    
+
 }

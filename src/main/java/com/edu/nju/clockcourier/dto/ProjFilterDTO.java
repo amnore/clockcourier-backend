@@ -16,6 +16,8 @@ public class ProjFilterDTO {
 
     private String latestReleaseN;
 
+    private String dependency;
+
     private Integer page;
 
     private ProjSortRule sort;
