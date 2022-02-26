@@ -49,7 +49,7 @@ public class RepositoryVO {
 
     private List<String> licenses;
 
-    public static RepositoryVO Build(RepositoryPO repository) {
+    public static RepositoryVO build(RepositoryPO repository) {
         return new RepositoryVO(repository.getRepositoryId(),
                 repository.getHostType(),
                 repository.getRepositoryName(),

@@ -5,7 +5,9 @@ import com.edu.nju.clockcourier.dao.mapper.ProjDepMapper;
 import com.edu.nju.clockcourier.dao.mapper.ProjectMapper;
 import com.edu.nju.clockcourier.dao.support.ProjDepDSS;
 import com.edu.nju.clockcourier.dao.support.ProjectDSS;
+import com.edu.nju.clockcourier.dto.ProjDepFilterDTO;
 import com.edu.nju.clockcourier.dto.ProjFilterDTO;
+import com.edu.nju.clockcourier.po.ProjectDependencyPO;
 import com.edu.nju.clockcourier.po.ProjectPO;
 import com.edu.nju.clockcourier.util.QueryLikeBuilder;
 import com.github.pagehelper.PageHelper;
@@ -58,6 +60,17 @@ public class ProjectDataServiceImpl implements ProjectDataService {
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
         return projectMapper.selectMany(select);
+    }
+
+    @Override
+    public List<ProjectDependencyPO> depAndFilter(Integer projectId, ProjDepFilterDTO filter, int pageSize) {
+        Integer pageNum = filter.getPage();
+        if (pageNum != null) PageHelper.startPage(pageNum, pageSize);
+        SelectStatementProvider select = SqlBuilder.select(ProjDepMapper.selectList)
+                .from(ProjDepDSS.PROJECT_DEPENDENCIES)
+                .build()
+                .render(RenderingStrategies.MYBATIS3);
+        return projDepMapper.selectMany(select);
     }
 
 }
