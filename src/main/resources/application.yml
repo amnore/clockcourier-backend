@@ -10,3 +10,15 @@ spring:
 
 const:
   page-size: 15
+
+#以下为自动生成DSS和Mapper文件以及本地测试所用的配置
+
+#spring:
+#  datasource:
+#    url: jdbc:mysql://localhost:3306/clock_courier?useUnicode=true&characterEncoding=utf-8&serverTimezone=Asia/Shanghai
+#    username: root
+#    password: 123456
+#
+#mybatis:
+#  mapper-locations:
+#    - classpath:dao/*.xml
