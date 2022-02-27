@@ -7,7 +7,7 @@ import com.edu.nju.clockcourier.dao.support.ProjDepDSS;
 import com.edu.nju.clockcourier.dao.support.ProjectDSS;
 import com.edu.nju.clockcourier.dto.ProjFilterDTO;
 import com.edu.nju.clockcourier.po.ProjectPO;
-import com.edu.nju.clockcourier.util.QueryLikeBuilder;
+import com.edu.nju.clockcourier.util.QueryBuilder;
 import com.github.pagehelper.PageHelper;
 import org.mybatis.dynamic.sql.SqlBuilder;
 import org.mybatis.dynamic.sql.render.RenderingStrategies;
@@ -45,16 +45,17 @@ public class ProjectDataServiceImpl implements ProjectDataService {
         // 开启分页
         Integer pageNum = filter.getPage();
         if (pageNum != null) PageHelper.startPage(pageNum, pageSize);
-        SelectStatementProvider select = SqlBuilder.select(ProjectMapper.selectList)
+        SelectStatementProvider select = SqlBuilder.selectDistinct(ProjectMapper.selectList)
                 .from(ProjectDSS.PROJECTS)
                 .join(ProjDepDSS.PROJECT_DEPENDENCIES)
                 .on(ProjectDSS.projectId, equalTo(ProjDepDSS.projectId))
-                .where(ProjDepDSS.dependencyProjectName, isLikeWhenPresent(QueryLikeBuilder.buildLike(filter.getDependency())))
-                .where(ProjectDSS.projectName, isLikeWhenPresent(QueryLikeBuilder.buildLike(filter.getName())))
-                .and(ProjectDSS.platform, isLikeWhenPresent(QueryLikeBuilder.buildLike(filter.getPlatform())))
-                .and(ProjectDSS.language, isLikeWhenPresent(QueryLikeBuilder.buildLike(filter.getLanguage())))
-                .and(ProjectDSS.homepageUrl, isLikeWhenPresent(QueryLikeBuilder.buildLike(filter.getHomepageUrl())))
-                .and(ProjectDSS.latestReleaseNumber, isLikeWhenPresent(QueryLikeBuilder.buildLike(filter.getLatestReleaseN())))
+                .where(ProjDepDSS.dependencyProjectName, isLikeWhenPresent(QueryBuilder.buildLike(filter.getDependency())))
+                .where(ProjectDSS.projectName, isLikeWhenPresent(QueryBuilder.buildLike(filter.getName())))
+                .and(ProjectDSS.platform, isLikeWhenPresent(QueryBuilder.buildLike(filter.getPlatform())))
+                .and(ProjectDSS.language, isLikeWhenPresent(QueryBuilder.buildLike(filter.getLanguage())))
+                .and(ProjectDSS.homepageUrl, isLikeWhenPresent(QueryBuilder.buildLike(filter.getHomepageUrl())))
+                .and(ProjectDSS.latestReleaseNumber, isLikeWhenPresent(QueryBuilder.buildLike(filter.getLatestReleaseN())))
+                .orderBy(QueryBuilder.buildReverse(filter.getSort().getSortRule(), filter.getIsReverse()))
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
         return projectMapper.selectMany(select);
