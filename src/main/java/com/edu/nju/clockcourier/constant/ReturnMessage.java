@@ -8,7 +8,8 @@ public enum ReturnMessage {
     Success("Success."),
     Failure("Failure."),
     UnknownExp("UnknownExp: "),
-    NoSuchProjectExp("No such Project. Plz check project id.");
+    NoSuchProjExp("No such Project. Plz check project id."),
+    NoSuchRepoExp("No such repository. Plz check repository id.");
 
     private final String msg;
 

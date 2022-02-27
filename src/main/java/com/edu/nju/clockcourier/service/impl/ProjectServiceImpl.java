@@ -8,7 +8,10 @@ import com.edu.nju.clockcourier.dto.ProjFilterDTO;
 import com.edu.nju.clockcourier.exception.CustomException;
 import com.edu.nju.clockcourier.po.ProjectPO;
 import com.edu.nju.clockcourier.service.ProjectService;
-import com.edu.nju.clockcourier.vo.*;
+import com.edu.nju.clockcourier.vo.ProjDepListVO;
+import com.edu.nju.clockcourier.vo.ProjDepVO;
+import com.edu.nju.clockcourier.vo.ProjectListVO;
+import com.edu.nju.clockcourier.vo.ProjectVO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -31,7 +34,7 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ProjectVO getProject(Integer id) {
         ProjectPO po = projectDataService.getProject(id);
-        if (ProjectPO.isNullInstance(po)) throw new CustomException(ReturnMessage.NoSuchProjectExp.getMsg());
+        if (ProjectPO.isNullInstance(po)) throw new CustomException(ReturnMessage.NoSuchProjExp.getMsg());
         return ProjectVO.build(po);
     }
 
@@ -48,11 +51,11 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ProjDepListVO getDependencies(Integer projectId, ProjDepFilterDTO filter) {
         int pageSize = Integer.parseInt(config.getPageSize());
-        List<ProjDepVO> vos=projectDataService.depAndFilter(projectId,filter,pageSize)
+        List<ProjDepVO> vos = projectDataService.allDepAndFilter(projectId, filter, pageSize)
                 .stream()
                 .map(ProjDepVO::build)
                 .collect(Collectors.toList());
-        return new ProjDepListVO(filter.getPage(),pageSize,vos);
+        return new ProjDepListVO(filter.getPage(), pageSize, vos);
     }
 
 }

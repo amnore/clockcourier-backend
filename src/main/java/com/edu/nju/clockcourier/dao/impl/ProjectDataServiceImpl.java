@@ -64,10 +64,10 @@ public class ProjectDataServiceImpl implements ProjectDataService {
     }
 
     @Override
-    public List<ProjectDependencyPO> depAndFilter(Integer projectId, ProjDepFilterDTO filter, int pageSize) {
+    public List<ProjectDependencyPO> allDepAndFilter(Integer projectId, ProjDepFilterDTO filter, int pageSize) {
         Integer pageNum = filter.getPage();
         if (pageNum != null) PageHelper.startPage(pageNum, pageSize);
-        SelectStatementProvider select = SqlBuilder.select(ProjDepMapper.selectList)
+        SelectStatementProvider select = SqlBuilder.selectDistinct(ProjDepMapper.selectList)
                 .from(ProjDepDSS.PROJECT_DEPENDENCIES)
                 .build()
                 .render(RenderingStrategies.MYBATIS3);

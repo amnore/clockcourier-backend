@@ -9,13 +9,9 @@ import com.edu.nju.clockcourier.dto.RepoDepFilterDTO;
 import com.edu.nju.clockcourier.dto.RepoFilterDTO;
 import com.edu.nju.clockcourier.po.RepositoryDependencyPO;
 import com.edu.nju.clockcourier.po.RepositoryPO;
-import com.edu.nju.clockcourier.util.QueryLikeBuilder;
-import com.edu.nju.clockcourier.vo.RepoDepVO;
-import com.edu.nju.clockcourier.vo.RepositoryVO;
 import com.github.pagehelper.PageHelper;
 import org.mybatis.dynamic.sql.SqlBuilder;
 import org.mybatis.dynamic.sql.render.RenderingStrategies;
-import org.mybatis.dynamic.sql.render.RenderingStrategy;
 import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -23,7 +19,6 @@ import org.springframework.stereotype.Service;
 import java.util.List;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.equalTo;
-import static org.mybatis.dynamic.sql.SqlBuilder.isLikeWhenPresent;
 
 @Service
 public class RepositoryDataServiceImpl implements RepositoryDataService {
@@ -32,9 +27,9 @@ public class RepositoryDataServiceImpl implements RepositoryDataService {
     private final RepoDepMapper repoDepMapper;
 
     @Autowired
-    public RepositoryDataServiceImpl(RepositoryMapper repositoryMapper,RepoDepMapper repoDepMapper) {
+    public RepositoryDataServiceImpl(RepositoryMapper repositoryMapper, RepoDepMapper repoDepMapper) {
         this.repositoryMapper = repositoryMapper;
-        this.repoDepMapper=repoDepMapper;
+        this.repoDepMapper = repoDepMapper;
     }
 
     @Override
@@ -49,21 +44,20 @@ public class RepositoryDataServiceImpl implements RepositoryDataService {
 
         Integer pageNum = filter.getPage();
         if (pageNum != null) PageHelper.startPage(pageNum, pageSize);
-        SelectStatementProvider select = SqlBuilder.select(RepositoryMapper.selectList)
+        SelectStatementProvider select = SqlBuilder.selectDistinct(RepositoryMapper.selectList)
                 .from(RepositoryDSS.REPOSITORIES)
                 .join(RepoDepDSS.REPOSITORY_DEPENDENCIES)
-                .on(RepositoryDSS.repositoryId,equalTo(RepoDepDSS.repositoryId))
+                .on(RepositoryDSS.repositoryId, equalTo(RepoDepDSS.repositoryId))
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
-
         return repositoryMapper.selectMany(select);
     }
 
     @Override
-    public List<RepositoryDependencyPO> depAndFilter(Integer repositoryId, RepoDepFilterDTO filter, int pageSize) {
+    public List<RepositoryDependencyPO> allDepAndFilter(Integer repositoryId, RepoDepFilterDTO filter, int pageSize) {
         Integer pageNum = filter.getPage();
         if (pageNum != null) PageHelper.startPage(pageNum, pageSize);
-        SelectStatementProvider select = SqlBuilder.select(RepoDepMapper.selectList)
+        SelectStatementProvider select = SqlBuilder.selectDistinct(RepoDepMapper.selectList)
                 .from(RepoDepDSS.REPOSITORY_DEPENDENCIES)
                 .build()
                 .render(RenderingStrategies.MYBATIS3);

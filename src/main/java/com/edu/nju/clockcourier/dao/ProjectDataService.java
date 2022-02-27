@@ -13,6 +13,6 @@ public interface ProjectDataService {
 
     List<ProjectPO> allAndFilter(ProjFilterDTO filter, int pageSize);
 
-    List<ProjectDependencyPO> depAndFilter(Integer projectId, ProjDepFilterDTO filter,int pageSize);
+    List<ProjectDependencyPO> allDepAndFilter(Integer projectId, ProjDepFilterDTO filter, int pageSize);
 
 }
