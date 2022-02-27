@@ -1,6 +1,7 @@
 package com.edu.nju.clockcourier.dao;
 
 import com.edu.nju.clockcourier.config.ConstConfig;
+import com.edu.nju.clockcourier.constant.ProjSortRule;
 import com.edu.nju.clockcourier.dto.ProjFilterDTO;
 import com.edu.nju.clockcourier.po.ProjectPO;
 import org.junit.jupiter.api.Test;
@@ -42,6 +43,8 @@ class ProjectDataServiceTest {
         ProjFilterDTO dto = new ProjFilterDTO();
         dto.setLanguage("PHP");
         dto.setDependency("tainer-intero");
+        dto.setSort(ProjSortRule.CreateT);
+        dto.setIsReverse(true);
         int pageSize = Integer.parseInt(config.getPageSize());
         List<ProjectPO> res1 = projectDataService.allAndFilter(dto, pageSize);
         assertFalse(res1.isEmpty());
