@@ -7,8 +7,8 @@ import org.springframework.context.annotation.Configuration;
 
 @Data
 @Configuration
-@ConfigurationProperties("const")
-public class ConstConfig {
+@ConfigurationProperties("db")
+public class DatabaseConfig {
 
     @Value("page-size")
     private String pageSize;

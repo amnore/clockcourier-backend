@@ -1,11 +1,12 @@
 package com.edu.nju.clockcourier.util;
 
+import com.edu.nju.clockcourier.constant.Convention;
 import org.mybatis.dynamic.sql.SortSpecification;
 
 public class QueryBuilder {
 
     public static String buildLike(String str) {
-        if (str == null || str.equals("")) return null;
+        if (str == null || str.equals(Convention.nullStr)) return null;
         return "%" + str + "%";
     }
 

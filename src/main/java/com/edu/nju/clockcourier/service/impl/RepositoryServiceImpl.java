@@ -1,6 +1,6 @@
 package com.edu.nju.clockcourier.service.impl;
 
-import com.edu.nju.clockcourier.config.ConstConfig;
+import com.edu.nju.clockcourier.config.DatabaseConfig;
 import com.edu.nju.clockcourier.constant.ReturnMessage;
 import com.edu.nju.clockcourier.dao.RepositoryDataService;
 import com.edu.nju.clockcourier.dto.RepoDepFilterDTO;
@@ -22,11 +22,11 @@ import java.util.stream.Collectors;
 public class RepositoryServiceImpl implements RepositoryService {
 
     private final RepositoryDataService repositoryDataService;
-    private final ConstConfig config;
+    private final DatabaseConfig config;
 
     @Autowired
     public RepositoryServiceImpl(RepositoryDataService repositoryDataService,
-                                 ConstConfig config) {
+                                 DatabaseConfig config) {
         this.repositoryDataService = repositoryDataService;
         this.config = config;
     }

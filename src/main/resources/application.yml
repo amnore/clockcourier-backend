@@ -26,7 +26,7 @@ spring:
       connection-timeout: 60000
       connection-test-query: SELECT 1
 
-const:
+db:
   page-size: 15
 
 #以下为自动生成DSS和Mapper文件以及本地测试所用的配置

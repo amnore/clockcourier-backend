@@ -1,6 +1,6 @@
 package com.edu.nju.clockcourier.dao;
 
-import com.edu.nju.clockcourier.config.ConstConfig;
+import com.edu.nju.clockcourier.config.DatabaseConfig;
 import com.edu.nju.clockcourier.constant.ProjSortRule;
 import com.edu.nju.clockcourier.dto.ProjFilterDTO;
 import com.edu.nju.clockcourier.po.ProjectPO;
@@ -20,11 +20,11 @@ import static org.junit.jupiter.api.Assertions.assertFalse;
 class ProjectDataServiceTest {
 
     private final ProjectDataService projectDataService;
-    private final ConstConfig config;
+    private final DatabaseConfig config;
 
     @Autowired
     public ProjectDataServiceTest(ProjectDataService projectDataService,
-                                  ConstConfig config) {
+                                  DatabaseConfig config) {
         this.projectDataService = projectDataService;
         this.config = config;
     }
@@ -45,12 +45,12 @@ class ProjectDataServiceTest {
         dto.setSort(ProjSortRule.CreateT);
         dto.setIsReverse(true);
         int pageSize = Integer.parseInt(config.getPageSize());
-        List<ProjectPO> res1 = projectDataService.allAndFilter(dto, pageSize);
+        List<ProjectPO> res1 = projectDataService.allAndFilter(dto, pageSize).getList();
         assertFalse(res1.isEmpty());
         for (ProjectPO cur : res1) {
             assertEquals("Python", cur.getLanguage());
         }
-        List<ProjectPO> res2 = projectDataService.allAndFilter(dto, pageSize);
+        List<ProjectPO> res2 = projectDataService.allAndFilter(dto, pageSize).getList();
         for (ProjectPO cur : res2) {
             assertEquals("Python", cur.getLanguage());
         }

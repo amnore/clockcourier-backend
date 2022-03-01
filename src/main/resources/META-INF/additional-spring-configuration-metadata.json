@@ -1,7 +1,7 @@
 {
   "properties": [
     {
-      "name": "const.page-size",
+      "name": "db.page-size",
       "type": "java.lang.String",
       "description": "One page size."
     }

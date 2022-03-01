@@ -1,6 +1,6 @@
 package com.edu.nju.clockcourier.service.impl;
 
-import com.edu.nju.clockcourier.config.ConstConfig;
+import com.edu.nju.clockcourier.config.DatabaseConfig;
 import com.edu.nju.clockcourier.constant.ReturnMessage;
 import com.edu.nju.clockcourier.dao.ProjectDataService;
 import com.edu.nju.clockcourier.dto.ProjDepFilterDTO;
@@ -12,6 +12,7 @@ import com.edu.nju.clockcourier.vo.ProjDepListVO;
 import com.edu.nju.clockcourier.vo.ProjDepVO;
 import com.edu.nju.clockcourier.vo.ProjectListVO;
 import com.edu.nju.clockcourier.vo.ProjectVO;
+import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -22,11 +23,11 @@ import java.util.stream.Collectors;
 public class ProjectServiceImpl implements ProjectService {
 
     private final ProjectDataService projectDataService;
-    private final ConstConfig config;
+    private final DatabaseConfig config;
 
     @Autowired
     public ProjectServiceImpl(ProjectDataService projectDataService,
-                              ConstConfig config) {
+                              DatabaseConfig config) {
         this.projectDataService = projectDataService;
         this.config = config;
     }
@@ -41,11 +42,12 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ProjectListVO getProjects(ProjFilterDTO filter) {
         int pageSize = Integer.parseInt(config.getPageSize());
-        List<ProjectVO> vos = projectDataService.allAndFilter(filter, pageSize)
+        PageInfo<ProjectPO> pi = projectDataService.allAndFilter(filter, pageSize);
+        List<ProjectVO> vos = pi.getList()
                 .stream()
                 .map(ProjectVO::build)
                 .collect(Collectors.toList());
-        return new ProjectListVO(filter.getPage(), pageSize, vos);
+        return new ProjectListVO(pi.getPages(), pageSize, vos);
     }
 
     @Override
