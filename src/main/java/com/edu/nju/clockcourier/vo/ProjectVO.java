@@ -1,6 +1,7 @@
 package com.edu.nju.clockcourier.vo;
 
 
+import com.edu.nju.clockcourier.constant.Convention;
 import com.edu.nju.clockcourier.po.ProjectPO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -41,6 +42,9 @@ public class ProjectVO {
     private List<String> licenses;
 
     public static ProjectVO build(ProjectPO project) {
+        List<String> list = (Convention.isNull(project.getLicenses())
+                ? null
+                : List.of(project.getLicenses().split(",")));
         return new ProjectVO(
                 project.getProjectId(),
                 project.getProjectName(),
@@ -54,7 +58,7 @@ public class ProjectVO {
                 project.getLatestReleaseNumber(),
                 project.getRepositoryId(),
                 project.getRepositoryUrl(),
-                List.of(project.getLicenses().split(",")));
+                list);
     }
 
 }

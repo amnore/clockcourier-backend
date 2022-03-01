@@ -1,5 +1,6 @@
 package com.edu.nju.clockcourier.vo;
 
+import com.edu.nju.clockcourier.constant.Convention;
 import com.edu.nju.clockcourier.po.RepositoryPO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
@@ -50,6 +51,9 @@ public class RepositoryVO {
     private List<String> licenses;
 
     public static RepositoryVO build(RepositoryPO repository) {
+        List<String> list = (Convention.isNull(repository.getLicenses())
+                ? null
+                : List.of(repository.getLicenses().split(",")));
         return new RepositoryVO(repository.getRepositoryId(),
                 repository.getHostType(),
                 repository.getRepositoryName(),
@@ -67,7 +71,7 @@ public class RepositoryVO {
                 repository.getContributorCount(),
                 repository.getOpenIssueCount(),
                 repository.getDefaultBranch(),
-                List.of(repository.getLicenses().split(",")));
+                list);
     }
 
 }
