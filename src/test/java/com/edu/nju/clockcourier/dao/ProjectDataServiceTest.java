@@ -7,6 +7,7 @@ import com.edu.nju.clockcourier.po.ProjectPO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.util.Pair;
 
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
@@ -41,18 +42,17 @@ class ProjectDataServiceTest {
     @Test
     void allAndFilterTest() {
         ProjFilterDTO dto = new ProjFilterDTO();
-        dto.setLanguage("Python");
         dto.setSort(ProjSortRule.CreateT);
+        dto.setLanguage("PHP");
         dto.setIsReverse(true);
+        dto.setDependency("ath");
+        dto.setPage(1);
         int pageSize = Integer.parseInt(config.getPageSize());
-        List<ProjectPO> res1 = projectDataService.allAndFilter(dto, pageSize);
+        Pair<List<ProjectPO>, Integer> p = projectDataService.allAndFilter(dto, pageSize);
+        List<ProjectPO> res1 = p.getFirst();
         assertFalse(res1.isEmpty());
         for (ProjectPO cur : res1) {
-            assertEquals("Python", cur.getLanguage());
-        }
-        List<ProjectPO> res2 = projectDataService.allAndFilter(dto, pageSize);
-        for (ProjectPO cur : res2) {
-            assertEquals("Python", cur.getLanguage());
+            assertEquals("PHP", cur.getLanguage());
         }
     }
 

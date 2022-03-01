@@ -45,19 +45,18 @@ public class RepositoryDataServiceImpl implements RepositoryDataService {
 
         Integer pageNum = filter.getPage();
         if (pageNum != null) PageHelper.startPage(pageNum, pageSize);
-        Integer fork=null;
-        if(filter.getCanFork()!=null) fork=filter.getCanFork() ?1:0;
+        Integer fork = null;
+        if (filter.getCanFork() != null) fork = filter.getCanFork() ? 1 : 0;
         SelectStatementProvider select = SqlBuilder.selectDistinct(RepositoryMapper.selectList)
                 .from(RepositoryDSS.REPOSITORIES)
                 .join(RepoDepDSS.REPOSITORY_DEPENDENCIES)
                 .on(RepositoryDSS.repositoryId, equalTo(RepoDepDSS.repositoryId))
-                .where(RepositoryDSS.hostType,isLikeWhenPresent(QueryBuilder.buildLike(filter.getHostType())))
-                .and(RepositoryDSS.repositoryName,isLikeWhenPresent(QueryBuilder.buildLike(filter.getRepositoryName())))
-                .and(RepositoryDSS.repositoryOwner,isLikeWhenPresent(QueryBuilder.buildLike(filter.getRepositoryOwner())))
-                .and(RepositoryDSS.language,isLikeWhenPresent(QueryBuilder.buildLike(filter.getLanguage())))
-                .and(RepositoryDSS.homepageUrl,isLikeWhenPresent(QueryBuilder.buildLike(filter.getHomepageUrl())))
-                .and(RepositoryDSS.fork,isEqualToWhenPresent(fork))
-                .orderBy(QueryBuilder.buildReverse(filter.getSort().getSortRule(), filter.getIsReverse()))
+                .where(RepositoryDSS.hostType, isLikeWhenPresent(QueryBuilder.buildLike(filter.getHostType())))
+                .and(RepositoryDSS.repositoryName, isLikeWhenPresent(QueryBuilder.buildLike(filter.getRepositoryName())))
+                .and(RepositoryDSS.repositoryOwner, isLikeWhenPresent(QueryBuilder.buildLike(filter.getRepositoryOwner())))
+                .and(RepositoryDSS.language, isLikeWhenPresent(QueryBuilder.buildLike(filter.getLanguage())))
+                .and(RepositoryDSS.homepageUrl, isLikeWhenPresent(QueryBuilder.buildLike(filter.getHomepageUrl())))
+                .and(RepositoryDSS.fork, isEqualToWhenPresent(fork))
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
         return repositoryMapper.selectMany(select);

@@ -10,8 +10,8 @@ public class QueryBuilder {
         return "%" + str + "%";
     }
 
-    public static SortSpecification buildReverse(SortSpecification sort, boolean isDesc) {
-        return (isDesc) ? sort.descending() : sort;
+    public static SortSpecification buildReverse(SortSpecification sortRule, boolean isDesc) {
+        return (isDesc) ? sortRule.descending() : sortRule;
     }
 
 }

@@ -2,7 +2,7 @@ package com.edu.nju.clockcourier.constant;
 
 import com.edu.nju.clockcourier.dao.support.RepositoryDSS;
 import lombok.Getter;
-import org.mybatis.dynamic.sql.SortSpecification;
+import org.mybatis.dynamic.sql.SqlColumn;
 
 @Getter
 public enum RepoSortRule {
@@ -16,10 +16,13 @@ public enum RepoSortRule {
     ContributorCount(RepositoryDSS.contributorCount),
     OpenIssueCount(RepositoryDSS.openIssueCount);
 
-    private final SortSpecification sortRule;
+    private final SqlColumn<?> sortRule;
 
-    RepoSortRule(SortSpecification sortRule) {
+    private final String name;
+
+    RepoSortRule(SqlColumn<?> sortRule) {
         this.sortRule = sortRule;
+        this.name = sortRule.name();
     }
 
 }
