@@ -60,7 +60,7 @@ public class ProjectDataServiceImpl implements ProjectDataService {
                         .and(ProjectDSS.language, isLikeWhenPresent(QueryBuilder.buildLike(filter.getLanguage())))
                         .and(ProjectDSS.homepageUrl, isLikeWhenPresent(QueryBuilder.buildLike(filter.getHomepageUrl())))
                         .and(ProjectDSS.latestReleaseNumber, isLikeWhenPresent(QueryBuilder.buildLike(filter.getLatestReleaseN())));
-        if (!filter.getDependency().equals(Convention.nullStr)) {
+        if (!Convention.isNull(filter.getDependency())) {
             select = select
                     .and(ProjectDSS.projectId, isIn(
                             SqlBuilder.selectDistinct(ProjDepDSS.projectId)
