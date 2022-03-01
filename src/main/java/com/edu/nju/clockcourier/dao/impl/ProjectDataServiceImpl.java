@@ -54,6 +54,7 @@ public class ProjectDataServiceImpl implements ProjectDataService {
                 SqlBuilder
                         .selectDistinct(ProjectMapper.selectList)
                         .from(ProjectDSS.PROJECTS)
+                        .where(ProjDepDSS.dependencyProjectName, isLikeWhenPresent(QueryBuilder.buildLike(filter.getDependency())))
                         .and(ProjectDSS.projectName, isLikeWhenPresent(QueryBuilder.buildLike(filter.getName())))
                         .and(ProjectDSS.platform, isLikeWhenPresent(QueryBuilder.buildLike(filter.getPlatform())))
                         .and(ProjectDSS.language, isLikeWhenPresent(QueryBuilder.buildLike(filter.getLanguage())))
