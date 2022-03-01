@@ -14,4 +14,9 @@ public class QueryBuilder {
         return (isDesc) ? sortRule.descending() : sortRule;
     }
 
+    public static Integer buildBool(Boolean b) {
+        if (b == null) return null;
+        return (b ? 1 : 0);
+    }
+
 }

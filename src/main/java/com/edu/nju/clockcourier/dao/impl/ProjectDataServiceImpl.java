@@ -48,23 +48,21 @@ public class ProjectDataServiceImpl implements ProjectDataService {
 
     @Override
     public Pair<List<ProjectPO>, Integer> allAndFilter(ProjFilterDTO filter, int pageSize) {
-        Integer pageNum = filter.getPage();
-        QueryExpressionDSL<SelectModel>.QueryExpressionWhereBuilder select =
-                SqlBuilder.select(ProjectMapper.selectList)
-                        .from(ProjectDSS.PROJECTS).
-                        where(ProjectDSS.projectName, isLikeWhenPresent(QueryBuilder.buildLike(filter.getName())))
-                        .and(ProjectDSS.platform, isLikeWhenPresent(QueryBuilder.buildLike(filter.getPlatform())))
-                        .and(ProjectDSS.language, isLikeWhenPresent(QueryBuilder.buildLike(filter.getLanguage())))
-                        .and(ProjectDSS.homepageUrl, isLikeWhenPresent(QueryBuilder.buildLike(filter.getHomepageUrl())))
-                        .and(ProjectDSS.latestReleaseNumber, isLikeWhenPresent(QueryBuilder.buildLike(filter.getLatestReleaseN())));
+        QueryExpressionDSL<SelectModel>.QueryExpressionWhereBuilder select = SqlBuilder.select(ProjectMapper.selectList)
+                .from(ProjectDSS.PROJECTS)
+                .where(ProjectDSS.projectName, isLikeWhenPresent(QueryBuilder.buildLike(filter.getName())))
+                .and(ProjectDSS.platform, isLikeWhenPresent(QueryBuilder.buildLike(filter.getPlatform())))
+                .and(ProjectDSS.language, isLikeWhenPresent(QueryBuilder.buildLike(filter.getLanguage())))
+                .and(ProjectDSS.homepageUrl, isLikeWhenPresent(QueryBuilder.buildLike(filter.getHomepageUrl())))
+                .and(ProjectDSS.latestReleaseNumber, isLikeWhenPresent(QueryBuilder.buildLike(filter.getLatestReleaseN())));
         if (!Convention.isNull(filter.getDependency())) {
-            select = select
-                    .and(ProjectDSS.projectId, isIn(
-                            SqlBuilder.select(ProjDepDSS.projectId)
-                                    .from(ProjDepDSS.PROJECT_DEPENDENCIES)
-                                    .where(ProjDepDSS.dependencyProjectName, isLike(QueryBuilder.buildLike(filter.getDependency()))))
-                    );
+            select = select.and(ProjectDSS.projectId, isIn(
+                    SqlBuilder.select(ProjDepDSS.projectId)
+                            .from(ProjDepDSS.PROJECT_DEPENDENCIES)
+                            .where(ProjDepDSS.dependencyProjectName, isLike(QueryBuilder.buildLike(filter.getDependency()))))
+            );
         }
+        Integer pageNum = filter.getPage();
         if (pageNum == null) pageNum = 1;
         SelectStatementProvider selector = select
                 .orderBy(QueryBuilder.buildReverse(filter.getSort().getSortRule(), filter.getIsReverse()))
@@ -78,12 +76,20 @@ public class ProjectDataServiceImpl implements ProjectDataService {
 
     @Override
     public List<ProjectDependencyPO> allDepAndFilter(Integer projectId, ProjDepFilterDTO filter, int pageSize) {
-        Integer pageNum = filter.getPage();
-        if (pageNum != null) PageHelper.startPage(pageNum, pageSize);
-        SelectStatementProvider select = SqlBuilder.selectDistinct(ProjDepMapper.selectList)
+        SelectStatementProvider select = SqlBuilder
+                .select(ProjDepMapper.selectList)
                 .from(ProjDepDSS.PROJECT_DEPENDENCIES)
+                .where(ProjDepDSS.projectId, isEqualTo(projectId))
+                .and(ProjDepDSS.projectVersion, isLikeWhenPresent(QueryBuilder.buildLike(filter.getProjectVersion())))
+                .and(ProjDepDSS.dependencyProjectName, isLikeWhenPresent(QueryBuilder.buildLike(filter.getDependencyProjectName())))
+                .and(ProjDepDSS.dependencyProjectPlatform, isLikeWhenPresent(QueryBuilder.buildLike(filter.getDependencyProjectPlatform())))
+                .and(ProjDepDSS.dependencyType, isLikeWhenPresent(QueryBuilder.buildLike(filter.getDependencyType())))
+                .orderBy(QueryBuilder.buildReverse(ProjDepDSS.dependencyProjectName, filter.getIsReverse()))
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
+        Integer pageNum = filter.getPage();
+        if (pageNum == null) pageNum = 1;
+        PageHelper.startPage(pageNum, pageSize);
         return projDepMapper.selectMany(select);
     }
 

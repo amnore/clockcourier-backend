@@ -42,34 +42,37 @@ public class RepositoryDataServiceImpl implements RepositoryDataService {
 
     @Override
     public List<RepositoryPO> allAndFilter(RepoFilterDTO filter, int pageSize) {
-
-        Integer pageNum = filter.getPage();
-        if (pageNum != null) PageHelper.startPage(pageNum, pageSize);
-        Integer fork = null;
-        if (filter.getCanFork() != null) fork = filter.getCanFork() ? 1 : 0;
-        SelectStatementProvider select = SqlBuilder.selectDistinct(RepositoryMapper.selectList)
+        SelectStatementProvider select = SqlBuilder
+                .select(RepositoryMapper.selectList)
                 .from(RepositoryDSS.REPOSITORIES)
-                .join(RepoDepDSS.REPOSITORY_DEPENDENCIES)
-                .on(RepositoryDSS.repositoryId, equalTo(RepoDepDSS.repositoryId))
                 .where(RepositoryDSS.hostType, isLikeWhenPresent(QueryBuilder.buildLike(filter.getHostType())))
                 .and(RepositoryDSS.repositoryName, isLikeWhenPresent(QueryBuilder.buildLike(filter.getRepositoryName())))
                 .and(RepositoryDSS.repositoryOwner, isLikeWhenPresent(QueryBuilder.buildLike(filter.getRepositoryOwner())))
                 .and(RepositoryDSS.language, isLikeWhenPresent(QueryBuilder.buildLike(filter.getLanguage())))
                 .and(RepositoryDSS.homepageUrl, isLikeWhenPresent(QueryBuilder.buildLike(filter.getHomepageUrl())))
-                .and(RepositoryDSS.fork, isEqualToWhenPresent(fork))
+                .and(RepositoryDSS.fork, isEqualToWhenPresent(QueryBuilder.buildBool(filter.getCanFork())))
+                .orderBy(QueryBuilder.buildReverse(filter.getSort().getSortRule(), filter.getIsReverse()))
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
+        Integer pageNum = filter.getPage();
+        if (pageNum == null) pageNum = 1;
+        PageHelper.startPage(pageNum, pageSize);
         return repositoryMapper.selectMany(select);
     }
 
     @Override
     public List<RepositoryDependencyPO> allDepAndFilter(Integer repositoryId, RepoDepFilterDTO filter, int pageSize) {
-        Integer pageNum = filter.getPage();
-        if (pageNum != null) PageHelper.startPage(pageNum, pageSize);
-        SelectStatementProvider select = SqlBuilder.selectDistinct(RepoDepMapper.selectList)
+        SelectStatementProvider select = SqlBuilder
+                .select(RepoDepMapper.selectList)
                 .from(RepoDepDSS.REPOSITORY_DEPENDENCIES)
+                .where(RepoDepDSS.repositoryId, isEqualTo(repositoryId))
+                .and(RepoDepDSS.dependencyProjectName, isLikeWhenPresent(QueryBuilder.buildLike(filter.getDependencyProjectName())))
+                .and(RepoDepDSS.dependencyType, isLikeWhenPresent(QueryBuilder.buildLike(filter.getDependencyType())))
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
+        Integer pageNum = filter.getPage();
+        if (pageNum == null) pageNum = 1;
+        PageHelper.startPage(pageNum, pageSize);
         return repoDepMapper.selectMany(select);
     }
 
