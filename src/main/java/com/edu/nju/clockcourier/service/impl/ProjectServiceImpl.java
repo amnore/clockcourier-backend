@@ -12,7 +12,6 @@ import com.edu.nju.clockcourier.vo.ProjDepListVO;
 import com.edu.nju.clockcourier.vo.ProjDepVO;
 import com.edu.nju.clockcourier.vo.ProjectListVO;
 import com.edu.nju.clockcourier.vo.ProjectVO;
-import com.github.pagehelper.PageInfo;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -42,12 +41,11 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ProjectListVO getProjects(ProjFilterDTO filter) {
         int pageSize = Integer.parseInt(config.getPageSize());
-        PageInfo<ProjectPO> pi = projectDataService.allAndFilter(filter, pageSize);
-        List<ProjectVO> vos = pi.getList()
+        List<ProjectVO> vos = projectDataService.allAndFilter(filter, pageSize)
                 .stream()
                 .map(ProjectVO::build)
                 .collect(Collectors.toList());
-        return new ProjectListVO(pi.getPages(), pageSize, vos);
+        return new ProjectListVO(100, pageSize, vos);
     }
 
     @Override

@@ -12,7 +12,6 @@ import com.edu.nju.clockcourier.po.ProjectDependencyPO;
 import com.edu.nju.clockcourier.po.ProjectPO;
 import com.edu.nju.clockcourier.util.QueryBuilder;
 import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.mybatis.dynamic.sql.SqlBuilder;
 import org.mybatis.dynamic.sql.render.RenderingStrategies;
 import org.mybatis.dynamic.sql.select.QueryExpressionDSL;
@@ -46,15 +45,13 @@ public class ProjectDataServiceImpl implements ProjectDataService {
     }
 
     @Override
-    public PageInfo<ProjectPO> allAndFilter(ProjFilterDTO filter, int pageSize) {
-        // 开启分页, 它会在 sql 语句中插入, 所以几乎没有额外性能消耗
+    public List<ProjectPO> allAndFilter(ProjFilterDTO filter, int pageSize) {
         Integer pageNum = filter.getPage();
-        if (pageNum != null) PageHelper.startPage(pageNum, pageSize);
         QueryExpressionDSL<SelectModel>.QueryExpressionWhereBuilder select =
                 SqlBuilder
                         .selectDistinct(ProjectMapper.selectList)
                         .from(ProjectDSS.PROJECTS)
-                        .and(ProjectDSS.projectName, isLikeWhenPresent(QueryBuilder.buildLike(filter.getName())))
+                        .where(ProjectDSS.projectName, isLikeWhenPresent(QueryBuilder.buildLike(filter.getName())))
                         .and(ProjectDSS.platform, isLikeWhenPresent(QueryBuilder.buildLike(filter.getPlatform())))
                         .and(ProjectDSS.language, isLikeWhenPresent(QueryBuilder.buildLike(filter.getLanguage())))
                         .and(ProjectDSS.homepageUrl, isLikeWhenPresent(QueryBuilder.buildLike(filter.getHomepageUrl())))
@@ -64,14 +61,17 @@ public class ProjectDataServiceImpl implements ProjectDataService {
                     .and(ProjectDSS.projectId, isIn(
                             SqlBuilder.selectDistinct(ProjDepDSS.projectId)
                                     .from(ProjDepDSS.PROJECT_DEPENDENCIES)
-                                    .where(ProjDepDSS.dependencyProjectName, isLike(filter.getDependency())))
+                                    .where(ProjDepDSS.dependencyProjectName, isLike(QueryBuilder.buildLike(filter.getDependency()))))
                     );
         }
+        if (pageNum == null) pageNum = 1;
         SelectStatementProvider selector = select
                 .orderBy(QueryBuilder.buildReverse(filter.getSort().getSortRule(), filter.getIsReverse()))
+                .limit(pageSize)
+                .offset((long) (pageNum - 1) * pageSize)
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
-        return new PageInfo<>(projectMapper.selectMany(selector));
+        return projectMapper.selectMany(selector);
     }
 
     @Override
