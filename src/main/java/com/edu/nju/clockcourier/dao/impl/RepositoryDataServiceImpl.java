@@ -7,7 +7,6 @@ import com.edu.nju.clockcourier.dao.support.RepoDepDSS;
 import com.edu.nju.clockcourier.dao.support.RepositoryDSS;
 import com.edu.nju.clockcourier.dto.RepoDepFilterDTO;
 import com.edu.nju.clockcourier.dto.RepoFilterDTO;
-import com.edu.nju.clockcourier.po.ProjectDependencyPO;
 import com.edu.nju.clockcourier.po.RepositoryDependencyPO;
 import com.edu.nju.clockcourier.po.RepositoryPO;
 import com.edu.nju.clockcourier.util.QueryBuilder;
@@ -44,7 +43,7 @@ public class RepositoryDataServiceImpl implements RepositoryDataService {
     }
 
     @Override
-    public Pair<List<RepositoryPO>,Integer> allAndFilter(RepoFilterDTO filter, int pageSize) {
+    public Pair<List<RepositoryPO>, Integer> allAndFilter(RepoFilterDTO filter, int pageSize) {
         SelectStatementProvider select = SqlBuilder
                 .select(RepositoryMapper.selectList)
                 .from(RepositoryDSS.REPOSITORIES)
@@ -62,11 +61,11 @@ public class RepositoryDataServiceImpl implements RepositoryDataService {
         PageHelper.startPage(pageNum, pageSize);
 
         PageInfo<RepositoryPO> pi = new PageInfo<>(repositoryMapper.selectMany(select));
-        return Pair.of(pi.getList(),pi.getPages());
+        return Pair.of(pi.getList(), pi.getPages());
     }
 
     @Override
-    public Pair<List<RepositoryDependencyPO>,Integer> allDepAndFilter(Integer repositoryId, RepoDepFilterDTO filter, int pageSize) {
+    public Pair<List<RepositoryDependencyPO>, Integer> allDepAndFilter(Integer repositoryId, RepoDepFilterDTO filter, int pageSize) {
         SelectStatementProvider select = SqlBuilder
                 .select(RepoDepMapper.selectList)
                 .from(RepoDepDSS.REPOSITORY_DEPENDENCIES)
@@ -78,9 +77,8 @@ public class RepositoryDataServiceImpl implements RepositoryDataService {
         Integer pageNum = filter.getPage();
         if (pageNum == null) pageNum = 1;
         PageHelper.startPage(pageNum, pageSize);
-
-        PageInfo<RepositoryDependencyPO> pi=new PageInfo<>(repoDepMapper.selectMany(select));
-        return Pair.of(pi.getList(),pi.getPages());
+        PageInfo<RepositoryDependencyPO> pi = new PageInfo<>(repoDepMapper.selectMany(select));
+        return Pair.of(pi.getList(), pi.getPages());
     }
 
 }

@@ -133,6 +133,17 @@
                     <includes>
                         <include>com/**/*</include>
                     </includes>
+                    <excludes>
+                        <exclude>com/**/config/*.class</exclude>
+                        <exclude>com/**/constant/*.class</exclude>
+                        <exclude>com/**/dto/*.class</exclude>
+                        <exclude>com/**/dao/support/*.class</exclude>
+                        <exclude>com/**/dao/mapper/*.class</exclude>
+                        <exclude>com/**/vo/*.class</exclude>
+                        <exclude>com/**/po/*.class</exclude>
+                        <exclude>com/**/util/*.class</exclude>
+                        <exclude>com/**/exception/*.class</exclude>
+                    </excludes>
                 </configuration>
                 <executions>
                     <execution>

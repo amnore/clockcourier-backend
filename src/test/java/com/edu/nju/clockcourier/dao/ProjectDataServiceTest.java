@@ -12,12 +12,9 @@ import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.data.util.Pair;
 
 import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.assertEquals;
-import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.*;
 
 @SpringBootTest
 class ProjectDataServiceTest {
@@ -34,11 +31,10 @@ class ProjectDataServiceTest {
 
     @Test
     void getProjectTest() throws ParseException {
-//        ProjectPO po = projectDataService.getProject(31613);
-//        SimpleDateFormat ft = new SimpleDateFormat("yyyy-MM-dd HH:mm:ss");
-//        Date expected = ft.parse("2015-01-21 12:25:46");
-//        Date actual = po.getCreateTimestamp();
-//        assertEquals(expected.getTime(), actual.getTime());
+        ProjectPO po = projectDataService.getProject(31613);
+        String actual = po.getLanguage();
+        String expected = "HTML";
+        assertTrue(expected.equals(actual));
     }
 
     @Test
@@ -59,15 +55,15 @@ class ProjectDataServiceTest {
     }
 
     @Test
-    void allDepAndFilterTest(){
-        ProjDepFilterDTO filter=new ProjDepFilterDTO();
+    void allDepAndFilterTest() {
+        ProjDepFilterDTO filter = new ProjDepFilterDTO();
         filter.setPage(1);
         filter.setIsReverse(true);
-        int pageSize=Integer.parseInt(config.getPageSize());
-        Pair<List<ProjectDependencyPO>,Integer> p =projectDataService.allDepAndFilter(40532,filter,pageSize);
-        List<ProjectDependencyPO> pos=p.getFirst();
-        for(ProjectDependencyPO po:pos){
-            assertEquals("corneltek/getoptionkit",po.getDependencyProjectName());
+        int pageSize = Integer.parseInt(config.getPageSize());
+        Pair<List<ProjectDependencyPO>, Integer> p = projectDataService.allDepAndFilter(40532, filter, pageSize);
+        List<ProjectDependencyPO> pos = p.getFirst();
+        for (ProjectDependencyPO po : pos) {
+            assertEquals("corneltek/getoptionkit", po.getDependencyProjectName());
         }
     }
 

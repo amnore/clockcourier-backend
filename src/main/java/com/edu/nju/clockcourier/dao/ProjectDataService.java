@@ -14,6 +14,6 @@ public interface ProjectDataService {
 
     Pair<List<ProjectPO>, Integer> allAndFilter(ProjFilterDTO filter, int pageSize);
 
-    Pair<List<ProjectDependencyPO>,Integer> allDepAndFilter(Integer projectId, ProjDepFilterDTO filter, int pageSize);
+    Pair<List<ProjectDependencyPO>, Integer> allDepAndFilter(Integer projectId, ProjDepFilterDTO filter, int pageSize);
 
 }
