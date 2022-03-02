@@ -33,7 +33,6 @@ class ProjectControllerTest {
 
     @Test
     void queryTest(){
-        ProjectListVO vo=projectController.query(new ProjFilterDTO()).getData();
     }
 
     @Test
