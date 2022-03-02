@@ -49,6 +49,10 @@ public class ProjectServiceTest {
 
     @Test
     void getDependenciesTest(){
+//        ProjDepFilterDTO filter=new ProjDepFilterDTO();
+//        filter.setPage(1);
+//        filter.setIsReverse(true);
+//        projectService.getDependencies(40532,filter);
 
     }
 }
