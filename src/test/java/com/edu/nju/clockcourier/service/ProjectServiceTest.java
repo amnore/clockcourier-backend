@@ -4,8 +4,11 @@ import com.edu.nju.clockcourier.constant.ProjSortRule;
 import com.edu.nju.clockcourier.dao.ProjectDataService;
 import com.edu.nju.clockcourier.dto.ProjDepFilterDTO;
 import com.edu.nju.clockcourier.dto.ProjFilterDTO;
+import com.edu.nju.clockcourier.po.ProjectDependencyPO;
 import com.edu.nju.clockcourier.po.ProjectPO;
 import com.edu.nju.clockcourier.po.RepositoryPO;
+import com.edu.nju.clockcourier.vo.ProjDepListVO;
+import com.edu.nju.clockcourier.vo.ProjDepVO;
 import com.edu.nju.clockcourier.vo.ProjectListVO;
 import com.edu.nju.clockcourier.vo.ProjectVO;
 import org.junit.jupiter.api.Test;
@@ -49,10 +52,14 @@ public class ProjectServiceTest {
 
     @Test
     void getDependenciesTest(){
-//        ProjDepFilterDTO filter=new ProjDepFilterDTO();
-//        filter.setPage(1);
-//        filter.setIsReverse(true);
-//        projectService.getDependencies(40532,filter);
+        ProjDepFilterDTO filter=new ProjDepFilterDTO();
+        filter.setPage(1);
+        filter.setIsReverse(true);
+        ProjDepListVO listVO=projectService.getDependencies(40532,filter);
+        List<ProjDepVO> vos=listVO.getProjDeps();
+        for(ProjDepVO vo:vos){
+            assertEquals("corneltek/getoptionkit",vo.getDependencyProjectName());
+        }
 
     }
 }

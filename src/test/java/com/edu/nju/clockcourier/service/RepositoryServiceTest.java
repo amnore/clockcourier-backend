@@ -1,8 +1,14 @@
 package com.edu.nju.clockcourier.service;
 
+import com.edu.nju.clockcourier.constant.RepoSortRule;
+import com.edu.nju.clockcourier.dto.RepoFilterDTO;
+import com.edu.nju.clockcourier.vo.RepositoryListVO;
+import com.edu.nju.clockcourier.vo.RepositoryVO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -18,15 +24,33 @@ public class RepositoryServiceTest {
 
     @Test
     void getRepositoryTest(){
-
+        RepositoryVO vo=repositoryService.getRepository(427);
+        assertEquals("gentleface-sprites",vo.getRepositoryName());
     }
 
     @Test
     void getRepositoriesTest(){
+        RepoFilterDTO filter=new RepoFilterDTO();
+
+        filter.setIsReverse(true);
+        filter.setCanFork(true);
+        filter.setPage(1);
+        filter.setSort(RepoSortRule.CreateT);
+        filter.setLanguage("PHP");
+
+        RepositoryListVO listVO=repositoryService.getRepositories(filter);
+
+        List<RepositoryVO> vos=listVO.getRepositories();
+
+        for(RepositoryVO vo:vos){
+            assertEquals("PHP",vo.getLanguage());
+        }
+
 
     }
 
     @Test
-    void getDependenciesTest(){}
+    void getDependenciesTest(){
+    }
 
 }
