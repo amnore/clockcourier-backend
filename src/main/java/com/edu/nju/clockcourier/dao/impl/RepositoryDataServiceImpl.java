@@ -7,14 +7,17 @@ import com.edu.nju.clockcourier.dao.support.RepoDepDSS;
 import com.edu.nju.clockcourier.dao.support.RepositoryDSS;
 import com.edu.nju.clockcourier.dto.RepoDepFilterDTO;
 import com.edu.nju.clockcourier.dto.RepoFilterDTO;
+import com.edu.nju.clockcourier.po.ProjectDependencyPO;
 import com.edu.nju.clockcourier.po.RepositoryDependencyPO;
 import com.edu.nju.clockcourier.po.RepositoryPO;
 import com.edu.nju.clockcourier.util.QueryBuilder;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import org.mybatis.dynamic.sql.SqlBuilder;
 import org.mybatis.dynamic.sql.render.RenderingStrategies;
 import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -41,7 +44,7 @@ public class RepositoryDataServiceImpl implements RepositoryDataService {
     }
 
     @Override
-    public List<RepositoryPO> allAndFilter(RepoFilterDTO filter, int pageSize) {
+    public Pair<List<RepositoryPO>,Integer> allAndFilter(RepoFilterDTO filter, int pageSize) {
         SelectStatementProvider select = SqlBuilder
                 .select(RepositoryMapper.selectList)
                 .from(RepositoryDSS.REPOSITORIES)
@@ -57,11 +60,13 @@ public class RepositoryDataServiceImpl implements RepositoryDataService {
         Integer pageNum = filter.getPage();
         if (pageNum == null) pageNum = 1;
         PageHelper.startPage(pageNum, pageSize);
-        return repositoryMapper.selectMany(select);
+
+        PageInfo<RepositoryPO> pi = new PageInfo<>(repositoryMapper.selectMany(select));
+        return Pair.of(pi.getList(),pi.getPages());
     }
 
     @Override
-    public List<RepositoryDependencyPO> allDepAndFilter(Integer repositoryId, RepoDepFilterDTO filter, int pageSize) {
+    public Pair<List<RepositoryDependencyPO>,Integer> allDepAndFilter(Integer repositoryId, RepoDepFilterDTO filter, int pageSize) {
         SelectStatementProvider select = SqlBuilder
                 .select(RepoDepMapper.selectList)
                 .from(RepoDepDSS.REPOSITORY_DEPENDENCIES)
@@ -73,7 +78,9 @@ public class RepositoryDataServiceImpl implements RepositoryDataService {
         Integer pageNum = filter.getPage();
         if (pageNum == null) pageNum = 1;
         PageHelper.startPage(pageNum, pageSize);
-        return repoDepMapper.selectMany(select);
+
+        PageInfo<RepositoryDependencyPO> pi=new PageInfo<>(repoDepMapper.selectMany(select));
+        return Pair.of(pi.getList(),pi.getPages());
     }
 
 }

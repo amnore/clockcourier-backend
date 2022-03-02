@@ -1,14 +1,22 @@
 package com.edu.nju.clockcourier.dao;
 
 import com.edu.nju.clockcourier.config.DatabaseConfig;
+import com.edu.nju.clockcourier.constant.ProjSortRule;
+import com.edu.nju.clockcourier.constant.RepoSortRule;
+import com.edu.nju.clockcourier.dto.RepoDepFilterDTO;
+import com.edu.nju.clockcourier.dto.RepoFilterDTO;
+import com.edu.nju.clockcourier.po.RepositoryDependencyPO;
 import com.edu.nju.clockcourier.po.RepositoryPO;
+import com.edu.nju.clockcourier.vo.RepositoryListVO;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.data.util.Pair;
 
 import javax.xml.crypto.Data;
 
 import java.text.SimpleDateFormat;
+import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.*;
 
@@ -25,7 +33,7 @@ class RepositoryDataServiceTest {
     }
 
     @Test
-    void getRepository() {
+    void getRepositoryTest() {
         RepositoryPO repositoryPO=repositoryDataService.getRepository(427);
         String ExpectName=repositoryPO.getRepositoryName();
         assertEquals("gentleface-sprites",repositoryPO.getRepositoryName());
@@ -33,10 +41,40 @@ class RepositoryDataServiceTest {
     }
 
     @Test
-    void allAndFilter() {
+    void allAndFilterTest() {
+        RepoFilterDTO filter=new RepoFilterDTO();
+
+        filter.setSort(RepoSortRule.CreateT);
+        filter.setPage(1);
+        filter.setLanguage("PHP");
+        filter.setCanFork(true);
+        filter.setIsReverse(true);
+
+        int pageSize=Integer.parseInt(config.getPageSize());
+        Pair<List<RepositoryPO>, Integer> pair=repositoryDataService.allAndFilter(filter,pageSize);
+        List<RepositoryPO> pos=pair.getFirst();
+
+        for(RepositoryPO po:pos){
+            assertEquals("PHP",po.getLanguage());
+        }
+
+
     }
 
     @Test
-    void allDepAndFilter() {
+    void allDepAndFilterTest() {
+        RepoDepFilterDTO filter=new RepoDepFilterDTO();
+
+        filter.setPage(1);
+        filter.setIsReverse(true);
+
+        int pageSize=Integer.parseInt(config.getPageSize());
+        Pair<List<RepositoryDependencyPO>,Integer> pair=repositoryDataService.allDepAndFilter(396715,filter,pageSize);
+        List<RepositoryDependencyPO> pos=pair.getFirst();
+
+        for(RepositoryDependencyPO po:pos){
+            assertEquals("redshift_console",po.getRepositoryName());
+        }
     }
+
 }

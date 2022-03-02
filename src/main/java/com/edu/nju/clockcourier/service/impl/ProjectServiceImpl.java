@@ -6,6 +6,7 @@ import com.edu.nju.clockcourier.dao.ProjectDataService;
 import com.edu.nju.clockcourier.dto.ProjDepFilterDTO;
 import com.edu.nju.clockcourier.dto.ProjFilterDTO;
 import com.edu.nju.clockcourier.exception.CustomException;
+import com.edu.nju.clockcourier.po.ProjectDependencyPO;
 import com.edu.nju.clockcourier.po.ProjectPO;
 import com.edu.nju.clockcourier.service.ProjectService;
 import com.edu.nju.clockcourier.vo.ProjDepListVO;
@@ -53,7 +54,8 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ProjDepListVO getDependencies(Integer projectId, ProjDepFilterDTO filter) {
         int pageSize = Integer.parseInt(config.getPageSize());
-        List<ProjDepVO> vos = projectDataService.allDepAndFilter(projectId, filter, pageSize)
+        Pair<List<ProjectDependencyPO>, Integer> p=projectDataService.allDepAndFilter(projectId, filter, pageSize);
+        List<ProjDepVO> vos = p.getFirst()
                 .stream()
                 .map(ProjDepVO::build)
                 .collect(Collectors.toList());
