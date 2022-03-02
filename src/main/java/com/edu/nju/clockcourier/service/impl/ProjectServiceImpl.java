@@ -54,12 +54,12 @@ public class ProjectServiceImpl implements ProjectService {
     @Override
     public ProjDepListVO getDependencies(Integer projectId, ProjDepFilterDTO filter) {
         int pageSize = Integer.parseInt(config.getPageSize());
-        Pair<List<ProjectDependencyPO>, Integer> p=projectDataService.allDepAndFilter(projectId, filter, pageSize);
+        Pair<List<ProjectDependencyPO>, Integer> p = projectDataService.allDepAndFilter(projectId, filter, pageSize);
         List<ProjDepVO> vos = p.getFirst()
                 .stream()
                 .map(ProjDepVO::build)
                 .collect(Collectors.toList());
-        return new ProjDepListVO(filter.getPage(), pageSize, vos);
+        return new ProjDepListVO(p.getSecond(), pageSize, vos);
     }
 
 }

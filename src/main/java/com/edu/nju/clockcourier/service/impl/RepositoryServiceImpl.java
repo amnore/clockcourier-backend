@@ -6,7 +6,6 @@ import com.edu.nju.clockcourier.dao.RepositoryDataService;
 import com.edu.nju.clockcourier.dto.RepoDepFilterDTO;
 import com.edu.nju.clockcourier.dto.RepoFilterDTO;
 import com.edu.nju.clockcourier.exception.CustomException;
-import com.edu.nju.clockcourier.po.ProjectPO;
 import com.edu.nju.clockcourier.po.RepositoryDependencyPO;
 import com.edu.nju.clockcourier.po.RepositoryPO;
 import com.edu.nju.clockcourier.service.RepositoryService;
@@ -44,23 +43,23 @@ public class RepositoryServiceImpl implements RepositoryService {
     @Override
     public RepositoryListVO getRepositories(RepoFilterDTO filter) {
         int pageSize = Integer.parseInt(config.getPageSize());
-        Pair<List<RepositoryPO>, Integer> p=repositoryDataService.allAndFilter(filter, pageSize);
+        Pair<List<RepositoryPO>, Integer> p = repositoryDataService.allAndFilter(filter, pageSize);
         List<RepositoryVO> vos = p.getFirst()
                 .stream()
                 .map(RepositoryVO::build)
                 .collect(Collectors.toList());
-        return new RepositoryListVO(filter.getPage(), pageSize, vos);
+        return new RepositoryListVO(p.getSecond(), pageSize, vos);
     }
 
     @Override
     public RepoDepListVO getDependencies(Integer repositoryId, RepoDepFilterDTO filter) {
         int pageSize = Integer.parseInt(config.getPageSize());
-        Pair<List<RepositoryDependencyPO>, Integer> p=repositoryDataService.allDepAndFilter(repositoryId, filter, pageSize);
+        Pair<List<RepositoryDependencyPO>, Integer> p = repositoryDataService.allDepAndFilter(repositoryId, filter, pageSize);
         List<RepoDepVO> vos = p.getFirst()
                 .stream()
                 .map(RepoDepVO::build)
                 .collect(Collectors.toList());
-        return new RepoDepListVO(filter.getPage(), pageSize, vos);
+        return new RepoDepListVO(p.getSecond(), pageSize, vos);
     }
 
 }
