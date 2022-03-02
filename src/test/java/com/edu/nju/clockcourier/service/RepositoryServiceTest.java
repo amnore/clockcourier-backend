@@ -1,7 +1,10 @@
 package com.edu.nju.clockcourier.service;
 
 import com.edu.nju.clockcourier.constant.RepoSortRule;
+import com.edu.nju.clockcourier.dto.RepoDepFilterDTO;
 import com.edu.nju.clockcourier.dto.RepoFilterDTO;
+import com.edu.nju.clockcourier.vo.RepoDepListVO;
+import com.edu.nju.clockcourier.vo.RepoDepVO;
 import com.edu.nju.clockcourier.vo.RepositoryListVO;
 import com.edu.nju.clockcourier.vo.RepositoryVO;
 import org.junit.jupiter.api.Test;
@@ -51,6 +54,19 @@ public class RepositoryServiceTest {
 
     @Test
     void getDependenciesTest(){
+        RepoDepFilterDTO filter=new RepoDepFilterDTO();
+
+        filter.setPage(1);
+        filter.setIsReverse(true);
+
+        RepoDepListVO listVO=repositoryService.getDependencies(396715,filter);
+
+        List<RepoDepVO> vos=listVO.getRepoDeps();
+
+        for(RepoDepVO vo:vos){
+            assertEquals("redshift_console",vo.getRepositoryName());
+        }
+
     }
 
 }
