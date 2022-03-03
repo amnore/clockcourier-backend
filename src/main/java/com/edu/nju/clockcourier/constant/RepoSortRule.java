@@ -13,6 +13,7 @@ public enum RepoSortRule {
     LatestPushT(RepositoryDSS.latestPushTimestamp),
     WatcherCount(RepositoryDSS.watcherCount),
     StarCount(RepositoryDSS.starCount),
+    ForkCount(RepositoryDSS.forkCount),
     ContributorCount(RepositoryDSS.contributorCount),
     OpenIssueCount(RepositoryDSS.openIssueCount);
 

@@ -32,7 +32,6 @@ class RepositoryDataServiceTest {
         RepositoryPO repositoryPO = repositoryDataService.getRepository(427);
         String ExpectName = repositoryPO.getRepositoryName();
         assertEquals("gentleface-sprites", repositoryPO.getRepositoryName());
-
     }
 
     @Test
@@ -46,7 +45,6 @@ class RepositoryDataServiceTest {
         int pageSize = Integer.parseInt(config.getPageSize());
         Pair<List<RepositoryPO>, Integer> pair = repositoryDataService.allAndFilter(filter, pageSize);
         List<RepositoryPO> pos = pair.getFirst();
-
         for (RepositoryPO po : pos) {
             assertEquals("PHP", po.getLanguage());
         }
@@ -60,7 +58,6 @@ class RepositoryDataServiceTest {
         int pageSize = Integer.parseInt(config.getPageSize());
         Pair<List<RepositoryDependencyPO>, Integer> pair = repositoryDataService.allDepAndFilter(396715, filter, pageSize);
         List<RepositoryDependencyPO> pos = pair.getFirst();
-
         for (RepositoryDependencyPO po : pos) {
             assertEquals("redshift_console", po.getRepositoryName());
         }
