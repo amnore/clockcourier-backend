@@ -75,7 +75,7 @@ public class ProjectDataServiceImpl implements ProjectDataService {
     }
 
     @Override
-    public Pair<List<ProjectDependencyPO>,Integer> allDepAndFilter(Integer projectId, ProjDepFilterDTO filter, int pageSize) {
+    public Pair<List<ProjectDependencyPO>, Integer> allDepAndFilter(Integer projectId, ProjDepFilterDTO filter, int pageSize) {
         SelectStatementProvider select = SqlBuilder
                 .select(ProjDepMapper.selectList)
                 .from(ProjDepDSS.PROJECT_DEPENDENCIES)
@@ -92,7 +92,7 @@ public class ProjectDataServiceImpl implements ProjectDataService {
         PageHelper.startPage(pageNum, pageSize);
 
         PageInfo<ProjectDependencyPO> pi = new PageInfo<>(projDepMapper.selectMany(select));
-        return Pair.of(pi.getList(),pi.getPages());
+        return Pair.of(pi.getList(), pi.getPages());
     }
 
 }
