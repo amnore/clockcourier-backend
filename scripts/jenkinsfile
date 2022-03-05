@@ -1,0 +1,36 @@
+pipeline {
+    agent any
+
+    stages {
+        stage('begin') {
+            steps {
+                echo "== Start CICD =="
+            }
+        }
+
+        stage('pull') {
+            steps {
+                git credentialsId: 'e81c1ce7-3228-413f-b702-02d111f54a17', url: 'git@git.nju.edu.cn:191250045/lmcc-backend-mirror.git'
+                sh 'pwd'
+                sh 'ls -al'
+            }
+        }
+
+        stage('all') {
+            steps {
+                gitlabCommitStatus( name: 'all', connection:gitLabConnection('lmcc'), builds: [
+                    [projectId: '191250045/lmcc-backend-mirror', revisionHash: 'master']
+                ]){
+                    sh "make -f /home/xiayi/SE3/backend/Makefile"
+                }
+                jacoco classPattern: '**target/classes', execPattern: '**/target/**.exec', sourceInclusionPattern: '**/*.java'
+            }
+        }
+
+        stage('end') {
+            steps {
+                echo '== The End =='
+            }
+        }
+    }
+}
