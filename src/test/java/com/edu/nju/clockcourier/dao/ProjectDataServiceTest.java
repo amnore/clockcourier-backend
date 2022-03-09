@@ -48,7 +48,7 @@ class ProjectDataServiceTest {
         int pageSize = Integer.parseInt(config.getPageSize());
         Pair<List<ProjectPO>, Integer> p = projectDataService.allAndFilter(filter, pageSize);
         List<ProjectPO> res1 = p.getFirst();
-//        assertFalse(res1.isEmpty());
+        assertFalse(res1.isEmpty());
         for (ProjectPO cur : res1) {
             assertEquals("PHP", cur.getLanguage());
         }

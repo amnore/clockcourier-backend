@@ -50,7 +50,7 @@ public class RepositoryDataServiceImpl implements RepositoryDataService {
                 .where(RepositoryDSS.hostType, isLikeWhenPresent(QueryBuilder.buildLike(filter.getHostType())))
                 .and(RepositoryDSS.repositoryName, isLikeWhenPresent(QueryBuilder.buildLike(filter.getRepositoryName())))
                 .and(RepositoryDSS.repositoryOwner, isLikeWhenPresent(QueryBuilder.buildLike(filter.getRepositoryOwner())))
-                .and(RepositoryDSS.language, isEqualToWhenPresent(QueryBuilder.buildLike(filter.getLanguage())))
+                .and(RepositoryDSS.language, isLikeWhenPresent(QueryBuilder.buildLike(filter.getLanguage())))
                 .and(RepositoryDSS.homepageUrl, isLikeWhenPresent(QueryBuilder.buildLike(filter.getHomepageUrl())))
                 .and(RepositoryDSS.fork, isEqualToWhenPresent(QueryBuilder.buildBool(filter.getCanFork())))
                 .orderBy(QueryBuilder.buildReverse(filter.getSort().getSortRule(), filter.getIsReverse()))
