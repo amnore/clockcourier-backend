@@ -1,5 +1,6 @@
 package com.edu.nju.clockcourier.dao.impl;
 
+import com.edu.nju.clockcourier.constant.Convention;
 import com.edu.nju.clockcourier.dao.RepositoryDataService;
 import com.edu.nju.clockcourier.dao.mapper.RepoDepMapper;
 import com.edu.nju.clockcourier.dao.mapper.RepositoryMapper;
@@ -14,6 +15,8 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import org.mybatis.dynamic.sql.SqlBuilder;
 import org.mybatis.dynamic.sql.render.RenderingStrategies;
+import org.mybatis.dynamic.sql.select.QueryExpressionDSL;
+import org.mybatis.dynamic.sql.select.SelectModel;
 import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
@@ -44,23 +47,26 @@ public class RepositoryDataServiceImpl implements RepositoryDataService {
 
     @Override
     public Pair<List<RepositoryPO>, Integer> allAndFilter(RepoFilterDTO filter, int pageSize) {
-        SelectStatementProvider select = SqlBuilder
+        QueryExpressionDSL<SelectModel>.QueryExpressionWhereBuilder select = SqlBuilder
                 .select(RepositoryMapper.selectList)
                 .from(RepositoryDSS.REPOSITORIES)
                 .where(RepositoryDSS.hostType, isLikeWhenPresent(QueryBuilder.buildLike(filter.getHostType())))
                 .and(RepositoryDSS.repositoryName, isLikeWhenPresent(QueryBuilder.buildLike(filter.getRepositoryName())))
                 .and(RepositoryDSS.repositoryOwner, isLikeWhenPresent(QueryBuilder.buildLike(filter.getRepositoryOwner())))
-                .and(RepositoryDSS.language, isEqualToWhenPresent(filter.getLanguage()))
                 .and(RepositoryDSS.homepageUrl, isLikeWhenPresent(QueryBuilder.buildLike(filter.getHomepageUrl())))
-                .and(RepositoryDSS.fork, isEqualToWhenPresent(QueryBuilder.buildBool(filter.getCanFork())))
-                .orderBy(QueryBuilder.buildReverse(filter.getSort().getSortRule(), filter.getIsReverse()))
+                .and(RepositoryDSS.fork, isEqualToWhenPresent(QueryBuilder.buildBool(filter.getCanFork())));
+
+        if(!Convention.isNull(filter.getLanguage())){
+            select=select.and(RepositoryDSS.language, isEqualToWhenPresent(filter.getLanguage()));
+        }
+        SelectStatementProvider selector=select.orderBy(QueryBuilder.buildReverse(filter.getSort().getSortRule(), filter.getIsReverse()))
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
         Integer pageNum = filter.getPage();
         if (pageNum == null) pageNum = 1;
         PageHelper.startPage(pageNum, pageSize);
 
-        PageInfo<RepositoryPO> pi = new PageInfo<>(repositoryMapper.selectMany(select));
+        PageInfo<RepositoryPO> pi = new PageInfo<>(repositoryMapper.selectMany(selector));
         return Pair.of(pi.getList(), pi.getPages());
     }
 

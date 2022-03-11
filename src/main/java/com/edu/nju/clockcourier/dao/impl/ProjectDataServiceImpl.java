@@ -52,9 +52,11 @@ public class ProjectDataServiceImpl implements ProjectDataService {
                 .from(ProjectDSS.PROJECTS)
                 .where(ProjectDSS.projectName, isLikeWhenPresent(QueryBuilder.buildLike(filter.getName())))
                 .and(ProjectDSS.platform, isLikeWhenPresent(QueryBuilder.buildLike(filter.getPlatform())))
-                .and(ProjectDSS.language, isEqualToWhenPresent(filter.getLanguage()))
                 .and(ProjectDSS.homepageUrl, isLikeWhenPresent(QueryBuilder.buildLike(filter.getHomepageUrl())))
                 .and(ProjectDSS.latestReleaseNumber, isLikeWhenPresent(QueryBuilder.buildLike(filter.getLatestReleaseN())));
+        if(!Convention.isNull(filter.getLanguage())){
+            select=select.and(ProjectDSS.language, isEqualToWhenPresent(filter.getLanguage()));
+        }
         if (!Convention.isNull(filter.getDependency())) {
             select = select.and(ProjectDSS.projectId, isIn(
                     SqlBuilder.select(ProjDepDSS.projectId)
