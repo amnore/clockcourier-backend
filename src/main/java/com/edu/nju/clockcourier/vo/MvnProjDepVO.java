@@ -1,5 +1,8 @@
 package com.edu.nju.clockcourier.vo;
 
+import lombok.Data;
+
+@Data
 public class MvnProjDepVO {
 
     private Integer projectId;
@@ -9,4 +12,5 @@ public class MvnProjDepVO {
     private String artifactId;
 
     private String version;
+    
 }

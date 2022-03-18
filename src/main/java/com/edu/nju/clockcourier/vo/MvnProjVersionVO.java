@@ -1,7 +1,10 @@
 package com.edu.nju.clockcourier.vo;
 
+import lombok.Data;
+
 import java.util.List;
 
+@Data
 public class MvnProjVersionVO {
 
     private Integer projectId;
