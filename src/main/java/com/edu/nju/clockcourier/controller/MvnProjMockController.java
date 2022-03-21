@@ -1,24 +1,15 @@
 package com.edu.nju.clockcourier.controller;
 
 import com.edu.nju.clockcourier.dto.MvnProjFilterDTO;
-import com.edu.nju.clockcourier.service.MvnProjService;
 import com.edu.nju.clockcourier.vo.*;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @RestController
-@RequestMapping("/mvn")
-public class MvnProjController {
-
-    private final MvnProjService mvnProjService;
-
-    @Autowired
-    public MvnProjController(MvnProjService mvnProjService) {
-        this.mvnProjService = mvnProjService;
-    }
+@RequestMapping("/project/mvn/mock")
+public class MvnProjMockController {
 
     @PostMapping("/query")
     public ResponseVO<MvnProjVO> query(@RequestBody MvnProjFilterDTO filter) {
@@ -30,8 +21,9 @@ public class MvnProjController {
         return ResponseVO.success(mock);
     }
 
-    @GetMapping("/{projectId}/{version}/mvn")
-    public ResponseVO<MvnProjVersionVO> getMvn(@PathVariable Integer projectId, @PathVariable String version) {
+    @GetMapping("/{projectId}/get")
+    public ResponseVO<MvnProjVersionVO> getMvn(@PathVariable Integer projectId,
+                                               @RequestParam String version) {
         MvnProjVersionVO mock = new MvnProjVersionVO();
         mock.setProjectId(projectId);
         mock.setVersion(version);
