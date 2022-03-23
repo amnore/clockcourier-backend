@@ -2,11 +2,11 @@ package com.edu.nju.clockcourier.dao.mapper;
 
 import static com.edu.nju.clockcourier.dao.support.MvnProjectDSS.*;
 
-import com.edu.nju.clockcourier.po.MvnProject;
+import com.edu.nju.clockcourier.po.MvnProjectPO;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
-import javax.annotation.Generated;
+
 import org.apache.ibatis.annotations.DeleteProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.Mapper;
@@ -45,11 +45,11 @@ public interface MvnProjectMapper {
 
 
     @InsertProvider(type=SqlProviderAdapter.class, method="insert")
-    int insert(InsertStatementProvider<MvnProject> insertStatement);
+    int insert(InsertStatementProvider<MvnProjectPO> insertStatement);
 
 
     @InsertProvider(type=SqlProviderAdapter.class, method="insertMultiple")
-    int insertMultiple(MultiRowInsertStatementProvider<MvnProject> multipleInsertStatement);
+    int insertMultiple(MultiRowInsertStatementProvider<MvnProjectPO> multipleInsertStatement);
 
 
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
@@ -62,7 +62,7 @@ public interface MvnProjectMapper {
         @Result(column="url", property="url", jdbcType=JdbcType.VARCHAR),
         @Result(column="description", property="description", jdbcType=JdbcType.VARCHAR)
     })
-    Optional<MvnProject> selectOne(SelectStatementProvider selectStatement);
+    Optional<MvnProjectPO> selectOne(SelectStatementProvider selectStatement);
 
 
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
@@ -75,7 +75,7 @@ public interface MvnProjectMapper {
         @Result(column="url", property="url", jdbcType=JdbcType.VARCHAR),
         @Result(column="description", property="description", jdbcType=JdbcType.VARCHAR)
     })
-    List<MvnProject> selectMany(SelectStatementProvider selectStatement);
+    List<MvnProjectPO> selectMany(SelectStatementProvider selectStatement);
 
     @UpdateProvider(type=SqlProviderAdapter.class, method="update")
     int update(UpdateStatementProvider updateStatement);
@@ -88,7 +88,7 @@ public interface MvnProjectMapper {
         return MyBatis3Utils.deleteFrom(this::delete, mvnProject, completer);
     }
 
-    default int insert(MvnProject record) {
+    default int insert(MvnProjectPO record) {
         return MyBatis3Utils.insert(this::insert, record, mvnProject, c ->
             c.map(projectId).toProperty("projectId")
             .map(version).toProperty("version")
@@ -101,7 +101,7 @@ public interface MvnProjectMapper {
     }
 
 
-    default int insertMultiple(Collection<MvnProject> records) {
+    default int insertMultiple(Collection<MvnProjectPO> records) {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, mvnProject, c ->
             c.map(projectId).toProperty("projectId")
             .map(version).toProperty("version")
@@ -114,7 +114,7 @@ public interface MvnProjectMapper {
     }
 
 
-    default int insertSelective(MvnProject record) {
+    default int insertSelective(MvnProjectPO record) {
         return MyBatis3Utils.insert(this::insert, record, mvnProject, c ->
             c.map(projectId).toPropertyWhenPresent("projectId", record::getProjectId)
             .map(version).toPropertyWhenPresent("version", record::getVersion)
@@ -127,17 +127,17 @@ public interface MvnProjectMapper {
     }
 
 
-    default Optional<MvnProject> selectOne(SelectDSLCompleter completer) {
+    default Optional<MvnProjectPO> selectOne(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectOne(this::selectOne, selectList, mvnProject, completer);
     }
 
 
-    default List<MvnProject> select(SelectDSLCompleter completer) {
+    default List<MvnProjectPO> select(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectList(this::selectMany, selectList, mvnProject, completer);
     }
 
 
-    default List<MvnProject> selectDistinct(SelectDSLCompleter completer) {
+    default List<MvnProjectPO> selectDistinct(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectDistinct(this::selectMany, selectList, mvnProject, completer);
     }
 
@@ -147,7 +147,7 @@ public interface MvnProjectMapper {
     }
 
 
-    static UpdateDSL<UpdateModel> updateAllColumns(MvnProject record, UpdateDSL<UpdateModel> dsl) {
+    static UpdateDSL<UpdateModel> updateAllColumns(MvnProjectPO record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(projectId).equalTo(record::getProjectId)
                 .set(version).equalTo(record::getVersion)
                 .set(groupId).equalTo(record::getGroupId)
@@ -158,7 +158,7 @@ public interface MvnProjectMapper {
     }
 
 
-    static UpdateDSL<UpdateModel> updateSelectiveColumns(MvnProject record, UpdateDSL<UpdateModel> dsl) {
+    static UpdateDSL<UpdateModel> updateSelectiveColumns(MvnProjectPO record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(projectId).equalToWhenPresent(record::getProjectId)
                 .set(version).equalToWhenPresent(record::getVersion)
                 .set(groupId).equalToWhenPresent(record::getGroupId)
