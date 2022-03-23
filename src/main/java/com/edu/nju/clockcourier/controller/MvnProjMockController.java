@@ -12,13 +12,20 @@ import java.util.List;
 public class MvnProjMockController {
 
     @PostMapping("/query")
-    public ResponseVO<MvnProjVO> query(@RequestBody MvnProjFilterDTO filter) {
+    public ResponseVO<MvnProjListVO> query(@RequestBody MvnProjFilterDTO filter) {
         MvnProjVO mock = new MvnProjVO();
         mock.setName("mock");
         mock.setDescription("mock object");
         mock.setArtifactId("mock");
         mock.setGroupId("com.example");
-        return ResponseVO.success(mock);
+        List<MvnProjVO> projVOS=new ArrayList<>();
+        projVOS.add(mock);
+        MvnProjListVO listMock=new MvnProjListVO();
+        listMock.setPageAll(1);
+        listMock.setPageAll(1);
+        listMock.setProjects(projVOS);
+
+        return ResponseVO.success(listMock);
     }
 
     @GetMapping("/{projectId}/get")
