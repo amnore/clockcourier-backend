@@ -8,13 +8,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import javax.annotation.Generated;
-import org.apache.ibatis.annotations.DeleteProvider;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.annotations.UpdateProvider;
+
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 import org.mybatis.dynamic.sql.BasicColumn;
 import org.mybatis.dynamic.sql.delete.DeleteDSLCompleter;
@@ -63,11 +58,7 @@ public interface MvnLibMapper {
 
 
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
-    @Results(id="MvnLibResult", value = {
-        @Result(column="lib_id", property="libId", jdbcType=JdbcType.INTEGER, id=true),
-        @Result(column="group_id", property="groupId", jdbcType=JdbcType.VARCHAR),
-        @Result(column="artifact_id", property="artifactId", jdbcType=JdbcType.VARCHAR)
-    })
+    @ResultMap("MvnLibResult")
     List<MvnLibPO> selectMany(SelectStatementProvider selectStatement);
 
 

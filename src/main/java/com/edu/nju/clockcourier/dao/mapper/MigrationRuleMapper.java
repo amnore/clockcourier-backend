@@ -8,13 +8,8 @@ import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
 import javax.annotation.Generated;
-import org.apache.ibatis.annotations.DeleteProvider;
-import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Result;
-import org.apache.ibatis.annotations.Results;
-import org.apache.ibatis.annotations.SelectProvider;
-import org.apache.ibatis.annotations.UpdateProvider;
+
+import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 import org.mybatis.dynamic.sql.BasicColumn;
 import org.mybatis.dynamic.sql.delete.DeleteDSLCompleter;
@@ -65,13 +60,7 @@ public interface MigrationRuleMapper {
 
 
     @SelectProvider(type=SqlProviderAdapter.class, method="select")
-    @Results(id="MigrationRuleResult", value = {
-        @Result(column="from_id", property="fromId", jdbcType=JdbcType.INTEGER, id=true),
-        @Result(column="to_id", property="toId", jdbcType=JdbcType.INTEGER, id=true),
-        @Result(column="project_id", property="projectId", jdbcType=JdbcType.INTEGER, id=true),
-        @Result(column="version", property="version", jdbcType=JdbcType.VARCHAR, id=true),
-        @Result(column="confidence", property="confidence", jdbcType=JdbcType.DOUBLE)
-    })
+    @ResultMap("MigrationRuleResult")
     List<MigrationRulePO> selectMany(SelectStatementProvider selectStatement);
 
 
