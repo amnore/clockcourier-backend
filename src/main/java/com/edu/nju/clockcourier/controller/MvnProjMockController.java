@@ -47,8 +47,8 @@ public class MvnProjMockController {
     }
 
     @GetMapping("/{projectId}/base")
-    public ResponseVO<> get(@PathVariable Integer projectId){
-        return ResponseVO.success();
+    public ResponseVO<MvnProjVO> get(@PathVariable Integer projectId){
+        return ResponseVO.success(null);
     }
 
 }
