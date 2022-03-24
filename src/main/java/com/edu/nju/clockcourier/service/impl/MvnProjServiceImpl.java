@@ -2,12 +2,11 @@ package com.edu.nju.clockcourier.service.impl;
 
 import com.edu.nju.clockcourier.dao.MvnProjDataService;
 import com.edu.nju.clockcourier.dto.MvnProjFilterDTO;
+import com.edu.nju.clockcourier.po.MvnDependencyPO;
+import com.edu.nju.clockcourier.po.MvnLibPO;
 import com.edu.nju.clockcourier.po.MvnProjectPO;
 import com.edu.nju.clockcourier.service.MvnProjService;
-import com.edu.nju.clockcourier.vo.MvnProjGraphVO;
-import com.edu.nju.clockcourier.vo.MvnProjListVO;
-import com.edu.nju.clockcourier.vo.MvnProjVO;
-import com.edu.nju.clockcourier.vo.MvnProjVersionVO;
+import com.edu.nju.clockcourier.vo.*;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -29,9 +28,32 @@ public class MvnProjServiceImpl implements MvnProjService {
 
     @Override
     public MvnProjVersionVO getMvn(Integer projectId, String version) {
+
+        //找到该版本的PO
         MvnProjectPO mvnProjectPO=mvnProjDataService.getMvnProjVersion(projectId,version);
-        
-        return null;
+
+        //寻找对应依赖
+        List<MvnDependencyPO> mvnDependencyPOS=mvnProjDataService.getMvnDep(projectId,version);
+
+        List<MvnProjDepVO> mvnProjDepVOS=new ArrayList<>();
+
+        //根据libId去寻找对应依赖
+        for(MvnDependencyPO mvnDependencyPO:mvnDependencyPOS){
+            String depVersion=mvnDependencyPO.getLibVersion();
+            Integer depId=mvnDependencyPO.getLibId();
+            MvnLibPO mvnLibPO=mvnProjDataService.getMvnLib(depId);
+            mvnProjDepVOS.add(new MvnProjDepVO(depId
+                    ,mvnLibPO.getGroupId()
+                    ,mvnLibPO.getArtifactId()
+                    ,depVersion));
+        }
+
+        return new MvnProjVersionVO(mvnProjectPO.getProjectId()
+                                ,mvnProjectPO.getName()
+                                ,mvnProjectPO.getGroupId()
+                                ,mvnProjectPO.getArtifactId()
+                                ,mvnProjectPO.getVersion()
+                                ,mvnProjDepVOS);
     }
 
     @Override
