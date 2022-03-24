@@ -16,4 +16,16 @@ public class MvnDependencyPO {
 
 
     private String libVersion;
+
+    private static MvnDependencyPO nullInstance;
+
+    public static MvnDependencyPO getNullInstance() {
+        if (nullInstance == null) nullInstance = new MvnDependencyPO();
+        return nullInstance;
+    }
+
+    // 通过是否是同一个对象来判断是否是 null instance
+    public static boolean isNullInstance(MvnDependencyPO po) {
+        return po == nullInstance;
+    }
 }
