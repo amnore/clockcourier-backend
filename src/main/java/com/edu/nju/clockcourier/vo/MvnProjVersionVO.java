@@ -15,8 +15,6 @@ public class MvnProjVersionVO {
 
     private String artifactId;
 
-    private List<String> licences;
-
     private String version;
 
     private List<MvnProjDepVO> dependencies;
