@@ -23,6 +23,8 @@ public class MvnProjServiceImpl implements MvnProjService {
 
     @Override
     public MvnProjListVO query(MvnProjFilterDTO filter) {
+
+
         return null;
     }
 
@@ -31,6 +33,11 @@ public class MvnProjServiceImpl implements MvnProjService {
 
         //找到该版本的PO
         MvnProjectPO mvnProjectPO=mvnProjDataService.getMvnProjVersion(projectId,version);
+
+        //如果没找到，返回空
+        if(MvnProjectPO.isNullInstance(mvnProjectPO)){
+            return new MvnProjVersionVO();
+        }
 
         //寻找对应依赖
         List<MvnDependencyPO> mvnDependencyPOS=mvnProjDataService.getMvnDep(projectId,version);
