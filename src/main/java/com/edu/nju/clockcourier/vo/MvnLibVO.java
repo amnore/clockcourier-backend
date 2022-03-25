@@ -9,12 +9,11 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MvnProjEdge {
+public class MvnLibVO {
 
     private Integer libId;
 
-    private Double weight;
+    private String name;
 
-    private List<MvnProjEdge> edges;
-
+    private List<MvnProjEdge> outEdges;
 }
