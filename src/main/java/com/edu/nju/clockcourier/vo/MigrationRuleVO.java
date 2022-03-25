@@ -9,12 +9,12 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MvnProjEdge {
+public class MigrationRuleVO {
 
-    private Integer libId;
+    private MvnLibVO mvnLibVO;
 
-    private Double weight;
+    private Integer num;
 
-    private List<MvnProjEdge> edges;
+    private List<MigrationRuleVO> edges;
 
 }

@@ -3,6 +3,7 @@ package com.edu.nju.clockcourier.service.impl;
 import com.edu.nju.clockcourier.config.DatabaseConfig;
 import com.edu.nju.clockcourier.dao.MvnProjDataService;
 import com.edu.nju.clockcourier.dto.MvnProjFilterDTO;
+import com.edu.nju.clockcourier.po.MigrationRulePO;
 import com.edu.nju.clockcourier.po.MvnDependencyPO;
 import com.edu.nju.clockcourier.po.MvnLibPO;
 import com.edu.nju.clockcourier.po.MvnProjectPO;
@@ -70,7 +71,7 @@ public class MvnProjServiceImpl implements MvnProjService {
         for (MvnDependencyPO mvnDependencyPO : mvnDependencyPOS) {
             String depVersion = mvnDependencyPO.getLibVersion();
             Integer depId = mvnDependencyPO.getLibId();
-            MvnLibPO mvnLibPO = mvnProjDataService.getMvnLib(depId);
+            MvnLibPO mvnLibPO = mvnProjDataService.getLibByPrimaryKey(depId);
             mvnProjDepVOS.add(new MvnProjDepVO(depId
                     , mvnLibPO.getGroupId()
                     , mvnLibPO.getArtifactId()
@@ -86,8 +87,24 @@ public class MvnProjServiceImpl implements MvnProjService {
     }
 
     @Override
-    public MvnProjGraphVO getGraph(Integer projectId) {
-        return null;
+    public MigrationRuleVO getGraph(Integer libId) {
+        MigrationRuleVO migrationRuleVO = new MigrationRuleVO();
+        MvnLibPO mvnLibPO = mvnProjDataService.getLibByPrimaryKey(libId);
+        MvnLibVO mvnLibVO = MvnLibVO.build(mvnLibPO);
+        migrationRuleVO.setMvnLibVO(mvnLibVO);
+
+        List<MigrationRulePO> migrationRulePOS = mvnProjDataService.getRuleByFromId(libId);
+
+        migrationRuleVO.setNum(migrationRulePOS.size());
+
+        List<MigrationRuleVO> migrationRuleVOS = new ArrayList<>();
+        
+        for (MigrationRulePO po : migrationRulePOS) {
+            migrationRuleVOS.add(getGraph(po.getFromId()));
+        }
+
+        migrationRuleVO.setEdges(migrationRuleVOS);
+        return migrationRuleVO;
     }
 
     @Override
@@ -116,5 +133,13 @@ public class MvnProjServiceImpl implements MvnProjService {
                 versions,
                 p0.getDescription(),
                 p0.getUrl());
+    }
+
+    @Override
+    public MvnLibVO getLib(String groupId, String artifactId) {
+        MvnLibPO mvnLibPO = mvnProjDataService.getLib(groupId, artifactId);
+        return new MvnLibVO(mvnLibPO.getLibId(),
+                mvnLibPO.getGroupId(),
+                mvnLibPO.getArtifactId());
     }
 }

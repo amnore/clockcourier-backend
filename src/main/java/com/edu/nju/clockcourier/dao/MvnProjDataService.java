@@ -1,6 +1,7 @@
 package com.edu.nju.clockcourier.dao;
 
 import com.edu.nju.clockcourier.dto.MvnProjFilterDTO;
+import com.edu.nju.clockcourier.po.MigrationRulePO;
 import com.edu.nju.clockcourier.po.MvnDependencyPO;
 import com.edu.nju.clockcourier.po.MvnLibPO;
 import com.edu.nju.clockcourier.po.MvnProjectPO;
@@ -18,7 +19,15 @@ public interface MvnProjDataService {
 
     List<MvnProjectPO> getMvnProj(Integer projectId);
 
-    MvnLibPO getMvnLib(Integer libId);
+    MvnLibPO getLibByPrimaryKey(Integer libId);
+
+    MvnLibPO getLib(String groupId, String artifactId);
+
+    List<MigrationRulePO> getRuleByFromId(Integer libId);
+    
+    List<MigrationRulePO> getRuleByToId(Integer libId);
+
+    MigrationRulePO getRule(Integer fromId, Integer toId);
 
     Pair<List<MvnProjectPO>, Integer> allAndFilter(MvnProjFilterDTO filter, int pageSize);
 

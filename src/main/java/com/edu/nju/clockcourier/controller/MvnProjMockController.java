@@ -18,9 +18,9 @@ public class MvnProjMockController {
         mock.setDescription("mock object");
         mock.setArtifactId("mock");
         mock.setGroupId("com.example");
-        List<MvnProjVO> projVOS=new ArrayList<>();
+        List<MvnProjVO> projVOS = new ArrayList<>();
         projVOS.add(mock);
-        MvnProjListVO listMock=new MvnProjListVO();
+        MvnProjListVO listMock = new MvnProjListVO();
         listMock.setPageAll(1);
         listMock.setPageAll(1);
         listMock.setProjects(projVOS);
@@ -40,22 +40,27 @@ public class MvnProjMockController {
     }
 
     @GetMapping("/{projectId}/graph")
-    public ResponseVO<MvnProjGraphVO> getGraph(@PathVariable Integer projectId) {
-        MvnProjGraphVO mock = new MvnProjGraphVO();
-        mock.setProjectId(projectId);
-        mock.setName("mock");
-        MvnProjEdge edgeMock = new MvnProjEdge();
-        edgeMock.setProjectId(2);
-        edgeMock.setWeight(0.1);
-        List<MvnProjEdge> mockList = new ArrayList<>();
-        mockList.add(edgeMock);
-        mock.setOutEdges(mockList);
+    public ResponseVO<MigrationRuleVO> getGraph(@PathVariable Integer libId) {
+        MigrationRuleVO mock = new MigrationRuleVO();
+//        mock.setProjectId(libId);
+//        mock.setName("mock");
+//        MigrationRuleVO edgeMock = new MigrationRuleVO();
+//        edgeMock.setLibId(2);
+//        edgeMock.setWeight(0.1);
+//        List<MigrationRuleVO> mockList = new ArrayList<>();
+//        mockList.add(edgeMock);
+//        mock.setOutEdges(mockList);
         return ResponseVO.success(mock);
     }
 
     @GetMapping("/{projectId}/base")
-    public ResponseVO<MvnProjVO> get(@PathVariable Integer projectId){
+    public ResponseVO<MvnProjVO> get(@PathVariable Integer projectId) {
         return ResponseVO.success(null);
     }
 
+    @GetMapping("/{groupId}/{artifactId}/lib")
+    public ResponseVO<MvnLibVO> getLib(@PathVariable Integer groupId, @PathVariable Integer artifactId) {
+        return ResponseVO.success(null);
+    }
+    
 }

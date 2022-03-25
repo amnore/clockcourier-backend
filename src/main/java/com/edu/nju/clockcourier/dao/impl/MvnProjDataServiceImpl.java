@@ -5,10 +5,12 @@ import com.edu.nju.clockcourier.dao.mapper.MigrationRuleMapper;
 import com.edu.nju.clockcourier.dao.mapper.MvnDependencyMapper;
 import com.edu.nju.clockcourier.dao.mapper.MvnLibMapper;
 import com.edu.nju.clockcourier.dao.mapper.MvnProjectMapper;
+import com.edu.nju.clockcourier.dao.support.MigrationRuleDSS;
 import com.edu.nju.clockcourier.dao.support.MvnDependencyDSS;
 import com.edu.nju.clockcourier.dao.support.MvnLibDSS;
 import com.edu.nju.clockcourier.dao.support.MvnProjectDSS;
 import com.edu.nju.clockcourier.dto.MvnProjFilterDTO;
+import com.edu.nju.clockcourier.po.MigrationRulePO;
 import com.edu.nju.clockcourier.po.MvnDependencyPO;
 import com.edu.nju.clockcourier.po.MvnLibPO;
 import com.edu.nju.clockcourier.po.MvnProjectPO;
@@ -97,13 +99,55 @@ public class MvnProjDataServiceImpl implements MvnProjDataService {
     }
 
     @Override
-    public MvnLibPO getMvnLib(Integer libId) {
+    public MvnLibPO getLibByPrimaryKey(Integer libId) {
         SelectStatementProvider selector = SqlBuilder.select(MvnLibMapper.selectList)
                 .from(MvnLibDSS.mvnLib)
                 .where(MvnLibDSS.libId, isEqualTo(libId))
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
         return mvnLibMapper.selectByPrimaryKey(libId).orElse(MvnLibPO.getNullInstance());
+    }
+
+    @Override
+    public MvnLibPO getLib(String groupId, String artifactId) {
+        SelectStatementProvider selector = SqlBuilder.select(MvnLibMapper.selectList)
+                .from(MvnLibDSS.mvnLib)
+                .where(MvnLibDSS.groupId, isEqualTo(groupId))
+                .and(MvnLibDSS.artifactId, isEqualTo(artifactId))
+                .build()
+                .render(RenderingStrategies.MYBATIS3);
+        return mvnLibMapper.selectOne(selector).orElse(MvnLibPO.getNullInstance());
+    }
+
+    @Override
+    public List<MigrationRulePO> getRuleByFromId(Integer libId) {
+        SelectStatementProvider selector = SqlBuilder.select(MigrationRuleMapper.selectList)
+                .from(MigrationRuleDSS.migrationRule)
+                .where(MigrationRuleDSS.fromId, isEqualTo(libId))
+                .build()
+                .render(RenderingStrategies.MYBATIS3);
+        return migrationRuleMapper.selectMany(selector);
+    }
+
+    @Override
+    public List<MigrationRulePO> getRuleByToId(Integer libId) {
+        SelectStatementProvider selector = SqlBuilder.select(MigrationRuleMapper.selectList)
+                .from(MigrationRuleDSS.migrationRule)
+                .where(MigrationRuleDSS.toId, isEqualTo(libId))
+                .build()
+                .render(RenderingStrategies.MYBATIS3);
+        return migrationRuleMapper.selectMany(selector);
+    }
+
+    @Override
+    public MigrationRulePO getRule(Integer fromId, Integer toId) {
+        SelectStatementProvider selector = SqlBuilder.select(MigrationRuleMapper.selectList)
+                .from(MigrationRuleDSS.migrationRule)
+                .where(MigrationRuleDSS.fromId, isEqualTo(fromId))
+                .and(MigrationRuleDSS.toId, isEqualTo(toId))
+                .build()
+                .render(RenderingStrategies.MYBATIS3);
+        return migrationRuleMapper.selectOne(selector).orElse(new MigrationRulePO());
     }
 
     @Override
