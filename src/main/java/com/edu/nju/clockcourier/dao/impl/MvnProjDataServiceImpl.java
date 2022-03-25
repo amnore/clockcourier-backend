@@ -111,9 +111,9 @@ public class MvnProjDataServiceImpl implements MvnProjDataService {
         SelectStatementProvider selector = SqlBuilder
                 .select(MvnProjectMapper.selectList)
                 .from(MvnProjectDSS.mvnProject)
-                .where(MvnProjectDSS.name, isLikeWhenPresent(filter.getName()))
-                .and(MvnProjectDSS.groupId, isLikeWhenPresent(filter.getGroupId()))
-                .and(MvnProjectDSS.artifactId, isLikeWhenPresent(filter.getArtifactId()))
+                .where(MvnProjectDSS.name, isLikeWhenPresent(QueryBuilder.buildLike(filter.getName())))
+                .and(MvnProjectDSS.groupId, isLikeWhenPresent(QueryBuilder.buildLike(filter.getGroupId())))
+                .and(MvnProjectDSS.artifactId, isLikeWhenPresent(QueryBuilder.buildLike(filter.getArtifactId())))
                 .groupBy(MvnProjectDSS.projectId)
                 .orderBy(QueryBuilder.buildReverse(filter.getSort().getSortRule(), filter.getIsReverse()))
                 .build()
