@@ -161,7 +161,7 @@ public class MvnProjDataServiceImpl implements MvnProjDataService {
     @Override
     public Pair<List<MvnProjectPO>, Integer> allAndFilter(MvnProjFilterDTO filter, int pageSize) {
         SelectStatementProvider selector = SqlBuilder
-                .selectDistinct(MvnProjectDSS.projectId)
+                .selectDistinct(MvnProjectDSS.projectId, MvnProjectDSS.artifactId, MvnProjectDSS.name)
                 .from(MvnProjectDSS.mvnProject)
                 .where(MvnProjectDSS.name, isLikeWhenPresent(QueryBuilder.buildLike(filter.getName())))
                 .and(MvnProjectDSS.groupId, isLikeWhenPresent(QueryBuilder.buildLike(filter.getGroupId())))
