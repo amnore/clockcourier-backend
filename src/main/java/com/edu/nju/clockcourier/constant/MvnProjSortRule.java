@@ -6,8 +6,7 @@ import org.mybatis.dynamic.sql.SqlColumn;
 
 @Getter
 public enum MvnProjSortRule {
-
-    Name(MvnProjectDSS.name),
+    
     GroupId(MvnProjectDSS.groupId),
     ArtifactId(MvnProjectDSS.artifactId);
 

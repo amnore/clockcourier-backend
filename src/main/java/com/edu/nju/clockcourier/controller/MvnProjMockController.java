@@ -1,5 +1,6 @@
 package com.edu.nju.clockcourier.controller;
 
+import com.edu.nju.clockcourier.dto.MvnLibDTO;
 import com.edu.nju.clockcourier.dto.MvnProjFilterDTO;
 import com.edu.nju.clockcourier.service.MvnProjService;
 import com.edu.nju.clockcourier.vo.*;
@@ -65,8 +66,9 @@ public class MvnProjMockController {
         return ResponseVO.success(null);
     }
 
-    @GetMapping("/{groupId}/{artifactId}/lib")
-    public ResponseVO<MvnLibVO> getLib(@PathVariable Integer groupId, @PathVariable Integer artifactId) {
+
+    @GetMapping("/lib")
+    public ResponseVO<MvnLibVO> getLib(@RequestBody MvnLibDTO mvnLibDTO) {
         return ResponseVO.success(null);
     }
 

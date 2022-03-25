@@ -19,7 +19,6 @@ class MvnProjServiceTest {
         filterDTO.setStartIndex(1);
         filterDTO.setEndIndex(1);
         filterDTO.setSort(MvnProjSortRule.ArtifactId);
-        filterDTO.setArtifactId("boot");
         System.out.println(mvnProjService.query(filterDTO));
     }
 
