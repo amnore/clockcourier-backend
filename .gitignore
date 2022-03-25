@@ -6,6 +6,7 @@ target/
 **/application-*
 **/logs
 **/pom-data/**
+**/pom-*
 
 ### doc ###
 **/*.csv

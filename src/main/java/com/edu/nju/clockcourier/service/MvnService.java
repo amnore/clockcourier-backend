@@ -6,11 +6,11 @@ import com.edu.nju.clockcourier.vo.MvnProjListVO;
 import com.edu.nju.clockcourier.vo.MvnProjVO;
 import com.edu.nju.clockcourier.vo.MvnProjVersionVO;
 
-public interface MvnProjService {
+public interface MvnService {
 
     MvnProjListVO query(MvnProjFilterDTO filter);
 
-    MvnProjVersionVO getMvn(Integer projectId,String version);
+    MvnProjVersionVO getMvn(Integer projectId, String version);
 
     MvnProjGraphVO getGraph(Integer projectId);
 

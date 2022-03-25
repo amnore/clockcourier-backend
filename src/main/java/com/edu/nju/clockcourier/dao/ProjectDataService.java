@@ -12,6 +12,8 @@ public interface ProjectDataService {
 
     ProjectPO getProject(Integer id);
 
+    Integer getMvnProjectId(String groupId, String artifactId);
+
     Pair<List<ProjectPO>, Integer> allAndFilter(ProjFilterDTO filter, int pageSize);
 
     Pair<List<ProjectDependencyPO>, Integer> allDepAndFilter(Integer projectId, ProjDepFilterDTO filter, int pageSize);

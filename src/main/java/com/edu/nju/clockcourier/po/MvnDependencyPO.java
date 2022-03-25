@@ -1,19 +1,20 @@
 package com.edu.nju.clockcourier.po;
 
-import javax.annotation.Generated;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 @Data
+@NoArgsConstructor
+@AllArgsConstructor
 public class MvnDependencyPO {
 
     private Integer projectId;
 
-
     private String version;
-
 
     private Integer libId;
 
-
     private String libVersion;
+
 }

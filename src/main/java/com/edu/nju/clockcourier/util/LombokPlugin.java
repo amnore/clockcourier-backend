@@ -1,5 +1,6 @@
 package com.edu.nju.clockcourier.util;
 
+import lombok.NoArgsConstructor;
 import org.mybatis.generator.api.IntrospectedColumn;
 import org.mybatis.generator.api.IntrospectedTable;
 import org.mybatis.generator.api.PluginAdapter;
@@ -11,10 +12,8 @@ import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.List;
 
+@NoArgsConstructor
 public class LombokPlugin extends PluginAdapter {
-
-    public LombokPlugin() {
-    }
 
     public boolean validate(List<String> list) {
         return true;
@@ -45,5 +44,5 @@ public class LombokPlugin extends PluginAdapter {
         SimpleDateFormat sdf = new SimpleDateFormat("yyyy/MM/dd");
         return sdf.format(date);
     }
-    
+
 }

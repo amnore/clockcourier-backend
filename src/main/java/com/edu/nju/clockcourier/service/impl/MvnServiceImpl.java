@@ -1,8 +1,8 @@
 package com.edu.nju.clockcourier.service.impl;
 
-import com.edu.nju.clockcourier.dao.MvnProjDataService;
+import com.edu.nju.clockcourier.dao.MvnDataService;
 import com.edu.nju.clockcourier.dto.MvnProjFilterDTO;
-import com.edu.nju.clockcourier.service.MvnProjService;
+import com.edu.nju.clockcourier.service.MvnService;
 import com.edu.nju.clockcourier.vo.MvnProjGraphVO;
 import com.edu.nju.clockcourier.vo.MvnProjListVO;
 import com.edu.nju.clockcourier.vo.MvnProjVO;
@@ -10,12 +10,12 @@ import com.edu.nju.clockcourier.vo.MvnProjVersionVO;
 import org.springframework.stereotype.Service;
 
 @Service
-public class MvnProjServiceImpl implements MvnProjService {
+public class MvnServiceImpl implements MvnService {
 
-    private final MvnProjDataService mvnProjDataService;
+    private final MvnDataService mvnDataService;
 
-    public MvnProjServiceImpl(MvnProjDataService mvnProjDataService){
-        this.mvnProjDataService=mvnProjDataService;
+    public MvnServiceImpl(MvnDataService mvnDataService) {
+        this.mvnDataService = mvnDataService;
     }
 
     @Override

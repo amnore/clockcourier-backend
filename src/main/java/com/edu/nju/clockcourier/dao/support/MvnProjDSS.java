@@ -1,11 +1,11 @@
 package com.edu.nju.clockcourier.dao.support;
 
-import java.sql.JDBCType;
-import javax.annotation.Generated;
 import org.mybatis.dynamic.sql.SqlColumn;
 import org.mybatis.dynamic.sql.SqlTable;
 
-public final class MvnProjectDSS {
+import java.sql.JDBCType;
+
+public final class MvnProjDSS {
 
     public static final MvnProject mvnProject = new MvnProject();
 

@@ -47,6 +47,16 @@ public class ProjectDataServiceImpl implements ProjectDataService {
     }
 
     @Override
+    public Integer getMvnProjectId(String groupId, String artifactId) {
+        ProjectPO po = projectMapper
+                .selectOne(cur -> cur
+                        .where(ProjectDSS.platform, isEqualTo("Maven"))
+                        .and(ProjectDSS.projectName, isEqualTo(groupId + ":" + artifactId)))
+                .orElse(ProjectPO.getNullInstance());
+        return po.getProjectId();
+    }
+
+    @Override
     public Pair<List<ProjectPO>, Integer> allAndFilter(ProjFilterDTO filter, int pageSize) {
         QueryExpressionDSL<SelectModel>.QueryExpressionWhereBuilder select = SqlBuilder.select(ProjectMapper.selectList)
                 .from(ProjectDSS.PROJECTS)
@@ -54,8 +64,8 @@ public class ProjectDataServiceImpl implements ProjectDataService {
                 .and(ProjectDSS.platform, isLikeWhenPresent(QueryBuilder.buildLike(filter.getPlatform())))
                 .and(ProjectDSS.homepageUrl, isLikeWhenPresent(QueryBuilder.buildLike(filter.getHomepageUrl())))
                 .and(ProjectDSS.latestReleaseNumber, isLikeWhenPresent(QueryBuilder.buildLike(filter.getLatestReleaseN())));
-        if(!Convention.isNull(filter.getLanguage())){
-            select=select.and(ProjectDSS.language, isEqualToWhenPresent(filter.getLanguage()));
+        if (!Convention.isNull(filter.getLanguage())) {
+            select = select.and(ProjectDSS.language, isEqualToWhenPresent(filter.getLanguage()));
         }
         if (!Convention.isNull(filter.getDependency())) {
             select = select.and(ProjectDSS.projectId, isIn(
@@ -92,7 +102,6 @@ public class ProjectDataServiceImpl implements ProjectDataService {
         Integer pageNum = filter.getPage();
         if (pageNum == null) pageNum = 1;
         PageHelper.startPage(pageNum, pageSize);
-
         PageInfo<ProjectDependencyPO> pi = new PageInfo<>(projDepMapper.selectMany(select));
         return Pair.of(pi.getList(), pi.getPages());
     }
