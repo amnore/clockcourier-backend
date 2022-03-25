@@ -1,7 +1,7 @@
 server:
   port: 8082
   servlet:
-    context-path: /api/it1
+    context-path: /api/it2
 
 spring:
   profiles:

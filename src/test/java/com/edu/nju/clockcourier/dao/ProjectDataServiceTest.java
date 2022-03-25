@@ -14,7 +14,8 @@ import org.springframework.data.util.Pair;
 import java.text.ParseException;
 import java.util.List;
 
-import static org.junit.jupiter.api.Assertions.*;
+import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertFalse;
 
 @SpringBootTest
 class ProjectDataServiceTest {
@@ -34,7 +35,7 @@ class ProjectDataServiceTest {
         ProjectPO po = projectDataService.getProject(31613);
         String actual = po.getLanguage();
         String expected = "HTML";
-        assertTrue(expected.equals(actual));
+        assertEquals(expected, actual);
     }
 
     @Test

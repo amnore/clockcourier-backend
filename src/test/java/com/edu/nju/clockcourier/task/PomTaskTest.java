@@ -20,14 +20,14 @@ public class PomTaskTest {
     public void realRun() {
         String from = "/home/xiayi/Mine/code/workspace/se3/doc/waiting";
         String to = "/home/xiayi/Mine/code/workspace/se3/doc/finished";
-        this.pomTask.process(from, to);
+        this.pomTask.process(null, to);
     }
 
     @Test
     public void testRun() {
         String from = "/home/xiayi/Mine/code/workspace/se3/backend-clockcourier/doc/pom-test-waiting";
         String to = "/home/xiayi/Mine/code/workspace/se3/backend-clockcourier/doc/pom-test-finished";
-        this.pomTask.process(from, to);
+        this.pomTask.process(null, to);
     }
 
 }

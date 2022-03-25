@@ -1,5 +1,6 @@
 package com.edu.nju.clockcourier.vo;
 
+import com.edu.nju.clockcourier.po.MvnProjPO;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -13,16 +14,23 @@ public class MvnProjVO {
 
     private Integer projectId;
 
-    private String name;
+    private String version;
 
     private String groupId;
 
     private String artifactId;
 
-    private List<String> versions;
+    private String name;
 
-    private String description;
+    private List<MvnDepVO> dependencies;
 
-    private String url;
+    public static MvnProjVO build(MvnProjPO po, List<MvnDepVO> dependencies) {
+        return new MvnProjVO(po.getProjectId(),
+                po.getVersion(),
+                po.getGroupId(),
+                po.getArtifactId(),
+                po.getName(),
+                dependencies);
+    }
 
 }

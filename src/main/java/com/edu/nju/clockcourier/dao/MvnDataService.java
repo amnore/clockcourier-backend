@@ -1,28 +1,40 @@
 package com.edu.nju.clockcourier.dao;
 
-import com.edu.nju.clockcourier.po.MvnDependencyPO;
+import com.edu.nju.clockcourier.dto.MvnProjFilterDTO;
+import com.edu.nju.clockcourier.po.MvnDepPO;
 import com.edu.nju.clockcourier.po.MvnLibPO;
-import com.edu.nju.clockcourier.po.MvnProjectPO;
+import com.edu.nju.clockcourier.po.MvnProjPO;
+import org.springframework.data.util.Pair;
 
 import java.util.List;
 
 public interface MvnDataService {
 
     // mvn_libs
-    void insertLib(MvnLibPO po);
+    void insertMvnLib(MvnLibPO po);
 
-    MvnLibPO findLib(String groupId, String artifactId);
+    MvnLibPO getMvnLib(String groupId, String artifactId);
+
+    MvnLibPO getMvnLib(Integer libId);
 
     // mvn_projects
-    void insertMvnProjIfNotExists(MvnProjectPO po);
+    void insertMvnProjIfNotExists(MvnProjPO po);
 
     Integer getMvnProjIdIfExists(String groupId, String artifactId);
 
-    List<MvnProjectPO> allMvnProjWithMultiVersions();
+    MvnProjPO getMvnProj(Integer projectId, String version);
+
+    MvnProjPO getNewestMvnProj(Integer projectId);
+
+    List<MvnProjPO> allMvnProjWithMultiVersions();
+
+    Pair<List<MvnProjPO>, Integer> allMvnProjAndFilterNewest(MvnProjFilterDTO filter, int pageSize);
+
+    List<String> allMvnProjVersions(Integer projectId);
 
     // mvn_dependencies
-    void insertMvnDepIfNotExists(MvnDependencyPO po);
+    void insertMvnDepIfNotExists(MvnDepPO po);
 
-    List<MvnDependencyPO> allMvnDep(Integer projectId, String version);
+    List<MvnDepPO> allMvnDeps(Integer projectId, String version);
 
 }

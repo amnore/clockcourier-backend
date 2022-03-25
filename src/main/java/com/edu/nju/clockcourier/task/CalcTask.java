@@ -3,8 +3,8 @@ package com.edu.nju.clockcourier.task;
 import com.edu.nju.clockcourier.dao.MigrationDataService;
 import com.edu.nju.clockcourier.dao.MvnDataService;
 import com.edu.nju.clockcourier.po.MigrationRulePO;
-import com.edu.nju.clockcourier.po.MvnDependencyPO;
-import com.edu.nju.clockcourier.po.MvnProjectPO;
+import com.edu.nju.clockcourier.po.MvnDepPO;
+import com.edu.nju.clockcourier.po.MvnProjPO;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Component;
@@ -67,21 +67,21 @@ public class CalcTask {
         }
     }
 
-    private void extractOnce(List<MvnProjectPO> group) {
+    private void extractOnce(List<MvnProjPO> group) {
         int len = group.size();
         if (len < 2) throw new RuntimeException("Group size is less than 2");
         for (int i = 1; i < len; ++i) {
-            MvnProjectPO before = group.get(i - 1);
-            MvnProjectPO after = group.get(i);
+            MvnProjPO before = group.get(i - 1);
+            MvnProjPO after = group.get(i);
             List<Integer> beforeDep = this.mvnDataService
-                    .allMvnDep(before.getProjectId(), before.getVersion())
+                    .allMvnDeps(before.getProjectId(), before.getVersion())
                     .stream()
-                    .map(MvnDependencyPO::getLibId)
+                    .map(MvnDepPO::getLibId)
                     .collect(Collectors.toList());
             List<Integer> afterDep = this.mvnDataService
-                    .allMvnDep(after.getProjectId(), after.getVersion())
+                    .allMvnDeps(after.getProjectId(), after.getVersion())
                     .stream()
-                    .map(MvnDependencyPO::getLibId)
+                    .map(MvnDepPO::getLibId)
                     .collect(Collectors.toList());
             List<Integer> rem = this.removedDep(beforeDep, afterDep);
             List<Integer> add = this.addedDep(beforeDep, afterDep);
@@ -91,13 +91,13 @@ public class CalcTask {
 
     private void extractAll() {
         // 获取所有有多个版本的项目
-        List<MvnProjectPO> all = this.mvnDataService.allMvnProjWithMultiVersions();
+        List<MvnProjPO> all = this.mvnDataService.allMvnProjWithMultiVersions();
         int allLen = all.size();
         if (allLen == 0) return;
-        List<MvnProjectPO> one = new ArrayList<>();
+        List<MvnProjPO> one = new ArrayList<>();
         Integer tarId = all.get(0).getProjectId();
         for (int i = 0; i < allLen; ++i) {
-            MvnProjectPO cur = all.get(i);
+            MvnProjPO cur = all.get(i);
             Integer curId = cur.getProjectId();
             if (curId.equals(tarId)) {
                 one.add(cur);

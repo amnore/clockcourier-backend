@@ -8,8 +8,10 @@ public enum ReturnMessage {
     Success("Success."),
     Failure("Failure."),
     UnknownExp("UnknownExp: "),
-    NoSuchProjExp("No such Project. Plz check project id."),
-    NoSuchRepoExp("No such repository. Plz check repository id.");
+    InvalidDTO("Invalid dto"),
+    NoSuchProjExp("No such Project."),
+    NoSuchRepoExp("No such repository."),
+    NoSuchMvnLibExp("No such maven library.");
 
     private final String msg;
 

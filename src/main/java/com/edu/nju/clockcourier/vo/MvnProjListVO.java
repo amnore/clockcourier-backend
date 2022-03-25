@@ -10,9 +10,11 @@ import java.util.List;
 @AllArgsConstructor
 @NoArgsConstructor
 public class MvnProjListVO {
+
     private Integer pageAll;
 
     private Integer pageSize;
 
-    private List<MvnProjVO> projects;
+    private List<MvnNewestProjVO> projects;
+
 }

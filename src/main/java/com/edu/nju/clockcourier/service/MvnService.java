@@ -1,19 +1,21 @@
 package com.edu.nju.clockcourier.service;
 
 import com.edu.nju.clockcourier.dto.MvnProjFilterDTO;
-import com.edu.nju.clockcourier.vo.MvnProjGraphVO;
+import com.edu.nju.clockcourier.vo.MvnLibVO;
+import com.edu.nju.clockcourier.vo.MvnNewestProjVO;
 import com.edu.nju.clockcourier.vo.MvnProjListVO;
 import com.edu.nju.clockcourier.vo.MvnProjVO;
-import com.edu.nju.clockcourier.vo.MvnProjVersionVO;
 
 public interface MvnService {
 
-    MvnProjListVO query(MvnProjFilterDTO filter);
+    MvnProjListVO getMvnProjects(MvnProjFilterDTO filter);
 
-    MvnProjVersionVO getMvn(Integer projectId, String version);
+    MvnProjVO getSpecificMvnProj(Integer projectId, String version);
 
-    MvnProjGraphVO getGraph(Integer projectId);
+    MvnNewestProjVO getNewestMvnProj(Integer projectId);
 
-    MvnProjVO getBase(Integer projectId);
+    MvnLibVO getSpecificMvnLib(String groupId, String artifactId);
+
+    MvnLibVO getSpecificMvnLib(Integer libId);
 
 }

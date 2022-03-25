@@ -3,7 +3,7 @@ package com.edu.nju.clockcourier.po;
 import lombok.Data;
 
 @Data
-public class MvnProjectPO {
+public class MvnProjPO {
 
     private Integer projectId;
 
@@ -19,15 +19,15 @@ public class MvnProjectPO {
 
     private String description;
 
-    private static MvnProjectPO nullInstance;
+    private static MvnProjPO nullInstance;
 
-    public static MvnProjectPO getNullInstance() {
-        if (nullInstance == null) nullInstance = new MvnProjectPO();
+    public static MvnProjPO getNullInstance() {
+        if (nullInstance == null) nullInstance = new MvnProjPO();
         return nullInstance;
     }
 
     // 通过是否是同一个对象来判断是否是 null instance
-    public static boolean isNullInstance(MvnProjectPO po) {
+    public static boolean isNullInstance(MvnProjPO po) {
         return po == nullInstance;
     }
 

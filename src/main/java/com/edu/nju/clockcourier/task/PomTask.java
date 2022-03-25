@@ -1,9 +1,9 @@
 package com.edu.nju.clockcourier.task;
 
 import com.edu.nju.clockcourier.dao.MvnDataService;
-import com.edu.nju.clockcourier.po.MvnDependencyPO;
+import com.edu.nju.clockcourier.po.MvnDepPO;
 import com.edu.nju.clockcourier.po.MvnLibPO;
-import com.edu.nju.clockcourier.po.MvnProjectPO;
+import com.edu.nju.clockcourier.po.MvnProjPO;
 import com.edu.nju.clockcourier.util.PomUtil;
 import lombok.SneakyThrows;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -79,19 +79,19 @@ public class PomTask {
             String version = PomUtil.parse(depMap.get("version"), propMap);
             // 生成 MvnLib 实体类
             // 已经存在此 lib 就读取, 否则 insert
-            MvnLibPO lib = this.mvnDataService.findLib(groupId, artifactId);
+            MvnLibPO lib = this.mvnDataService.getMvnLib(groupId, artifactId);
             if (MvnLibPO.isNullInstance(lib)) {
                 lib = new MvnLibPO(groupId, artifactId);
-                this.mvnDataService.insertLib(lib);
+                this.mvnDataService.insertMvnLib(lib);
             }
             // 此时无论是读取还是 insert, libId 都已经得到
-            MvnDependencyPO dep = new MvnDependencyPO(rootProjectId, rootVersion, lib.getLibId(), version);
+            MvnDepPO dep = new MvnDepPO(rootProjectId, rootVersion, lib.getLibId(), version);
             // insert 依赖关系
             this.mvnDataService.insertMvnDepIfNotExists(dep);
         }
     }
 
-    private void readBase(String filename, MvnProjectPO po) {
+    private void readBase(String filename, MvnProjPO po) {
         String[] s = filename.split("\\$");
         po.setGroupId(s[0]);
         po.setArtifactId(s[1]);
@@ -100,7 +100,7 @@ public class PomTask {
 
     @SneakyThrows
     private void read(File file) {
-        MvnProjectPO po = new MvnProjectPO();
+        MvnProjPO po = new MvnProjPO();
         // group_id, artifact_id, version, from filename
         this.readBase(file.getName(), po);
         // 获得 doc
@@ -137,7 +137,7 @@ public class PomTask {
     }
 
     public void process(String from, String to) {
-        if (from == null) return;
+        if (from == null || to == null) return;
         File[] files = this.allPoms(from);
         if (files == null) return;
         for (File cur : files) {

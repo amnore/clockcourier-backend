@@ -1,6 +1,6 @@
 package com.edu.nju.clockcourier.dao.mapper;
 
-import com.edu.nju.clockcourier.po.MvnDependencyPO;
+import com.edu.nju.clockcourier.po.MvnDepPO;
 import org.apache.ibatis.annotations.*;
 import org.apache.ibatis.type.JdbcType;
 import org.mybatis.dynamic.sql.BasicColumn;
@@ -26,7 +26,7 @@ import static com.edu.nju.clockcourier.dao.support.MvnDepDSS.*;
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 
 @Mapper
-public interface MvnDependencyMapper {
+public interface MvnDepMapper {
 
     BasicColumn[] selectList = BasicColumn.columnList(projectId, version, libId, libVersion);
 
@@ -37,10 +37,10 @@ public interface MvnDependencyMapper {
     int delete(DeleteStatementProvider deleteStatement);
 
     @InsertProvider(type = SqlProviderAdapter.class, method = "insert")
-    int insert(InsertStatementProvider<MvnDependencyPO> insertStatement);
+    int insert(InsertStatementProvider<MvnDepPO> insertStatement);
 
     @InsertProvider(type = SqlProviderAdapter.class, method = "insertMultiple")
-    int insertMultiple(MultiRowInsertStatementProvider<MvnDependencyPO> multipleInsertStatement);
+    int insertMultiple(MultiRowInsertStatementProvider<MvnDepPO> multipleInsertStatement);
 
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @Results(id = "MvnDependencyResult", value = {
@@ -49,11 +49,11 @@ public interface MvnDependencyMapper {
             @Result(column = "lib_id", property = "libId", jdbcType = JdbcType.INTEGER, id = true),
             @Result(column = "lib_version", property = "libVersion", jdbcType = JdbcType.VARCHAR)
     })
-    Optional<MvnDependencyPO> selectOne(SelectStatementProvider selectStatement);
+    Optional<MvnDepPO> selectOne(SelectStatementProvider selectStatement);
 
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     @ResultMap("MvnDependencyResult")
-    List<MvnDependencyPO> selectMany(SelectStatementProvider selectStatement);
+    List<MvnDepPO> selectMany(SelectStatementProvider selectStatement);
 
     @UpdateProvider(type = SqlProviderAdapter.class, method = "update")
     int update(UpdateStatementProvider updateStatement);
@@ -74,7 +74,7 @@ public interface MvnDependencyMapper {
         );
     }
 
-    default int insert(MvnDependencyPO record) {
+    default int insert(MvnDepPO record) {
         return MyBatis3Utils.insert(this::insert, record, mvnDependency, c ->
                 c.map(projectId).toProperty("projectId")
                         .map(version).toProperty("version")
@@ -83,7 +83,7 @@ public interface MvnDependencyMapper {
         );
     }
 
-    default int insertMultiple(Collection<MvnDependencyPO> records) {
+    default int insertMultiple(Collection<MvnDepPO> records) {
         return MyBatis3Utils.insertMultiple(this::insertMultiple, records, mvnDependency, c ->
                 c.map(projectId).toProperty("projectId")
                         .map(version).toProperty("version")
@@ -92,7 +92,7 @@ public interface MvnDependencyMapper {
         );
     }
 
-    default int insertSelective(MvnDependencyPO record) {
+    default int insertSelective(MvnDepPO record) {
         return MyBatis3Utils.insert(this::insert, record, mvnDependency, c ->
                 c.map(projectId).toPropertyWhenPresent("projectId", record::getProjectId)
                         .map(version).toPropertyWhenPresent("version", record::getVersion)
@@ -101,19 +101,19 @@ public interface MvnDependencyMapper {
         );
     }
 
-    default Optional<MvnDependencyPO> selectOne(SelectDSLCompleter completer) {
+    default Optional<MvnDepPO> selectOne(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectOne(this::selectOne, selectList, mvnDependency, completer);
     }
 
-    default List<MvnDependencyPO> select(SelectDSLCompleter completer) {
+    default List<MvnDepPO> select(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectList(this::selectMany, selectList, mvnDependency, completer);
     }
 
-    default List<MvnDependencyPO> selectDistinct(SelectDSLCompleter completer) {
+    default List<MvnDepPO> selectDistinct(SelectDSLCompleter completer) {
         return MyBatis3Utils.selectDistinct(this::selectMany, selectList, mvnDependency, completer);
     }
 
-    default Optional<MvnDependencyPO> selectByPrimaryKey(Integer projectId_, String version_, Integer libId_) {
+    default Optional<MvnDepPO> selectByPrimaryKey(Integer projectId_, String version_, Integer libId_) {
         return selectOne(c ->
                 c.where(projectId, isEqualTo(projectId_))
                         .and(version, isEqualTo(version_))
@@ -125,21 +125,21 @@ public interface MvnDependencyMapper {
         return MyBatis3Utils.update(this::update, mvnDependency, completer);
     }
 
-    static UpdateDSL<UpdateModel> updateAllColumns(MvnDependencyPO record, UpdateDSL<UpdateModel> dsl) {
+    static UpdateDSL<UpdateModel> updateAllColumns(MvnDepPO record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(projectId).equalTo(record::getProjectId)
                 .set(version).equalTo(record::getVersion)
                 .set(libId).equalTo(record::getLibId)
                 .set(libVersion).equalTo(record::getLibVersion);
     }
 
-    static UpdateDSL<UpdateModel> updateSelectiveColumns(MvnDependencyPO record, UpdateDSL<UpdateModel> dsl) {
+    static UpdateDSL<UpdateModel> updateSelectiveColumns(MvnDepPO record, UpdateDSL<UpdateModel> dsl) {
         return dsl.set(projectId).equalToWhenPresent(record::getProjectId)
                 .set(version).equalToWhenPresent(record::getVersion)
                 .set(libId).equalToWhenPresent(record::getLibId)
                 .set(libVersion).equalToWhenPresent(record::getLibVersion);
     }
 
-    default int updateByPrimaryKey(MvnDependencyPO record) {
+    default int updateByPrimaryKey(MvnDepPO record) {
         return update(c ->
                 c.set(libVersion).equalTo(record::getLibVersion)
                         .where(projectId, isEqualTo(record::getProjectId))
@@ -148,7 +148,7 @@ public interface MvnDependencyMapper {
         );
     }
 
-    default int updateByPrimaryKeySelective(MvnDependencyPO record) {
+    default int updateByPrimaryKeySelective(MvnDepPO record) {
         return update(c ->
                 c.set(libVersion).equalToWhenPresent(record::getLibVersion)
                         .where(projectId, isEqualTo(record::getProjectId))
