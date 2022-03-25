@@ -51,7 +51,7 @@ public class MvnProjDataServiceImpl implements MvnProjDataService {
         this.mvnProjectMapper = mvnProjectMapper;
     }
 
-
+    //获取指定项目的指定版本
     @Override
     public MvnProjectPO getMvnProjVersion(Integer projectId, String version) {
         SelectStatementProvider selector = SqlBuilder.selectDistinct(MvnProjectMapper.selectList)
@@ -64,6 +64,7 @@ public class MvnProjDataServiceImpl implements MvnProjDataService {
         return mvnProjectMapper.selectOne(selector).orElse(MvnProjectPO.getNullInstance());
     }
 
+    //获取指定项目的最新版本
     @Override
     public List<MvnProjectPO> getNewMvnProj(Integer projectId) {
         SelectStatementProvider selector = SqlBuilder.select(MvnProjectMapper.selectList)
@@ -76,7 +77,7 @@ public class MvnProjDataServiceImpl implements MvnProjDataService {
         return mvnProjectPOS;
     }
 
-
+    //获取指定项目的指定版本的所有依赖信息
     @Override
     public List<MvnDependencyPO> getMvnDep(Integer projectId, String version) {
         SelectStatementProvider selector = SqlBuilder.select(MvnDependencyMapper.selectList)
@@ -88,6 +89,7 @@ public class MvnProjDataServiceImpl implements MvnProjDataService {
         return mvnDependencyMapper.selectMany(selector);
     }
 
+    //获取指定项目的所有版本
     @Override
     public List<MvnProjectPO> getMvnProj(Integer projectId) {
         SelectStatementProvider selector = SqlBuilder.select(MvnProjectMapper.selectList)
@@ -98,6 +100,7 @@ public class MvnProjDataServiceImpl implements MvnProjDataService {
         return mvnProjectMapper.selectMany(selector);
     }
 
+    //通过主键获取指定lib
     @Override
     public MvnLibPO getLibByPrimaryKey(Integer libId) {
         SelectStatementProvider selector = SqlBuilder.select(MvnLibMapper.selectList)
@@ -108,6 +111,7 @@ public class MvnProjDataServiceImpl implements MvnProjDataService {
         return mvnLibMapper.selectByPrimaryKey(libId).orElse(MvnLibPO.getNullInstance());
     }
 
+    //通过groupId和artifactId获取指定lib
     @Override
     public MvnLibPO getLib(String groupId, String artifactId) {
         SelectStatementProvider selector = SqlBuilder.select(MvnLibMapper.selectList)
@@ -119,6 +123,7 @@ public class MvnProjDataServiceImpl implements MvnProjDataService {
         return mvnLibMapper.selectOne(selector).orElse(MvnLibPO.getNullInstance());
     }
 
+    //获取以libId为起点的规则
     @Override
     public List<MigrationRulePO> getRuleByFromId(Integer libId) {
         SelectStatementProvider selector = SqlBuilder.select(MigrationRuleMapper.selectList)
@@ -129,6 +134,7 @@ public class MvnProjDataServiceImpl implements MvnProjDataService {
         return migrationRuleMapper.selectMany(selector);
     }
 
+    //获取以libId为终点的规则
     @Override
     public List<MigrationRulePO> getRuleByToId(Integer libId) {
         SelectStatementProvider selector = SqlBuilder.select(MigrationRuleMapper.selectList)
@@ -139,6 +145,7 @@ public class MvnProjDataServiceImpl implements MvnProjDataService {
         return migrationRuleMapper.selectMany(selector);
     }
 
+    //获取以fromId为起点，toId为终点的规则
     @Override
     public MigrationRulePO getRule(Integer fromId, Integer toId) {
         SelectStatementProvider selector = SqlBuilder.select(MigrationRuleMapper.selectList)
@@ -150,6 +157,7 @@ public class MvnProjDataServiceImpl implements MvnProjDataService {
         return migrationRuleMapper.selectOne(selector).orElse(new MigrationRulePO());
     }
 
+    //获取满足搜索条件的所有maven项目
     @Override
     public Pair<List<MvnProjectPO>, Integer> allAndFilter(MvnProjFilterDTO filter, int pageSize) {
         SelectStatementProvider selector = SqlBuilder

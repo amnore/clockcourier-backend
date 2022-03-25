@@ -28,10 +28,15 @@ public class MvnProjServiceImpl implements MvnProjService {
 
     @Override
     public MvnProjListVO query(MvnProjFilterDTO filter) {
+        //每页大小
         int pageSize = Integer.parseInt(config.getPageSize());
+        //获取所有maven项目的projectId
         Pair<List<MvnProjectPO>, Integer> p = mvnProjDataService.allAndFilter(filter, pageSize);
+
         List<MvnProjectPO> mvnProjectPOS = p.getFirst();
         List<MvnProjVO> mvnProjVOS = new ArrayList<>();
+
+        //获取每个maven项目的最新版本信息
         for (MvnProjectPO mvnProjectPO : mvnProjectPOS) {
             List<MvnProjectPO> mvnProjectPOS1 = mvnProjDataService.getNewMvnProj(mvnProjectPO.getProjectId());
             MvnProjectPO newMvnProj = mvnProjectPOS1.get(0);
@@ -47,7 +52,7 @@ public class MvnProjServiceImpl implements MvnProjService {
                     , newMvnProj.getDescription()
                     , newMvnProj.getUrl()));
         }
-
+        //返回结果
         return new MvnProjListVO(p.getSecond(), pageSize, mvnProjVOS);
     }
 
@@ -88,22 +93,29 @@ public class MvnProjServiceImpl implements MvnProjService {
 
     @Override
     public MigrationRuleVO getGraph(Integer libId) {
+        //新建VO
         MigrationRuleVO migrationRuleVO = new MigrationRuleVO();
+        //设置libVO
         MvnLibPO mvnLibPO = mvnProjDataService.getLibByPrimaryKey(libId);
         MvnLibVO mvnLibVO = MvnLibVO.build(mvnLibPO);
         migrationRuleVO.setMvnLibVO(mvnLibVO);
 
+        //查找到达的节点
         List<MigrationRulePO> migrationRulePOS = mvnProjDataService.getRuleByFromId(libId);
 
+        //到达节点数量
         migrationRuleVO.setNum(migrationRulePOS.size());
 
+        //到达节点集合
         List<MigrationRuleVO> migrationRuleVOS = new ArrayList<>();
-        
+
+        //对于每个到达节点，递归加到结果集合中
         for (MigrationRulePO po : migrationRulePOS) {
             migrationRuleVOS.add(getGraph(po.getFromId()));
         }
-
+        //设置以当前lib为起点的规则集合
         migrationRuleVO.setEdges(migrationRuleVOS);
+        //返回结果
         return migrationRuleVO;
     }
 
@@ -137,6 +149,7 @@ public class MvnProjServiceImpl implements MvnProjService {
 
     @Override
     public MvnLibVO getLib(String groupId, String artifactId) {
+        //通过groupId和artifactId查找相应lib并返回
         MvnLibPO mvnLibPO = mvnProjDataService.getLib(groupId, artifactId);
         return new MvnLibVO(mvnLibPO.getLibId(),
                 mvnLibPO.getGroupId(),

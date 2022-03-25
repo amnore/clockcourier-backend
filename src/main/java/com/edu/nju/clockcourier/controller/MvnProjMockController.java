@@ -22,7 +22,6 @@ public class MvnProjMockController {
         projVOS.add(mock);
         MvnProjListVO listMock = new MvnProjListVO();
         listMock.setPageAll(1);
-        listMock.setPageAll(1);
         listMock.setProjects(projVOS);
 
         return ResponseVO.success(listMock);
@@ -62,5 +61,5 @@ public class MvnProjMockController {
     public ResponseVO<MvnLibVO> getLib(@PathVariable Integer groupId, @PathVariable Integer artifactId) {
         return ResponseVO.success(null);
     }
-    
+
 }
