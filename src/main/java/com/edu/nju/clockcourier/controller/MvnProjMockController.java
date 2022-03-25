@@ -1,7 +1,9 @@
 package com.edu.nju.clockcourier.controller;
 
 import com.edu.nju.clockcourier.dto.MvnProjFilterDTO;
+import com.edu.nju.clockcourier.service.MvnProjService;
 import com.edu.nju.clockcourier.vo.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
@@ -10,6 +12,13 @@ import java.util.List;
 @RestController
 @RequestMapping("/project/mvn/mock")
 public class MvnProjMockController {
+
+    private final MvnProjService mvnProjService;
+
+    @Autowired
+    public MvnProjMockController(MvnProjService mvnProjService) {
+        this.mvnProjService = mvnProjService;
+    }
 
     @PostMapping("/query")
     public ResponseVO<MvnProjListVO> query(@RequestBody MvnProjFilterDTO filter) {
@@ -23,8 +32,7 @@ public class MvnProjMockController {
         MvnProjListVO listMock = new MvnProjListVO();
         listMock.setPageAll(1);
         listMock.setProjects(projVOS);
-
-        return ResponseVO.success(listMock);
+        return ResponseVO.success(mvnProjService.query(filter));
     }
 
     @GetMapping("/{projectId}/get")
