@@ -1,6 +1,7 @@
 package com.edu.nju.clockcourier.controller;
 
 import com.edu.nju.clockcourier.constant.ReturnMessage;
+import com.edu.nju.clockcourier.dto.MvnLibFilterDTO;
 import com.edu.nju.clockcourier.dto.MvnLibSelectDTO;
 import com.edu.nju.clockcourier.dto.MvnProjFilterDTO;
 import com.edu.nju.clockcourier.exception.CustomException;
@@ -24,6 +25,11 @@ public class MvnController {
     public ResponseVO<MvnLibVO> getMvnLib(@RequestBody MvnLibSelectDTO dto) {
         if (!dto.isValid()) throw new CustomException(ReturnMessage.InvalidDTO.getMsg());
         return ResponseVO.success(this.service.getSpecificMvnLib(dto.getGroupId(), dto.getArtifactId()));
+    }
+
+    @PostMapping("/lib/query")
+    public ResponseVO<MvnLibListVO> getMvnLibList(@RequestBody MvnLibFilterDTO dto){
+        return ResponseVO.success(this.service.getMvnLibs(dto));
     }
 
     @PostMapping("/query")

@@ -7,6 +7,7 @@ import com.edu.nju.clockcourier.dao.mapper.MvnProjMapper;
 import com.edu.nju.clockcourier.dao.support.MvnDepDSS;
 import com.edu.nju.clockcourier.dao.support.MvnLibDSS;
 import com.edu.nju.clockcourier.dao.support.MvnProjDSS;
+import com.edu.nju.clockcourier.dto.MvnLibFilterDTO;
 import com.edu.nju.clockcourier.dto.MvnProjFilterDTO;
 import com.edu.nju.clockcourier.po.MvnDepPO;
 import com.edu.nju.clockcourier.po.MvnLibPO;
@@ -50,8 +51,8 @@ public class MvnDataServiceImpl implements MvnDataService {
     @Override
     public MvnLibPO getMvnLib(String groupId, String artifactId) {
         return this.mvnLibMapper.selectOne(cur -> cur
-                        .where(MvnLibDSS.groupId, isEqualTo(groupId))
-                        .and(MvnLibDSS.artifactId, isEqualTo(artifactId)))
+                .where(MvnLibDSS.groupId, isEqualTo(groupId))
+                .and(MvnLibDSS.artifactId, isEqualTo(artifactId)))
                 .orElse(MvnLibPO.getNullInstance());
     }
 
@@ -135,6 +136,7 @@ public class MvnDataServiceImpl implements MvnDataService {
                 .and(MvnProjDSS.version, isEqualTo(select(max(MvnProjDSS.version))
                         .from(MvnProjDSS.mvnProject, "t2")
                         .where(MvnProjDSS.projectId.qualifiedWith("t1"), isEqualTo(MvnProjDSS.projectId.qualifiedWith("t2")))))
+                .orderBy(QueryBuilder.buildReverse(filter.getSort().getSortRule(), filter.getIsReverse()))
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
         Integer pageNum = filter.getStartIndex();
@@ -143,6 +145,25 @@ public class MvnDataServiceImpl implements MvnDataService {
         PageHelper.startPage(pageNum, pageSize);
         List<MvnProjPO> all = mvnProjMapper.selectMany(selector);
         PageInfo<MvnProjPO> pi = new PageInfo<>(all, pages);
+        return Pair.of(all, pi.getPages());
+    }
+
+    @Override
+    public Pair<List<MvnLibPO>, Integer> allMvnLibAndFilter(MvnLibFilterDTO filter, int pageSize) {
+        SelectStatementProvider selector = SqlBuilder
+                .select(MvnLibMapper.selectList)
+                .from(MvnLibDSS.mvnLib)
+                .where(MvnLibDSS.groupId, isLikeWhenPresent(QueryBuilder.buildLike(filter.getGroupId())))
+                .and(MvnLibDSS.artifactId, isLikeWhenPresent(QueryBuilder.buildLike(filter.getArtifactId())))
+                .orderBy(QueryBuilder.buildReverse(filter.getSort().getSortRule(), filter.getIsReverse()))
+                .build()
+                .render(RenderingStrategies.MYBATIS3);
+        Integer pageNum = filter.getStartIndex();
+        int pages = filter.getEndIndex() - filter.getStartIndex();
+        if (pageNum == null) pageNum = 1;
+        PageHelper.startPage(pageNum, pageSize);
+        List<MvnLibPO> all = mvnLibMapper.selectMany(selector);
+        PageInfo<MvnLibPO> pi = new PageInfo<>(all, pages);
         return Pair.of(all, pi.getPages());
     }
 

@@ -3,6 +3,7 @@ package com.edu.nju.clockcourier.service.impl;
 import com.edu.nju.clockcourier.config.DatabaseConfig;
 import com.edu.nju.clockcourier.constant.ReturnMessage;
 import com.edu.nju.clockcourier.dao.MvnDataService;
+import com.edu.nju.clockcourier.dto.MvnLibFilterDTO;
 import com.edu.nju.clockcourier.dto.MvnProjFilterDTO;
 import com.edu.nju.clockcourier.exception.CustomException;
 import com.edu.nju.clockcourier.po.MvnDepPO;
@@ -40,6 +41,19 @@ public class MvnServiceImpl implements MvnService {
             res.add(MvnNewestProjVO.build(cur, versions));
         });
         return new MvnProjListVO(p.getSecond(), pageSize, res);
+    }
+
+    @Override
+    public MvnLibListVO getMvnLibs(MvnLibFilterDTO filter) {
+        int pageSize = Integer.parseInt(config.getPageSize());
+        Pair<List<MvnLibPO>, Integer> p = this.mvnDataService
+                .allMvnLibAndFilter(filter, pageSize);
+        List<MvnLibPO> mvnLibs = p.getFirst();
+        List<MvnLibVO> res = new ArrayList<>();
+        mvnLibs.forEach(cur -> {
+            res.add(MvnLibVO.build(cur));
+        });
+        return new MvnLibListVO(p.getSecond(), pageSize, res);
     }
 
     @Override

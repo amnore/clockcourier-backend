@@ -1,5 +1,6 @@
 package com.edu.nju.clockcourier.dao;
 
+import com.edu.nju.clockcourier.dto.MvnLibFilterDTO;
 import com.edu.nju.clockcourier.dto.MvnProjFilterDTO;
 import com.edu.nju.clockcourier.po.MvnDepPO;
 import com.edu.nju.clockcourier.po.MvnLibPO;
@@ -29,6 +30,8 @@ public interface MvnDataService {
     List<MvnProjPO> allMvnProjWithMultiVersions();
 
     Pair<List<MvnProjPO>, Integer> allMvnProjAndFilterNewest(MvnProjFilterDTO filter, int pageSize);
+
+    Pair<List<MvnLibPO>, Integer> allMvnLibAndFilter(MvnLibFilterDTO filter, int pageSize);
 
     List<String> allMvnProjVersions(Integer projectId);
 
