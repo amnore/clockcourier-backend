@@ -43,7 +43,7 @@ public class MigrationServiceImpl implements MigrationService {
         Integer tarToId = migrationRuleList.get(0).getToId();
         for (int i = 0; i < len; ++i) {
             Integer curToId = migrationRuleList.get(i).getToId();
-            Double confidence=migrationRuleList.get(0).getConfidence();
+            Double confidence=migrationRuleList.get(i).getConfidence();
             if (tarToId.equals(curToId)) {
                 ++num;
                 if (i != len - 1) continue;
