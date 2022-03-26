@@ -7,6 +7,8 @@ public class MigrationEdgeVO {
 
     private Integer num;
 
+    private Double confidence;
+
     private MigrationGraphVO toLibInfo;
 
 }

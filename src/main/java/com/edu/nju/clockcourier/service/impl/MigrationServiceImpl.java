@@ -43,12 +43,14 @@ public class MigrationServiceImpl implements MigrationService {
         Integer tarToId = migrationRuleList.get(0).getToId();
         for (int i = 0; i < len; ++i) {
             Integer curToId = migrationRuleList.get(i).getToId();
+            Double confidence=migrationRuleList.get(0).getConfidence();
             if (tarToId.equals(curToId)) {
                 ++num;
                 if (i != len - 1) continue;
             }
             MigrationEdgeVO edge = new MigrationEdgeVO();
             edge.setNum(num);
+            edge.setConfidence(confidence);
             edge.setToLibInfo(this.graphHelper(tarToId, curLevel + 1));
             edges.add(edge);
             if (i == len - 1) break;
