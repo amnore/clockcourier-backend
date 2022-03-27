@@ -32,6 +32,7 @@ public class MigrationServiceImpl implements MigrationService {
         // 基本信息
         MvnLibVO lib = this.mvnService.getSpecificMvnLib(libId);
         res.setFromLibInfo(lib);
+        res.setEdges(new ArrayList<>());
         if (curLevel > maxRecurLevel) return res;
         // 它的所有边
         List<MigrationEdgeVO> edges = new ArrayList<>();
@@ -43,7 +44,7 @@ public class MigrationServiceImpl implements MigrationService {
         Integer tarToId = migrationRuleList.get(0).getToId();
         for (int i = 0; i < len; ++i) {
             Integer curToId = migrationRuleList.get(i).getToId();
-            Double confidence=migrationRuleList.get(i).getConfidence();
+            Double confidence = migrationRuleList.get(i).getConfidence();
             if (tarToId.equals(curToId)) {
                 ++num;
                 if (i != len - 1) continue;
