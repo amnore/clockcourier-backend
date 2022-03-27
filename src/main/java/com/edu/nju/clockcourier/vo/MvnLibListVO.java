@@ -5,14 +5,13 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 
 import java.util.List;
+
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 public class MvnLibListVO {
 
-    private Integer pageAll;
-
-    private Integer pageSize;
+    private Integer count;
 
     private List<MvnLibVO> libs;
 }

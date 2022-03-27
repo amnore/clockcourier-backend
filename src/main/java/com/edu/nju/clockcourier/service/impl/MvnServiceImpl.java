@@ -31,29 +31,27 @@ public class MvnServiceImpl implements MvnService {
 
     @Override
     public MvnProjListVO getMvnProjects(MvnProjFilterDTO filter) {
-        int pageSize = Integer.parseInt(config.getPageSize());
         Pair<List<MvnProjPO>, Integer> p = this.mvnDataService
-                .allMvnProjAndFilterNewest(filter, pageSize);
+                .allMvnProjAndFilterNewest(filter);
         List<MvnProjPO> mvnProjects = p.getFirst();
         List<MvnNewestProjVO> res = new ArrayList<>();
         mvnProjects.forEach(cur -> {
             List<String> versions = this.mvnDataService.allMvnProjVersions(cur.getProjectId());
             res.add(MvnNewestProjVO.build(cur, versions));
         });
-        return new MvnProjListVO(p.getSecond(), pageSize, res);
+        return new MvnProjListVO(p.getSecond(), res);
     }
 
     @Override
     public MvnLibListVO getMvnLibs(MvnLibFilterDTO filter) {
-        int pageSize = Integer.parseInt(config.getPageSize());
         Pair<List<MvnLibPO>, Integer> p = this.mvnDataService
-                .allMvnLibAndFilter(filter, pageSize);
+                .allMvnLibAndFilter(filter);
         List<MvnLibPO> mvnLibs = p.getFirst();
         List<MvnLibVO> res = new ArrayList<>();
         mvnLibs.forEach(cur -> {
             res.add(MvnLibVO.build(cur));
         });
-        return new MvnLibListVO(p.getSecond(), pageSize, res);
+        return new MvnLibListVO(p.getSecond(), res);
     }
 
     @Override

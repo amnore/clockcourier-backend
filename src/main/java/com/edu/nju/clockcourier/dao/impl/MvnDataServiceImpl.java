@@ -13,8 +13,6 @@ import com.edu.nju.clockcourier.po.MvnDepPO;
 import com.edu.nju.clockcourier.po.MvnLibPO;
 import com.edu.nju.clockcourier.po.MvnProjPO;
 import com.edu.nju.clockcourier.util.QueryBuilder;
-import com.github.pagehelper.PageHelper;
-import com.github.pagehelper.PageInfo;
 import org.mybatis.dynamic.sql.SqlBuilder;
 import org.mybatis.dynamic.sql.render.RenderingStrategies;
 import org.mybatis.dynamic.sql.select.render.SelectStatementProvider;
@@ -127,7 +125,8 @@ public class MvnDataServiceImpl implements MvnDataService {
     }
 
     @Override
-    public Pair<List<MvnProjPO>, Integer> allMvnProjAndFilterNewest(MvnProjFilterDTO filter, int pageSize) {
+    public Pair<List<MvnProjPO>, Integer> allMvnProjAndFilterNewest(MvnProjFilterDTO filter) {
+        int size = filter.getEndIndex() - filter.getStartIndex();
         SelectStatementProvider selector = SqlBuilder
                 .select(MvnProjMapper.selectList)
                 .from(MvnProjDSS.mvnProject, "t1")
@@ -137,34 +136,53 @@ public class MvnDataServiceImpl implements MvnDataService {
                         .from(MvnProjDSS.mvnProject, "t2")
                         .where(MvnProjDSS.projectId.qualifiedWith("t1"), isEqualTo(MvnProjDSS.projectId.qualifiedWith("t2")))))
                 .orderBy(QueryBuilder.buildReverse(filter.getSort().getSortRule(), filter.getIsReverse()))
+                .limit(size).offset(filter.getStartIndex())
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
-        Integer pageNum = filter.getStartIndex();
-        int pages = filter.getEndIndex() - filter.getStartIndex();
-        if (pageNum == null) pageNum = 1;
-        PageHelper.startPage(pageNum, pageSize);
+
+        SelectStatementProvider count = SqlBuilder
+                .select(MvnProjDSS.projectId)
+                .from(MvnProjDSS.mvnProject)
+                .where(MvnProjDSS.groupId, isLikeWhenPresent(QueryBuilder.buildLike(filter.getGroupId())))
+                .and(MvnProjDSS.artifactId, isLikeWhenPresent(QueryBuilder.buildLike(filter.getArtifactId())))
+                .groupBy(MvnProjDSS.projectId)
+                .build()
+                .render(RenderingStrategies.MYBATIS3);
+
+
         List<MvnProjPO> all = mvnProjMapper.selectMany(selector);
-        PageInfo<MvnProjPO> pi = new PageInfo<>(all, pages);
-        return Pair.of(all, pi.getPages());
+
+        int allSize = mvnProjMapper.selectMany(count).size();
+
+        return Pair.of(all, allSize);
     }
 
     @Override
-    public Pair<List<MvnLibPO>, Integer> allMvnLibAndFilter(MvnLibFilterDTO filter, int pageSize) {
+    public Pair<List<MvnLibPO>, Integer> allMvnLibAndFilter(MvnLibFilterDTO filter) {
+        int size = filter.getEndIndex() - filter.getStartIndex();
         SelectStatementProvider selector = SqlBuilder
                 .select(MvnLibMapper.selectList)
                 .from(MvnLibDSS.mvnLib)
                 .where(MvnLibDSS.groupId, isLikeWhenPresent(QueryBuilder.buildLike(filter.getGroupId())))
                 .and(MvnLibDSS.artifactId, isLikeWhenPresent(QueryBuilder.buildLike(filter.getArtifactId())))
                 .orderBy(QueryBuilder.buildReverse(filter.getSort().getSortRule(), filter.getIsReverse()))
+                .limit(size).offset(filter.getStartIndex())
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
-        Integer pageNum = filter.getStartIndex();
-        int pages = filter.getEndIndex() - filter.getStartIndex();
-        if (pageNum == null) pageNum = 1;
-        PageHelper.startPage(pageNum, pageSize);
+
+        SelectStatementProvider count = SqlBuilder
+                .select(MvnLibMapper.selectList)
+                .from(MvnLibDSS.mvnLib)
+                .where(MvnLibDSS.groupId, isLikeWhenPresent(QueryBuilder.buildLike(filter.getGroupId())))
+                .and(MvnLibDSS.artifactId, isLikeWhenPresent(QueryBuilder.buildLike(filter.getArtifactId())))
+                .build()
+                .render(RenderingStrategies.MYBATIS3);
+
         List<MvnLibPO> all = mvnLibMapper.selectMany(selector);
-        PageInfo<MvnLibPO> pi = new PageInfo<>(all, pages);
-        return Pair.of(all, pi.getPages());
+
+        int allSize = mvnLibMapper.selectMany(count).size();
+
+        return Pair.of(all, allSize);
     }
 
     @Override

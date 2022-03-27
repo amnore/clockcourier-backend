@@ -11,9 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class MvnProjListVO {
 
-    private Integer pageAll;
-
-    private Integer pageSize;
+    private Integer count;
 
     private List<MvnNewestProjVO> projects;
 

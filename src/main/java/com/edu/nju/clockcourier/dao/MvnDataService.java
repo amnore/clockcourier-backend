@@ -29,9 +29,9 @@ public interface MvnDataService {
 
     List<MvnProjPO> allMvnProjWithMultiVersions();
 
-    Pair<List<MvnProjPO>, Integer> allMvnProjAndFilterNewest(MvnProjFilterDTO filter, int pageSize);
+    Pair<List<MvnProjPO>, Integer> allMvnProjAndFilterNewest(MvnProjFilterDTO filter);
 
-    Pair<List<MvnLibPO>, Integer> allMvnLibAndFilter(MvnLibFilterDTO filter, int pageSize);
+    Pair<List<MvnLibPO>, Integer> allMvnLibAndFilter(MvnLibFilterDTO filter);
 
     List<String> allMvnProjVersions(Integer projectId);
 
