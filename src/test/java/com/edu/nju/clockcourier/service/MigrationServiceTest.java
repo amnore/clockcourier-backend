@@ -11,6 +11,6 @@ class MigrationServiceTest {
 
     @Test
     void test1() {
-//        System.out.println(migrationService.relativeMigrationGraph(54));
+        System.out.println(migrationService.relativeMigrationGraph(77));
     }
 }

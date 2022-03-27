@@ -43,7 +43,10 @@ public class MigrationServiceImpl implements MigrationService {
         List<MigrationRulePO> migrationRuleList = this.dataService
                 .allRuleWithSpecificStart(libId);
         int len = migrationRuleList.size();
-        if (len == 0) return;
+        if (len == 0) {
+            migrationGraphVOS.add(res);
+            return;
+        }
         int num = 0;
         Integer tarToId = migrationRuleList.get(0).getToId();
         for (int i = 0; i < len; ++i) {
