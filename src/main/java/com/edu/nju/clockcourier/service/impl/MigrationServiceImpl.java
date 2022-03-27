@@ -27,19 +27,23 @@ public class MigrationServiceImpl implements MigrationService {
         this.mvnService = mvnService;
     }
 
-    private MigrationGraphVO graphHelper(Integer libId, Integer curLevel) {
+    private void graphHelper(Integer libId, Integer curLevel, ArrayList<MigrationGraphVO> migrationGraphVOS, ArrayList<Integer> trace) {
+
+        if (trace.contains(libId)) return;
+        trace.add(libId);
+
         MigrationGraphVO res = new MigrationGraphVO();
         // 基本信息
         MvnLibVO lib = this.mvnService.getSpecificMvnLib(libId);
         res.setFromLibInfo(lib);
         res.setEdges(new ArrayList<>());
-        if (curLevel > maxRecurLevel) return res;
+        if (curLevel > maxRecurLevel) return;
         // 它的所有边
         List<MigrationEdgeVO> edges = new ArrayList<>();
         List<MigrationRulePO> migrationRuleList = this.dataService
                 .allRuleWithSpecificStart(libId);
         int len = migrationRuleList.size();
-        if (len == 0) return res;
+        if (len == 0) return;
         int num = 0;
         Integer tarToId = migrationRuleList.get(0).getToId();
         for (int i = 0; i < len; ++i) {
@@ -52,19 +56,23 @@ public class MigrationServiceImpl implements MigrationService {
             MigrationEdgeVO edge = new MigrationEdgeVO();
             edge.setNum(num);
             edge.setConfidence(confidence);
-            edge.setToLibInfo(this.graphHelper(tarToId, curLevel + 1));
+            edge.setLibId(tarToId);
+            this.graphHelper(tarToId, curLevel + 1, migrationGraphVOS, trace);
             edges.add(edge);
             if (i == len - 1) break;
             tarToId = curToId;
             num = 1;
         }
         res.setEdges(edges);
-        return res;
+        migrationGraphVOS.add(res);
     }
 
     @Override
-    public MigrationGraphVO relativeMigrationGraph(Integer libId) {
-        return this.graphHelper(libId, 0);
+    public List<MigrationGraphVO> relativeMigrationGraph(Integer libId) {
+        ArrayList<MigrationGraphVO> migrationGraphVOS = new ArrayList<>();
+        ArrayList<Integer> trace = new ArrayList<>();
+        this.graphHelper(libId, 0, migrationGraphVOS, trace);
+        return migrationGraphVOS;
     }
 
 }

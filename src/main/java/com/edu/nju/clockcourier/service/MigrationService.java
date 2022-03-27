@@ -2,8 +2,10 @@ package com.edu.nju.clockcourier.service;
 
 import com.edu.nju.clockcourier.vo.MigrationGraphVO;
 
+import java.util.List;
+
 public interface MigrationService {
 
-    MigrationGraphVO relativeMigrationGraph(Integer libId);
+    List<MigrationGraphVO> relativeMigrationGraph(Integer libId);
 
 }

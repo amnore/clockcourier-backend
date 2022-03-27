@@ -9,6 +9,8 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.List;
+
 @RestController
 @RequestMapping("/migration")
 public class MigrationController {
@@ -21,7 +23,7 @@ public class MigrationController {
     }
 
     @GetMapping("/mvn/lib/{libId}/get")
-    public ResponseVO<MigrationGraphVO> getMvnMigrationGraph(@PathVariable String libId) {
+    public ResponseVO<List<MigrationGraphVO>> getMvnMigrationGraph(@PathVariable String libId) {
         return ResponseVO.success(this.service.relativeMigrationGraph(Integer.parseInt(libId)));
     }
 

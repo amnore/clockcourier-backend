@@ -5,10 +5,10 @@ import lombok.Data;
 @Data
 public class MigrationEdgeVO {
 
-    private Integer num;
+    private Integer libId;
 
     private Double confidence;
 
-    private MigrationGraphVO toLibInfo;
+    private Integer num;
 
 }
