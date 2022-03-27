@@ -62,7 +62,7 @@ public class MvnServiceImpl implements MvnService {
         List<MvnDepVO> res = new ArrayList<>();
         mvnDeps.forEach(cur -> {
             MvnLibPO lib = this.mvnDataService.getMvnLib(cur.getLibId());
-            res.add(MvnDepVO.build(lib, cur.getVersion()));
+            res.add(MvnDepVO.build(lib, cur.getLibVersion()));
         });
         return MvnProjVO.build(mvnProjPO, res);
     }
