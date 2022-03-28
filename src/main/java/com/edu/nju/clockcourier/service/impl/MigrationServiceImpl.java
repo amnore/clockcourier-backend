@@ -49,7 +49,7 @@ public class MigrationServiceImpl implements MigrationService {
             var libInfo = mvnService.getSpecificMvnLib(node);
             nodes.add(libInfo);
             if (distance.get(node) >= maxRecurLevel) {
-                break;
+                continue;
             }
 
             var outEdges = dataService.allRuleWithSpecificStart(node);
