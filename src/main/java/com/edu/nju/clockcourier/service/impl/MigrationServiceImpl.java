@@ -58,7 +58,7 @@ public class MigrationServiceImpl implements MigrationService {
                 .distinct().collect(Collectors.toList());
 
             var confidence = outEdges.stream()
-                    .collect(Collectors.toMap(e -> e.getToId(), e -> e.getConfidence()));
+                    .collect(Collectors.toMap(e -> e.getToId(), e -> e.getConfidence(), (c1, c2) -> c1));
             var inDegree = new HashMap<Integer, Integer>();
             outEdges.forEach(e -> inDegree.compute(e.getToId(), (id, count) -> count == null ? 1 : count + 1));
             edges.put(libInfo,
