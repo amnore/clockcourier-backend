@@ -8,10 +8,18 @@ import com.edu.nju.clockcourier.vo.MigrationEdgeVO;
 import com.edu.nju.clockcourier.vo.MigrationGraphVO;
 import com.edu.nju.clockcourier.vo.MvnLibVO;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayDeque;
 import java.util.ArrayList;
+import java.util.Deque;
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.List;
+import java.util.Map;
+import java.util.Set;
+import java.util.stream.Collectors;
 
 @Service
 public class MigrationServiceImpl implements MigrationService {
@@ -27,55 +35,54 @@ public class MigrationServiceImpl implements MigrationService {
         this.mvnService = mvnService;
     }
 
-    private void graphHelper(Integer libId, Integer curLevel, ArrayList<MigrationGraphVO> migrationGraphVOS, ArrayList<Integer> trace) {
+    private Pair<Set<MvnLibVO>, Map<MvnLibVO, List<MigrationEdgeVO>>> getMigrationGraph(Integer libId) {
+        var nodes = new HashSet<MvnLibVO>();
+        var edges = new HashMap<MvnLibVO, List<MigrationEdgeVO>>();
 
-        if (trace.contains(libId)) return;
-        trace.add(libId);
+        var distance = new HashMap<Integer, Integer>();
+        var newNodes = new ArrayDeque<Integer>();
+        newNodes.add(libId);
+        distance.put(libId, 0);
 
-        MigrationGraphVO res = new MigrationGraphVO();
-        // 基本信息
-        MvnLibVO lib = this.mvnService.getSpecificMvnLib(libId);
-        res.setFromLibInfo(lib);
-        res.setEdges(new ArrayList<>());
-        if (curLevel > maxRecurLevel) return;
-        // 它的所有边
-        List<MigrationEdgeVO> edges = new ArrayList<>();
-        List<MigrationRulePO> migrationRuleList = this.dataService
-                .allRuleWithSpecificStart(libId);
-        int len = migrationRuleList.size();
-        if (len == 0) {
-            migrationGraphVOS.add(res);
-            return;
-        }
-        int num = 0;
-        Integer tarToId = migrationRuleList.get(0).getToId();
-        for (int i = 0; i < len; ++i) {
-            Integer curToId = migrationRuleList.get(i).getToId();
-            Double confidence = migrationRuleList.get(i).getConfidence();
-            if (tarToId.equals(curToId)) {
-                ++num;
-                if (i != len - 1) continue;
+        while (!newNodes.isEmpty()) {
+            var node = newNodes.pop();
+            var libInfo = mvnService.getSpecificMvnLib(node);
+            nodes.add(libInfo);
+            if (distance.get(node) >= maxRecurLevel) {
+                break;
             }
-            MigrationEdgeVO edge = new MigrationEdgeVO();
-            edge.setNum(num);
-            edge.setConfidence(confidence);
-            edge.setLibId(tarToId);
-            this.graphHelper(tarToId, curLevel + 1, migrationGraphVOS, trace);
-            edges.add(edge);
-            if (i == len - 1) break;
-            tarToId = curToId;
-            num = 1;
+
+            var outEdges = dataService.allRuleWithSpecificStart(node);
+            var nodesFromThis = outEdges.stream()
+                .map(e -> e.getToId())
+                .distinct().collect(Collectors.toList());
+
+            var confidence = outEdges.stream()
+                    .collect(Collectors.toMap(e -> e.getToId(), e -> e.getConfidence()));
+            var inDegree = new HashMap<Integer, Integer>();
+            outEdges.forEach(e -> inDegree.compute(e.getToId(), (id, count) -> count == null ? 1 : count + 1));
+            edges.put(libInfo,
+                    nodesFromThis.stream()
+                      .map(id -> new MigrationEdgeVO(id, confidence.get(id), inDegree.get(id)))
+                      .collect(Collectors.toList()));
+
+            var nodeDistance = distance.get(node);
+            var newNodesFromThis = nodesFromThis.stream()
+                .filter(n -> distance.get(n) == null)
+                .collect(Collectors.toList());
+            newNodes.addAll(newNodesFromThis);
+            distance.putAll(newNodesFromThis.stream()
+                            .collect(Collectors.toMap(id -> id, id -> nodeDistance + 1)));
         }
-        res.setEdges(edges);
-        migrationGraphVOS.add(res);
+
+        return Pair.of(nodes, edges);
     }
 
     @Override
     public List<MigrationGraphVO> relativeMigrationGraph(Integer libId) {
-        ArrayList<MigrationGraphVO> migrationGraphVOS = new ArrayList<>();
-        ArrayList<Integer> trace = new ArrayList<>();
-        this.graphHelper(libId, 0, migrationGraphVOS, trace);
-        return migrationGraphVOS;
+        var nodesAndEdges = getMigrationGraph(libId);
+        return nodesAndEdges.getFirst().stream()
+                .map(n -> new MigrationGraphVO(n, nodesAndEdges.getSecond().getOrDefault(n.getLibId(), List.of())))
+                .collect(Collectors.toList());
     }
-
 }
