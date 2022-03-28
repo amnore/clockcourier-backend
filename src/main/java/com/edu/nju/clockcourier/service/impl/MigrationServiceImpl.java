@@ -82,7 +82,7 @@ public class MigrationServiceImpl implements MigrationService {
     public List<MigrationGraphVO> relativeMigrationGraph(Integer libId) {
         var nodesAndEdges = getMigrationGraph(libId);
         return nodesAndEdges.getFirst().stream()
-                .map(n -> new MigrationGraphVO(n, nodesAndEdges.getSecond().getOrDefault(n.getLibId(), List.of())))
+                .map(n -> new MigrationGraphVO(n, nodesAndEdges.getSecond().getOrDefault(n, List.of())))
                 .collect(Collectors.toList());
     }
 }
