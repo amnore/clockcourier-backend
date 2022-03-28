@@ -70,6 +70,7 @@ public class MigrationServiceImpl implements MigrationService {
                     .collect(Collectors.toMap(p -> p.getToId(), p -> 1, (a, b) -> a + b));
             var mergedEdges = nodesFromThis.stream()
                       .map(id -> new MigrationEdgeVO(id, edgeConfidence.get(id), inDegree.get(id)))
+                      .filter(e -> e.getConfidence() > CONFIDENCE_THRESHOLD)
                       .collect(Collectors.toList());
             edges.put(libInfo, mergedEdges);
 
