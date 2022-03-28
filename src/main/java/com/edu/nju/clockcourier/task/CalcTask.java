@@ -132,7 +132,7 @@ public class CalcTask {
             double left = up / below.getFirst();
             double right = up / below.getSecond();
             double confidence = Math.min(left, right);
-            if (confidence < CalcTask.minimumConfidence) continue;
+            // if (confidence < CalcTask.minimumConfidence) continue;
             // 存入数据库
             for (Pair<Integer, String> revision : revisions) {
                 MigrationRulePO po = new MigrationRulePO();
