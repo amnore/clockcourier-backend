@@ -18,13 +18,15 @@ import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.PriorityQueue;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
 public class MigrationServiceImpl implements MigrationService {
 
-    private static final int maxRecurLevel = 3;
+    private static final double CONFIDENCE_THRESHOLD = 0.1;
+    private static final double CONFIDENCE_EPSILON = 1e-5;
 
     private final MigrationDataService dataService;
     private final MvnService mvnService;
@@ -35,54 +37,60 @@ public class MigrationServiceImpl implements MigrationService {
         this.mvnService = mvnService;
     }
 
-    private Pair<Set<MvnLibVO>, Map<MvnLibVO, List<MigrationEdgeVO>>> getMigrationGraph(Integer libId) {
+    @Override
+    public List<MigrationGraphVO> relativeMigrationGraph(Integer libId) {
         var nodes = new HashSet<MvnLibVO>();
         var edges = new HashMap<MvnLibVO, List<MigrationEdgeVO>>();
 
-        var distance = new HashMap<Integer, Integer>();
-        var newNodes = new ArrayDeque<Integer>();
-        newNodes.add(libId);
-        distance.put(libId, 0);
+        var transitiveConfidence = new HashMap<Integer, Double>();
+        var newNodes = new PriorityQueue<Pair<Integer, Double>>((a, b) -> Double.compare(a.getSecond(), b.getSecond()));
+        newNodes.add(Pair.of(libId, 1.0));
+        transitiveConfidence.put(libId, 1.0);
 
         while (!newNodes.isEmpty()) {
-            var node = newNodes.pop();
-            var libInfo = mvnService.getSpecificMvnLib(node);
-            nodes.add(libInfo);
-            if (distance.get(node) >= maxRecurLevel) {
+            var nodeAndConfidence = newNodes.poll();
+            var node = nodeAndConfidence.getFirst();
+            var confidence = nodeAndConfidence.getSecond();
+
+            if (confidence < transitiveConfidence.get(node) - CONFIDENCE_EPSILON) {
                 continue;
             }
+            var libInfo = mvnService.getSpecificMvnLib(node);
+            nodes.add(libInfo);
 
             var outEdges = dataService.allRuleWithSpecificStart(node);
             var nodesFromThis = outEdges.stream()
                 .map(e -> e.getToId())
-                .distinct().collect(Collectors.toList());
+                .collect(Collectors.toSet());
 
-            var confidence = outEdges.stream()
+            // add edges
+            var edgeConfidence = outEdges.stream()
                     .collect(Collectors.toMap(e -> e.getToId(), e -> e.getConfidence(), (c1, c2) -> c1));
-            var inDegree = new HashMap<Integer, Integer>();
-            outEdges.forEach(e -> inDegree.compute(e.getToId(), (id, count) -> count == null ? 1 : count + 1));
-            edges.put(libInfo,
-                    nodesFromThis.stream()
-                      .map(id -> new MigrationEdgeVO(id, confidence.get(id), inDegree.get(id)))
-                      .collect(Collectors.toList()));
+            var inDegree = outEdges.stream()
+                    .collect(Collectors.toMap(p -> p.getToId(), p -> 1, (a, b) -> a + b));
+            var mergedEdges = nodesFromThis.stream()
+                      .map(id -> new MigrationEdgeVO(id, edgeConfidence.get(id), inDegree.get(id)))
+                      .collect(Collectors.toList());
+            edges.put(libInfo, mergedEdges);
 
-            var nodeDistance = distance.get(node);
-            var newNodesFromThis = nodesFromThis.stream()
-                .filter(n -> distance.get(n) == null)
-                .collect(Collectors.toList());
+            // add nodes
+            var newNodesFromThis = mergedEdges.stream()
+                    .map(e -> Pair.of(e.getLibId(), confidence * e.getConfidence()))
+                    .filter(p -> p.getSecond() > Math.max(CONFIDENCE_THRESHOLD,
+                            transitiveConfidence.getOrDefault(p.getFirst(), 0.0) + CONFIDENCE_EPSILON))
+                    .collect(Collectors.toList());
             newNodes.addAll(newNodesFromThis);
-            distance.putAll(newNodesFromThis.stream()
-                            .collect(Collectors.toMap(id -> id, id -> nodeDistance + 1)));
+            transitiveConfidence.putAll(newNodesFromThis.stream()
+                    .collect(Collectors.toMap(p -> p.getFirst(), p -> p.getSecond())));
         }
 
-        return Pair.of(nodes, edges);
-    }
-
-    @Override
-    public List<MigrationGraphVO> relativeMigrationGraph(Integer libId) {
-        var nodesAndEdges = getMigrationGraph(libId);
-        return nodesAndEdges.getFirst().stream()
-                .map(n -> new MigrationGraphVO(n, nodesAndEdges.getSecond().getOrDefault(n, List.of())))
+        return nodes.stream()
+                .map(n -> new MigrationGraphVO(
+                        n,
+                        transitiveConfidence.get(n.getLibId()),
+                        edges.getOrDefault(n, List.of()).stream()
+                                .filter(e -> transitiveConfidence.containsKey(e.getLibId()))
+                                .collect(Collectors.toList())))
                 .collect(Collectors.toList());
     }
 }

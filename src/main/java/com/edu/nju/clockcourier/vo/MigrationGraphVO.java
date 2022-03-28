@@ -11,6 +11,8 @@ public class MigrationGraphVO {
 
     private MvnLibVO fromLibInfo;
 
+    private double transitiveConfidence;
+
     private List<MigrationEdgeVO> edges;
 
 }
