@@ -21,10 +21,9 @@ public class MvnController {
         this.service = service;
     }
 
-    @PostMapping("/lib/get")
-    public ResponseVO<MvnLibVO> getMvnLib(@RequestBody MvnLibSelectDTO dto) {
-        if (!dto.isValid()) throw new CustomException(ReturnMessage.InvalidDTO.getMsg());
-        return ResponseVO.success(this.service.getSpecificMvnLib(dto.getGroupId(), dto.getArtifactId()));
+    @GetMapping("/lib/get/{libId}")
+    public ResponseVO<MvnLibVO> getMvnLib(@PathVariable("libId") Integer libId) {
+        return ResponseVO.success(this.service.getSpecificMvnLib(libId));
     }
 
     @PostMapping("/lib/query")
