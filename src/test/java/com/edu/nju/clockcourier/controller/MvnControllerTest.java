@@ -22,6 +22,7 @@ class MvnControllerTest {
     void getMvnLib() {
         MvnLibVO lib = mvnController.getMvnLib(2005).getData();
         assertEquals("mxmlc", lib.getArtifactId());
+        assertEquals(".compiler", lib.getGroupId());
     }
 
     @Test
@@ -57,6 +58,7 @@ class MvnControllerTest {
         MvnProjVO vo = mvnController.getSpecificMvnProj("1", "1.3.0").getData();
         assertEquals("de.sciss", vo.getGroupId());
         assertEquals("treetable", vo.getArtifactId());
+        assertEquals("TreeTable", vo.getName());
     }
 
     @Test
@@ -64,5 +66,6 @@ class MvnControllerTest {
         MvnNewestProjVO vo = mvnController.getNewestMvnProj("1").getData();
         assertEquals("de.sciss", vo.getGroupId());
         assertEquals("treetable", vo.getArtifactId());
+        assertEquals("TreeTable", vo.getName());
     }
 }

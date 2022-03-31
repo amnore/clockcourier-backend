@@ -20,6 +20,8 @@ class MigrationControllerTest {
         List<MigrationGraphVO> vos = migrationController.getMvnMigrationGraph("3").getData();
         for (MigrationGraphVO vo : vos) {
             assertEquals(3, vo.getFromLibInfo().getLibId());
+            assertEquals("joda-time", vo.getFromLibInfo().getGroupId());
+            assertEquals("joda-time", vo.getFromLibInfo().getArtifactId());
         }
     }
 }
