@@ -1,10 +1,7 @@
 package com.edu.nju.clockcourier.controller;
 
-import com.edu.nju.clockcourier.constant.ReturnMessage;
 import com.edu.nju.clockcourier.dto.MvnLibFilterDTO;
-import com.edu.nju.clockcourier.dto.MvnLibSelectDTO;
 import com.edu.nju.clockcourier.dto.MvnProjFilterDTO;
-import com.edu.nju.clockcourier.exception.CustomException;
 import com.edu.nju.clockcourier.service.MvnService;
 import com.edu.nju.clockcourier.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,7 +24,7 @@ public class MvnController {
     }
 
     @PostMapping("/lib/query")
-    public ResponseVO<MvnLibListVO> getMvnLibList(@RequestBody MvnLibFilterDTO dto){
+    public ResponseVO<MvnLibListVO> getMvnLibList(@RequestBody MvnLibFilterDTO dto) {
         return ResponseVO.success(this.service.getMvnLibs(dto));
     }
 
@@ -42,7 +39,7 @@ public class MvnController {
     }
 
     @GetMapping("/{projectId}/get/{version}")
-    public ResponseVO<MvnProjVO> getNewestMvnProj(@PathVariable("projectId") String projectId, @PathVariable("version") String version) {
+    public ResponseVO<MvnProjVO> getSpecificMvnProj(@PathVariable("projectId") String projectId, @PathVariable("version") String version) {
         return ResponseVO.success(this.service.getSpecificMvnProj(Integer.parseInt(projectId), version));
     }
 
