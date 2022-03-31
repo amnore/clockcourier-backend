@@ -14,11 +14,7 @@ class MigrationDataServiceTest {
 
     @Autowired
     private MigrationDataService migrationDataService;
-
-
-    @Test
-    void insertRuleIfNotExists() {
-    }
+    
 
     @Test
     void allRuleWithSpecificStart() {
