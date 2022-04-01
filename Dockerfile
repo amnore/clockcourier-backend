@@ -1,6 +1,6 @@
 FROM openjdk:11
 
-VOLUME /tmp
+VOLUME /logs
 
 COPY target/*.jar app.jar
 
