@@ -5,11 +5,7 @@ import com.edu.nju.clockcourier.task.CalcTask;
 import com.edu.nju.clockcourier.vo.MigrationGraphVO;
 import com.edu.nju.clockcourier.vo.ResponseVO;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -17,11 +13,15 @@ import java.util.List;
 @RequestMapping("/migration")
 public class MigrationController {
 
-    @Autowired
-    private MigrationService service;
+    private final MigrationService service;
+
+    private final CalcTask calcTask;
 
     @Autowired
-    private CalcTask calcTask;
+    public MigrationController(MigrationService service, CalcTask calcTask) {
+        this.service = service;
+        this.calcTask = calcTask;
+    }
 
     @GetMapping("/mvn/lib/{libId}/get")
     public ResponseVO<List<MigrationGraphVO>> getMvnMigrationGraph(@PathVariable String libId) {
@@ -29,8 +29,9 @@ public class MigrationController {
     }
 
     @PostMapping("/mvn/calc/run")
-    public ResponseVO<Void> calcMigration() {
+    public ResponseVO<Void> reCalcMigration() {
         calcTask.process();
         return ResponseVO.success(null);
     }
+
 }

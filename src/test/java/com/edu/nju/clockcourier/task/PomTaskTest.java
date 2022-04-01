@@ -20,7 +20,7 @@ public class PomTaskTest {
     public void realRun() {
         String from = "/home/xiayi/Mine/code/workspace/se3/doc/waiting";
         String to = "/home/xiayi/Mine/code/workspace/se3/doc/finished";
-        this.pomTask.process(null, to);
+        this.pomTask.process(from, to);
     }
 
     @Test

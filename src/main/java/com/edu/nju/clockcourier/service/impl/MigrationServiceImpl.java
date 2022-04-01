@@ -11,15 +11,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayDeque;
-import java.util.ArrayList;
-import java.util.Deque;
 import java.util.HashMap;
 import java.util.HashSet;
 import java.util.List;
-import java.util.Map;
 import java.util.PriorityQueue;
-import java.util.Set;
 import java.util.stream.Collectors;
 
 @Service
@@ -60,18 +55,18 @@ public class MigrationServiceImpl implements MigrationService {
 
             var outEdges = dataService.allRuleWithSpecificStart(node);
             var nodesFromThis = outEdges.stream()
-                .map(e -> e.getToId())
-                .collect(Collectors.toSet());
+                    .map(MigrationRulePO::getToId)
+                    .collect(Collectors.toSet());
 
             // add edges
             var edgeConfidence = outEdges.stream()
-                    .collect(Collectors.toMap(e -> e.getToId(), e -> e.getConfidence(), (c1, c2) -> c1));
+                    .collect(Collectors.toMap(MigrationRulePO::getToId, MigrationRulePO::getConfidence, (c1, c2) -> c1));
             var inDegree = outEdges.stream()
-                    .collect(Collectors.toMap(p -> p.getToId(), p -> 1, (a, b) -> a + b));
+                    .collect(Collectors.toMap(MigrationRulePO::getToId, p -> 1, Integer::sum));
             var mergedEdges = nodesFromThis.stream()
-                      .map(id -> new MigrationEdgeVO(id, edgeConfidence.get(id), inDegree.get(id)))
-                      .filter(e -> e.getConfidence() > CONFIDENCE_THRESHOLD)
-                      .collect(Collectors.toList());
+                    .map(id -> new MigrationEdgeVO(id, edgeConfidence.get(id), inDegree.get(id)))
+                    .filter(e -> e.getConfidence() > CONFIDENCE_THRESHOLD)
+                    .collect(Collectors.toList());
             edges.put(libInfo, mergedEdges);
 
             // add nodes
@@ -82,7 +77,7 @@ public class MigrationServiceImpl implements MigrationService {
                     .collect(Collectors.toList());
             newNodes.addAll(newNodesFromThis);
             transitiveConfidence.putAll(newNodesFromThis.stream()
-                    .collect(Collectors.toMap(p -> p.getFirst(), p -> p.getSecond())));
+                    .collect(Collectors.toMap(Pair::getFirst, Pair::getSecond)));
         }
 
         return nodes.stream()

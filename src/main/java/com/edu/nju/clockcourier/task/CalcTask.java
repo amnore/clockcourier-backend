@@ -104,6 +104,7 @@ public class CalcTask {
                 if (i != allLen - 1) continue;
             }
             // 以所有有相同 projectId 的项目为单位进行规则抽取
+            System.out.println("Extracting: " + String.valueOf(curId));
             this.extractOnce(one);
             if (i == allLen - 1) break;
             one.clear();
@@ -126,6 +127,7 @@ public class CalcTask {
     private void calculateAndStoreAll() {
         Set<Pair<Integer, Integer>> keys = this.rules.keySet();
         for (Pair<Integer, Integer> key : keys) {
+            System.out.println("Calculating: from: " + String.valueOf(key.getFirst()) + ", to: " + String.valueOf(key.getSecond()));
             List<Pair<Integer, String>> revisions = this.rules.get(key);
             double up = (double) revisions.size();
             Pair<Integer, Integer> below = this.ruleNumWithSpecificStartAndEnd(key.getFirst(), key.getSecond());
@@ -148,7 +150,10 @@ public class CalcTask {
 
     public void process() {
         rules.clear();
+        System.out.println("Start extracting all");
         this.extractAll();
+        System.out.println("Extracting finished");
+        System.out.println("Start calculating confidence");
         this.calculateAndStoreAll();
     }
 
