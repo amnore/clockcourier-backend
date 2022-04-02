@@ -22,7 +22,7 @@ class MvnControllerTest {
     void getMvnLib() {
         MvnLibVO lib = mvnController.getMvnLib(2005).getData();
         assertEquals("mxmlc", lib.getArtifactId());
-        assertEquals(".compiler", lib.getGroupId());
+        assertEquals("com.adobe.flex..compiler", lib.getGroupId());
     }
 
     @Test
@@ -68,4 +68,5 @@ class MvnControllerTest {
         assertEquals("treetable", vo.getArtifactId());
         assertEquals("TreeTable", vo.getName());
     }
+
 }
