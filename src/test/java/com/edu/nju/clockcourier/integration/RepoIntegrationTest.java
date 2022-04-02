@@ -1,6 +1,7 @@
-package com.edu.nju.clockcourier.controller;
+package com.edu.nju.clockcourier.integration;
 
 import com.edu.nju.clockcourier.constant.RepoSortRule;
+import com.edu.nju.clockcourier.controller.RepositoryController;
 import com.edu.nju.clockcourier.dto.RepoDepFilterDTO;
 import com.edu.nju.clockcourier.dto.RepoFilterDTO;
 import com.edu.nju.clockcourier.vo.RepoDepVO;

@@ -49,8 +49,8 @@ public class MvnDataServiceImpl implements MvnDataService {
     @Override
     public MvnLibPO getMvnLib(String groupId, String artifactId) {
         return this.mvnLibMapper.selectOne(cur -> cur
-                .where(MvnLibDSS.groupId, isEqualTo(groupId))
-                .and(MvnLibDSS.artifactId, isEqualTo(artifactId)))
+                        .where(MvnLibDSS.groupId, isEqualTo(groupId))
+                        .and(MvnLibDSS.artifactId, isEqualTo(artifactId)))
                 .orElse(MvnLibPO.getNullInstance());
     }
 
@@ -139,7 +139,6 @@ public class MvnDataServiceImpl implements MvnDataService {
                 .limit(size).offset(filter.getStartIndex())
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
-
         SelectStatementProvider count = SqlBuilder
                 .select(MvnProjDSS.projectId)
                 .from(MvnProjDSS.mvnProject)
@@ -148,12 +147,8 @@ public class MvnDataServiceImpl implements MvnDataService {
                 .groupBy(MvnProjDSS.projectId)
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
-
-
         List<MvnProjPO> all = mvnProjMapper.selectMany(selector);
-
         int allSize = mvnProjMapper.selectMany(count).size();
-
         return Pair.of(all, allSize);
     }
 
@@ -169,7 +164,6 @@ public class MvnDataServiceImpl implements MvnDataService {
                 .limit(size).offset(filter.getStartIndex())
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
-
         SelectStatementProvider count = SqlBuilder
                 .select(MvnLibMapper.selectList)
                 .from(MvnLibDSS.mvnLib)
@@ -177,11 +171,8 @@ public class MvnDataServiceImpl implements MvnDataService {
                 .and(MvnLibDSS.artifactId, isLikeWhenPresent(QueryBuilder.buildLike(filter.getArtifactId())))
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
-
         List<MvnLibPO> all = mvnLibMapper.selectMany(selector);
-
         int allSize = mvnLibMapper.selectMany(count).size();
-
         return Pair.of(all, allSize);
     }
 
@@ -191,6 +182,7 @@ public class MvnDataServiceImpl implements MvnDataService {
                 .select(MvnProjDSS.version)
                 .from(MvnProjDSS.mvnProject)
                 .where(MvnProjDSS.projectId, isEqualTo(projectId))
+                .orderBy(MvnProjDSS.version)
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
         return this.mvnProjMapper.selectMany(select)

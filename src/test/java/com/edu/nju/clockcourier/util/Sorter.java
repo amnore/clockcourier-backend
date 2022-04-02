@@ -8,8 +8,6 @@ public class Sorter {
     }
 
     private static int compareOnce(char ca, char cb) {
-//        if (isSpecial(ca) && !isSpecial(cb)) return 1;
-//        if (isSpecial(cb) && !isSpecial(ca)) return -1;
         return ca - cb;
     }
 

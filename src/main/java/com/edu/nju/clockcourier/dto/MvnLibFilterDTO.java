@@ -17,4 +17,5 @@ public class MvnLibFilterDTO {
     private Integer startIndex;
 
     private Integer endIndex;
+    
 }
