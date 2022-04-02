@@ -113,13 +113,13 @@ public class CalcTask {
         }
     }
 
-    private Pair<Integer, Integer> ruleNumWithSpecificStartAndEnd(Integer start, Integer end) {
+    private Pair<Integer, Integer> ruleNumWithSpecificStartOrEnd(Integer start, Integer end) {
         Set<Pair<Integer, Integer>> all = this.rules.keySet();
         int numStart = 0, numEnd = 0;
+        // 分母部分无需考虑迁移规则对应的项目数量
         for (Pair<Integer, Integer> rule : all) {
-            int curSize = this.rules.get(rule).size();
-            if (rule.getFirst().equals(start)) numStart += curSize;
-            if (rule.getSecond().equals(end)) numEnd += curSize;
+            if (rule.getFirst().equals(start)) ++numStart;
+            if (rule.getSecond().equals(end)) ++numEnd;
         }
         return Pair.of(numStart, numEnd);
     }
@@ -130,7 +130,7 @@ public class CalcTask {
             System.out.println("Calculating: from: " + String.valueOf(key.getFirst()) + ", to: " + String.valueOf(key.getSecond()));
             List<Pair<Integer, String>> revisions = this.rules.get(key);
             double up = (double) revisions.size();
-            Pair<Integer, Integer> below = this.ruleNumWithSpecificStartAndEnd(key.getFirst(), key.getSecond());
+            Pair<Integer, Integer> below = this.ruleNumWithSpecificStartOrEnd(key.getFirst(), key.getSecond());
             double left = up / below.getFirst();
             double right = up / below.getSecond();
             double confidence = Math.min(left, right);
