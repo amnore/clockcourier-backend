@@ -23,7 +23,7 @@ pipeline {
                 ]){
                     sh "make -f scripts/Makefile"
                 }
-                jacoco includePattern: '**/target/classes/**/clockcourier/controller/*.class; **/target/classes/**/clockcourier/dao/impl/*.class; **/target/classes/**/clockcourier/service/impl/*.class',
+                jacoco inclusionPattern: '**/target/classes/**/clockcourier/controller/*.class; **/target/classes/**/clockcourier/dao/impl/*.class; **/target/classes/**/clockcourier/service/impl/*.class',
                        execPattern: '**/target/**.exec', sourceInclusionPattern: '**/*.java'
             }
         }
