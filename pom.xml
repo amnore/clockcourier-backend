@@ -154,13 +154,14 @@
                     <excludes>
                         <exclude>com/**/config/*.class</exclude>
                         <exclude>com/**/constant/*.class</exclude>
-                        <exclude>com/**/dto/*.class</exclude>
                         <exclude>com/**/dao/support/*.class</exclude>
                         <exclude>com/**/dao/mapper/*.class</exclude>
-                        <exclude>com/**/vo/*.class</exclude>
-                        <exclude>com/**/po/*.class</exclude>
-                        <exclude>com/**/util/*.class</exclude>
+                        <exclude>com/**/dto/*.class</exclude>
                         <exclude>com/**/exception/*.class</exclude>
+                        <exclude>com/**/po/*.class</exclude>
+                        <exclude>com/**/task/*.class</exclude>
+                        <exclude>com/**/util/*.class</exclude>
+                        <exclude>com/**/vo/*.class</exclude>
                     </excludes>
                 </configuration>
                 <executions>
@@ -209,31 +210,6 @@
                         </configuration>
                     </execution>
                 </executions>
-            </plugin>
-            <plugin>
-                <groupId>org.asciidoctor</groupId>
-                <artifactId>asciidoctor-maven-plugin</artifactId>
-                <version>1.5.8</version>
-                <executions>
-                    <execution>
-                        <id>generate-docs</id>
-                        <phase>prepare-package</phase>
-                        <goals>
-                            <goal>process-asciidoc</goal>
-                        </goals>
-                        <configuration>
-                            <backend>html</backend>
-                            <doctype>book</doctype>
-                        </configuration>
-                    </execution>
-                </executions>
-                <dependencies>
-                    <dependency>
-                        <groupId>org.springframework.restdocs</groupId>
-                        <artifactId>spring-restdocs-asciidoctor</artifactId>
-                        <version>${spring-restdocs.version}</version>
-                    </dependency>
-                </dependencies>
             </plugin>
             <plugin>
                 <groupId>org.springframework.boot</groupId>
