@@ -166,5 +166,5 @@ public interface MigrationRuleMapper {
                         .and(version, isEqualTo(record::getVersion))
         );
     }
-    
+
 }

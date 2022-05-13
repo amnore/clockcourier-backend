@@ -1,37 +1,118 @@
+// 将旧 jenkins file 的 all 步骤拆开, 以更好地支持持续集成
+
 pipeline {
+    // 在任意 agent 上运行
     agent any
 
+    environment {
+        connection = "lmcc"
+        project = "191250045/lmcc-backend-mirror"
+        branch = "master"
+    }
+
     stages {
+        // 开始, 打印开始信息
         stage('begin') {
             steps {
-                echo "== Start CICD =="
+                gitlabCommitStatus( name: 'begin', connection:gitLabConnection("${env.connection}"), builds: [
+                    [projectId: "${env.project}", revisionHash: "${env.branch}"]
+                ]){
+                    echo "== Start =="
+                    echo "cur dir:"
+                    sh 'pwd'
+                }
             }
         }
 
+        // 拉取代码
         stage('pull') {
             steps {
-                git credentialsId: 'e81c1ce7-3228-413f-b702-02d111f54a17', url: 'git@git.nju.edu.cn:191250045/lmcc-backend-mirror.git'
-                sh 'pwd'
-                sh 'ls -al'
+                gitlabCommitStatus( name: 'pull', connection:gitLabConnection("${env.connection}"), builds: [
+                    [projectId: "${env.project}", revisionHash: "${env.branch}"]
+                ]){
+                    git credentialsId: 'e81c1ce7-3228-413f-b702-02d111f54a17', url: 'git@git.nju.edu.cn:191250045/lmcc-backend-mirror.git'
+                    echo "project ls:"
+                    sh 'ls -al'
+                }
             }
         }
 
-        stage('all') {
+        // 准备阶段, 将构建测测试用配置文件放入项目中
+        stage('prepare') {
             steps {
-                gitlabCommitStatus( name: 'all', connection:gitLabConnection('lmcc'), builds: [
+                gitlabCommitStatus( name: 'prepare', connection:gitLabConnection("${env.connection}"), builds: [
+                    [projectId: "${env.project}", revisionHash: "${env.branch}"]
+                ]){
+                    sh "make -f scripts/Makefile prepare"
+                }
+            }
+        }
+
+        // 清理阶段, 根据条件清除之前的构建结果
+        stage('clean') {
+            steps {
+                gitlabCommitStatus( name: 'clean', connection:gitLabConnection("${env.connection}"), builds: [
+                    [projectId: "${env.project}", revisionHash: "${env.branch}"]
+                ]){
+                    sh "make -f scripts/Makefile clean"
+                }
+            }
+        }
+
+        // 构建阶段, 构建本次结果
+        stage('build') {
+            steps {
+                gitlabCommitStatus( name: 'build', connection:gitLabConnection("${env.connection}"), builds: [
+                    [projectId: "${env.project}", revisionHash: "${env.branch}"]
+                ]){
+                    sh "make -f scripts/Makefile build"
+                }
+            }
+        }
+
+        // 测试阶段
+        stage('test') {
+            steps {
+                gitlabCommitStatus( name: 'test', connection:gitLabConnection("${env.connection}"), builds: [
+                    [projectId: "${env.project}", revisionHash: "${env.branch}"]
+                ]){
+                    sh "make -f scripts/Makefile test"
+                }
+            }
+        }
+
+        // 部署阶段
+        stage('deploy') {
+             steps {
+                gitlabCommitStatus( name: 'deploy', connection:gitLabConnection("${env.connection}"), builds: [
+                    [projectId: "${env.project}", revisionHash: "${env.branch}"]
+                ]){
+                     sh "make -f scripts/Makefile deploy"
+                 }
+             }
+        }
+
+        // 生成报告阶段
+        stage('report') {
+            steps {
+                gitlabCommitStatus( name: 'prepare', connection:gitLabConnection('lmcc'), builds: [
                     [projectId: '191250045/lmcc-backend-mirror', revisionHash: 'master']
                 ]){
-                    sh "make -f scripts/Makefile"
+                    jacoco execPattern: '**/target/**.exec',
+                           classPattern: '**/target/classes/com/edu/nju/clockcourier/controller, **/target/classes/com/edu/nju/clockcourier/service, **/target/classes/com/edu/nju/clockcourier/dao/impl',
+                           sourcePattern: '**/src/main/java/com/edu/nju/clockcourier'
                 }
-                jacoco execPattern: '**/target/**.exec',
-                       classPattern: '**/target/classes/com/edu/nju/clockcourier/controller, **/target/classes/com/edu/nju/clockcourier/service, **/target/classes/com/edu/nju/clockcourier/dao/impl',
-                       sourcePattern: '**/src/main/java/com/edu/nju/clockcourier'
             }
         }
 
+        // 结束阶段
         stage('end') {
             steps {
-                echo '== The End =='
+                gitlabCommitStatus( name: 'end', connection:gitLabConnection("${env.connection}"), builds: [
+                    [projectId: "${env.project}", revisionHash: "${env.branch}"]
+                ]){
+                    echo '== End =='
+                }
             }
         }
     }
