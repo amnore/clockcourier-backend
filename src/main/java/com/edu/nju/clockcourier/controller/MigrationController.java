@@ -1,5 +1,6 @@
 package com.edu.nju.clockcourier.controller;
 
+import com.edu.nju.clockcourier.dto.MvnPomAnalyseDTO;
 import com.edu.nju.clockcourier.service.MigrationService;
 import com.edu.nju.clockcourier.task.CalcTask;
 import com.edu.nju.clockcourier.vo.*;
@@ -35,7 +36,7 @@ public class MigrationController {
     }
 
     @PostMapping("/mvn/pom/analyse")
-    public ResponseVO<MvnLibListVO> analysePom() {
+    public ResponseVO<MvnLibListVO> analysePom(@RequestBody MvnPomAnalyseDTO dto) {
         MvnLibListVO mvnLibListVO = new MvnLibListVO();
         mvnLibListVO.setCount(2);
         MvnLibVO mvnLibVO1 = new MvnLibVO(1, "groupId:lib1", "ArtifactId:lib1");
@@ -48,7 +49,7 @@ public class MigrationController {
     }
 
     @GetMapping("/mvn/rule/{ruleId}/instance/get")
-    public ResponseVO<MigInsListVO> getInstance() {
+    public ResponseVO<MigInsListVO> getInstance(@PathVariable String ruleId, @RequestParam Integer page) {
         MigInsListVO migInsListVO = new MigInsListVO();
         List<MigrationInstanceVO> migrationInstanceVOS = new ArrayList<>();
         MigrationInstanceVO migrationInstanceVO = new MigrationInstanceVO(1, "project", 1, "file", "www", "first commit", "end commit");
