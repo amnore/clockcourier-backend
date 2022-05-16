@@ -58,10 +58,13 @@
         <!--        <table tableName="mvn_projects" domainObjectName="MvnProject" enableCountByExample="false"-->
         <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
         <!--               selectByExampleQueryId="false"/>-->
-        <table tableName="migration_rules" domainObjectName="MigrationRule" enableCountByExample="false"
-               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
-               selectByExampleQueryId="false"/>
-        <table tableName="rule_instances" domainObjectName="RuleInstance" enableCountByExample="false"
+        <!--        <table tableName="migration_rules" domainObjectName="MigrationRule" enableCountByExample="false"-->
+        <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false"/>-->
+        <!--        <table tableName="rule_instances" domainObjectName="RuleInstance" enableCountByExample="false"-->
+        <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
+        <!--               selectByExampleQueryId="false"/>-->
+        <table tableName="mvn_libs" domainObjectName="MvnLib" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>
     </context>

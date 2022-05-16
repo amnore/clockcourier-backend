@@ -49,8 +49,8 @@ public class MvnDataServiceImpl implements MvnDataService {
     @Override
     public MvnLibPO getMvnLib(String groupId, String artifactId) {
         return this.mvnLibMapper.selectOne(cur -> cur
-                        .where(MvnLibDSS.groupId, isEqualTo(groupId))
-                        .and(MvnLibDSS.artifactId, isEqualTo(artifactId)))
+                .where(MvnLibDSS.groupId, isEqualTo(groupId))
+                .and(MvnLibDSS.artifactId, isEqualTo(artifactId)))
                 .orElse(MvnLibPO.getNullInstance());
     }
 
