@@ -1,20 +1,25 @@
-// 将旧 jenkins file 的 all 步骤拆开, 以更好地支持持续集成
-
+// 将旧 jenkins file 的 all 步骤拆开, 以更好地支持持续集成和持续交付
 pipeline {
     // 在任意 agent 上运行
     agent any
 
+    // 环境变量, 定义项目的 id 和 branch
     environment {
-        connection = "lmcc"
         project = "191250045/lmcc-backend-mirror"
         branch = "master"
+    }
+
+    // 定义 gitlab 连接和 builds
+    options {
+        gitLabConnection("lmcc")
+        gitlabBuilds(builds: ['begin', 'prepare', 'build', 'test', 'deploy', 'report', 'end'])
     }
 
     stages {
         // 开始, 打印开始信息
         stage('begin') {
             steps {
-                gitlabCommitStatus( name: 'begin', connection:gitLabConnection("${env.connection}"), builds: [
+                gitlabCommitStatus(name: 'begin', builds: [
                     [projectId: "${env.project}", revisionHash: "${env.branch}"]
                 ]){
                     echo "== Start =="
@@ -24,36 +29,16 @@ pipeline {
             }
         }
 
-        // 拉取代码
-        stage('pull') {
+        // 准备阶段: 拉取代码, 移动配置文件, 清理旧构建
+        stage('prepare') {
             steps {
-                gitlabCommitStatus( name: 'pull', connection:gitLabConnection("${env.connection}"), builds: [
+                gitlabCommitStatus(name: 'prepare', builds: [
                     [projectId: "${env.project}", revisionHash: "${env.branch}"]
                 ]){
                     git credentialsId: 'e81c1ce7-3228-413f-b702-02d111f54a17', url: 'git@git.nju.edu.cn:191250045/lmcc-backend-mirror.git'
                     echo "project ls:"
                     sh 'ls -al'
-                }
-            }
-        }
-
-        // 准备阶段, 将构建测测试用配置文件放入项目中
-        stage('prepare') {
-            steps {
-                gitlabCommitStatus( name: 'prepare', connection:gitLabConnection("${env.connection}"), builds: [
-                    [projectId: "${env.project}", revisionHash: "${env.branch}"]
-                ]){
-                    sh "make -f scripts/Makefile prepare"
-                }
-            }
-        }
-
-        // 清理阶段, 根据条件清除之前的构建结果
-        stage('clean') {
-            steps {
-                gitlabCommitStatus( name: 'clean', connection:gitLabConnection("${env.connection}"), builds: [
-                    [projectId: "${env.project}", revisionHash: "${env.branch}"]
-                ]){
+                    sh "make -f scripts/Makefile config"
                     sh "make -f scripts/Makefile clean"
                 }
             }
@@ -62,7 +47,7 @@ pipeline {
         // 构建阶段, 构建本次结果
         stage('build') {
             steps {
-                gitlabCommitStatus( name: 'build', connection:gitLabConnection("${env.connection}"), builds: [
+                gitlabCommitStatus(name: 'build', builds: [
                     [projectId: "${env.project}", revisionHash: "${env.branch}"]
                 ]){
                     sh "make -f scripts/Makefile build"
@@ -73,7 +58,7 @@ pipeline {
         // 测试阶段
         stage('test') {
             steps {
-                gitlabCommitStatus( name: 'test', connection:gitLabConnection("${env.connection}"), builds: [
+                gitlabCommitStatus(name: 'test', builds: [
                     [projectId: "${env.project}", revisionHash: "${env.branch}"]
                 ]){
                     sh "make -f scripts/Makefile test"
@@ -84,7 +69,7 @@ pipeline {
         // 部署阶段
         stage('deploy') {
              steps {
-                gitlabCommitStatus( name: 'deploy', connection:gitLabConnection("${env.connection}"), builds: [
+                gitlabCommitStatus(name: 'deploy', builds: [
                     [projectId: "${env.project}", revisionHash: "${env.branch}"]
                 ]){
                      sh "make -f scripts/Makefile deploy"
@@ -95,8 +80,8 @@ pipeline {
         // 生成报告阶段
         stage('report') {
             steps {
-                gitlabCommitStatus( name: 'prepare', connection:gitLabConnection('lmcc'), builds: [
-                    [projectId: '191250045/lmcc-backend-mirror', revisionHash: 'master']
+                gitlabCommitStatus(name: 'report', builds: [
+                    [projectId: "${env.project}", revisionHash: "${env.branch}"]
                 ]){
                     jacoco execPattern: '**/target/**.exec',
                            classPattern: '**/target/classes/com/edu/nju/clockcourier/controller, **/target/classes/com/edu/nju/clockcourier/service, **/target/classes/com/edu/nju/clockcourier/dao/impl',
@@ -108,7 +93,7 @@ pipeline {
         // 结束阶段
         stage('end') {
             steps {
-                gitlabCommitStatus( name: 'end', connection:gitLabConnection("${env.connection}"), builds: [
+                gitlabCommitStatus(name: 'end', builds: [
                     [projectId: "${env.project}", revisionHash: "${env.branch}"]
                 ]){
                     echo '== End =='

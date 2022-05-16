@@ -8,11 +8,11 @@ MVN_BUILD_ARG := -P prod
 MVN_TEST_ARG  := -P dev
 PROJ_NAME     := lmcc-backend
 
-.PHONY: all prepare clean build test deploy
+.PHONY: all config clean build test deploy
 
-all: prepare clean build test deploy
+all: config clean build test deploy
 
-prepare:
+config:
 	@echo "== Prepare =="
 	cp $(PROD_CONFIG) $(RESOURCE)
 	cp $(TEST_CONFIG) $(RESOURCE)
