@@ -8,6 +8,7 @@ import com.edu.nju.clockcourier.dto.MvnLibFilterDTO;
 import com.edu.nju.clockcourier.dto.MvnProjFilterDTO;
 import com.edu.nju.clockcourier.util.Sorter;
 import com.edu.nju.clockcourier.vo.*;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -28,6 +29,7 @@ public class MvnIntegrationTest {
 
     // L3-1
     @Test
+    @Disabled
     public void queryMvnDepsTest() {
         // L3-1.1
         String artifactId = "specs2-core";
@@ -59,6 +61,7 @@ public class MvnIntegrationTest {
 
     // id: L4-1, L4-2
     @Test
+    @Disabled
     public void getMvnProjTest() {
         // L4-1.1
         // dto init
@@ -110,6 +113,7 @@ public class MvnIntegrationTest {
 
     // id: L5-1
     @Test
+    @Disabled
     public void getMvnDepsTest() {
         String target = "bb4-hiq";
         MvnProjFilterDTO dto = new MvnProjFilterDTO();
@@ -139,6 +143,7 @@ public class MvnIntegrationTest {
 
     // id: L5-2
     @Test
+    @Disabled
     public void getMvnProjWithSpecificVersionTest() {
         // 项目 id, 已经获取好的
         int id = 4919;

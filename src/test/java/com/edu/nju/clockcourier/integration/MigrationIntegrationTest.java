@@ -3,6 +3,7 @@ package com.edu.nju.clockcourier.integration;
 import com.edu.nju.clockcourier.controller.MigrationController;
 import com.edu.nju.clockcourier.vo.MigrationGraphVO;
 import com.edu.nju.clockcourier.vo.MvnLibVO;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,6 +25,7 @@ public class MigrationIntegrationTest {
 
     // L3-2
     @Test
+    @Disabled
     public void migrationGraphTest() {
         String libId = "1395";
         List<MigrationGraphVO> list = this.migrationController.getMvnMigrationGraph(libId).getData();

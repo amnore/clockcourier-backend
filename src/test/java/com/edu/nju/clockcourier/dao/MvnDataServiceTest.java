@@ -7,6 +7,7 @@ import com.edu.nju.clockcourier.dto.MvnProjFilterDTO;
 import com.edu.nju.clockcourier.po.MvnDepPO;
 import com.edu.nju.clockcourier.po.MvnLibPO;
 import com.edu.nju.clockcourier.po.MvnProjPO;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -24,6 +25,7 @@ class MvnDataServiceTest {
 
 
     @Test
+    @Disabled
     void getMvnLib() {
         MvnLibPO lib = mvnDataService.getMvnLib(4763);
         String actual = lib.getGroupId();
@@ -32,6 +34,7 @@ class MvnDataServiceTest {
     }
 
     @Test
+    @Disabled
     void testGetMvnLib() {
         MvnLibPO lib = mvnDataService.getMvnLib("ant", "ant");
         Integer actual = lib.getLibId();
@@ -40,6 +43,7 @@ class MvnDataServiceTest {
     }
 
     @Test
+    @Disabled
     void getMvnProjIdIfExists() {
         Integer actual = mvnDataService.getMvnProjIdIfExists("de.sciss", "treetable");
         Integer expected = 1;
@@ -47,6 +51,7 @@ class MvnDataServiceTest {
     }
 
     @Test
+    @Disabled
     void getMvnProj() {
         MvnProjPO mvnProj = mvnDataService.getMvnProj(1, "1.3.0");
         String actual = mvnProj.getVersion();
@@ -55,6 +60,7 @@ class MvnDataServiceTest {
     }
 
     @Test
+    @Disabled
     void getNewestMvnProj() {
         MvnProjPO mvnProj = mvnDataService.getNewestMvnProj(1);
         String actual = mvnProj.getVersion();
@@ -63,6 +69,7 @@ class MvnDataServiceTest {
     }
 
     @Test
+    @Disabled
     void allMvnProjAndFilterNewest() {
         MvnProjFilterDTO filter = new MvnProjFilterDTO();
         filter.setSort(MvnProjSortRule.ArtifactId);
@@ -79,6 +86,7 @@ class MvnDataServiceTest {
     }
 
     @Test
+    @Disabled
     void allMvnLibAndFilter() {
         MvnLibFilterDTO filter = new MvnLibFilterDTO();
         filter.setSort(MvnLibSortRule.ArtifactId);
@@ -95,12 +103,14 @@ class MvnDataServiceTest {
     }
 
     @Test
+    @Disabled
     void allMvnProjVersions() {
         List<String> versions = mvnDataService.allMvnProjVersions(1);
         assertEquals("1.3.0", versions.get(0));
     }
 
     @Test
+    @Disabled
     void allMvnDeps() {
         List<MvnDepPO> mvnDepPOList = mvnDataService.allMvnDeps(1, "1.3.0");
         for (MvnDepPO po : mvnDepPOList) {

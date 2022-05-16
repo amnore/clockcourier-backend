@@ -41,8 +41,8 @@ class MigrationServiceTest {
         migrationRulePO.setFromId(1);
         migrationRulePO.setToId(2);
         migrationRulePO.setConfidence(1.0);
-        migrationRulePO.setVersion("1.0.0");
-        migrationRulePO.setProjectId(1);
+//        migrationRulePO.setVersion("1.0.0");
+//        migrationRulePO.setProjectId(1);
 
         mvnLibVO_1 = new MvnLibVO();
         mvnLibVO_1.setArtifactId("zzh");

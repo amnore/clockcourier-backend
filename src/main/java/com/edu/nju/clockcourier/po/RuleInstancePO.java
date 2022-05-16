@@ -7,28 +7,19 @@ import javax.annotation.Generated;
 
 @Data
 @NoArgsConstructor
-public class MigrationRulePO {
+public class RuleInstancePO {
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     private Integer ruleId;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    private Integer fromId;
+    private Integer projectId;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    private Integer toId;
+    private String fileName;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    private Double confidence;
+    private String startCommitLink;
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    private Double ruleSup;
-
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    private Double msgSup;
-
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    private Double disSup;
-
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
-    private Double apiSup;
+    private String endCommitLink;
 }

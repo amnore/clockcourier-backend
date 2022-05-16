@@ -141,8 +141,8 @@ public class CalcTask {
                 po.setFromId(key.getFirst());
                 po.setToId(key.getSecond());
                 po.setConfidence(confidence);
-                po.setProjectId(revision.getFirst());
-                po.setVersion(revision.getSecond());
+//                po.setProjectId(revision.getFirst());
+//                po.setVersion(revision.getSecond());
                 this.migrationDataService.insertRuleIfNotExists(po);
             }
         }

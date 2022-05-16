@@ -27,10 +27,11 @@ public class MigrationDataServiceImpl implements MigrationDataService {
     @Override
     public void insertRuleIfNotExists(MigrationRulePO po) {
         long c = this.migrationRuleMapper.count(cur -> cur
-                .where(MigrationRuleDSS.fromId, isEqualTo(po.getFromId()))
-                .and(MigrationRuleDSS.toId, isEqualTo(po.getToId()))
-                .and(MigrationRuleDSS.projectId, isEqualTo(po.getProjectId()))
-                .and(MigrationRuleDSS.version, isEqualTo(po.getVersion())));
+                        .where(MigrationRuleDSS.fromId, isEqualTo(po.getFromId()))
+                        .and(MigrationRuleDSS.toId, isEqualTo(po.getToId()))
+//                .and(MigrationRuleDSS.projectId, isEqualTo(po.getProjectId()))
+//                .and(MigrationRuleDSS.version, isEqualTo(po.getVersion()))
+        );
         if (c != 0L) return;
         this.migrationRuleMapper.insert(po);
     }
