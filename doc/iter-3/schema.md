@@ -19,6 +19,8 @@
 
 key: `project_id`.
 
+indexes: `[project_id, (group_id, artifact_id)]`.
+
 ### mvn_libs
 
 对应在 mvn 中央仓库有链接的第三方库的集合.
@@ -28,10 +30,12 @@ key: `project_id`.
 | `lib_id` | integer | mvn lib 的唯一编号 |
 | `group_id` | varchar(128) | mvn groupId |
 | `artifact_id` | varchar(128) | mvn artifactId |
-| `mvn_centrl_url` | varchar(1024) | mvn 中央仓库地址 |
+| `mvn_ctr_url` | varchar(1024) | mvn 中央仓库地址 |
 | `github_url` | varchar(1024) | github 地址 |
 
 key: `lib_id`.
+
+indexes: `[lib_id, (group_id, artifact_id)]`.
 
 ## Relationship
 
@@ -45,12 +49,14 @@ key: `lib_id`.
 | `from_id` | integer | 从某个库迁移出, 这个库的 id, 对应 `mvn_lib` 表的 id |
 | `to_id` | integer | 迁移到某个库, 这个库的 id |
 | `confidence` | double | 置信度 |
-| `r_s` | double | 规则支持度 |
-| `m_s` | double | 消息支持度 |
-| `d_s` | double | 距离支持度 |
-| `a_s` | double | API 支持度 |
+| `rule_sup` | double | 规则支持度 |
+| `msg_sup` | double | 消息支持度 |
+| `dis_sup` | double | 距离支持度 |
+| `api_sup` | double | API 支持度 |
 
 key: `rule_id`.
+
+indexes: `[rule_id, (from_id, to_id)]`.
 
 ### rule_instances
 
@@ -64,4 +70,6 @@ key: `rule_id`.
 | `start_commit_link` | varchar(1024) | 开始 commit 链接 |
 | `end_commit_link` | varchar(1024) | 结束 commit 链接 |
 
-key: (`rule_id`, `project_id`, `file_name`)
+key: (`rule_id`, `project_id`, `file_name`).
+
+indexes: `[rule_id]`.
