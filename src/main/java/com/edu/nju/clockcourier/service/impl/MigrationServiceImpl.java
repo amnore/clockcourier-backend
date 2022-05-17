@@ -6,11 +6,14 @@ import com.edu.nju.clockcourier.po.MigrationRulePO;
 import com.edu.nju.clockcourier.po.RuleInstancePO;
 import com.edu.nju.clockcourier.service.MigrationService;
 import com.edu.nju.clockcourier.service.MvnService;
+import com.edu.nju.clockcourier.util.PomAnalyseUtil;
 import com.edu.nju.clockcourier.vo.*;
+import org.codehaus.plexus.util.xml.pull.XmlPullParserException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
+import java.io.IOException;
 import java.util.*;
 import java.util.stream.Collectors;
 
@@ -90,9 +93,17 @@ public class MigrationServiceImpl implements MigrationService {
     //解析pom文件并返回lib列表
     //最好用个util来做计算吧
     @Override
-    public MvnLibListVO analysePom(MvnPomAnalyseDTO dto) {
-
-        return null;
+    public MvnLibListVO analysePom(MvnPomAnalyseDTO dto) throws XmlPullParserException, IOException {
+        List<Pair<String, String>> list = PomAnalyseUtil.analyse(dto.getPom());
+        MvnLibListVO mvnLibListVO = new MvnLibListVO();
+        List<MvnLibVO> mvnLibVOS = new ArrayList<>();
+        for (Pair<String, String> pair : list
+        ) {
+            mvnLibVOS.add(mvnService.getSpecificMvnLib(pair.getFirst(), pair.getSecond()));
+        }
+        mvnLibListVO.setLibs(mvnLibVOS);
+        mvnLibListVO.setCount(mvnLibVOS.size());
+        return mvnLibListVO;
     }
 
     //简简单单获取一下实例
