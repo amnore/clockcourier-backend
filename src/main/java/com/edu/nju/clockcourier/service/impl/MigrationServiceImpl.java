@@ -94,23 +94,32 @@ public class MigrationServiceImpl implements MigrationService {
     //最好用个util来做计算吧
     @Override
     public MvnLibListVO analysePom(MvnPomAnalyseDTO dto) throws XmlPullParserException, IOException {
+
+        //先调用工具类解析pom文件，获取依赖的groupId和artifactId
         List<Pair<String, String>> list = PomAnalyseUtil.analyse(dto.getPom());
         MvnLibListVO mvnLibListVO = new MvnLibListVO();
         List<MvnLibVO> mvnLibVOS = new ArrayList<>();
+
+        //然后再对每个依赖查找对应的lib
         for (Pair<String, String> pair : list
         ) {
             mvnLibVOS.add(mvnService.getSpecificMvnLib(pair.getFirst(), pair.getSecond()));
         }
+        //返回依赖列表
         mvnLibListVO.setLibs(mvnLibVOS);
         mvnLibListVO.setCount(mvnLibVOS.size());
         return mvnLibListVO;
     }
 
-    //简简单单获取一下实例
+    //获取迁移实例
     @Override
     public MigInsListVO getInstance(Integer ruleId, Integer page) {
+
+        //先根据ruleId获取迁移规则实例列表
         List<RuleInstancePO> ruleInstancePOS = dataService.getInstance(ruleId, page);
         List<MigrationInstanceVO> migrationInstanceVOS = new ArrayList<>();
+
+        //对每个实例，查找对应的项目信息，组合成具体实例返回
         ruleInstancePOS.forEach(cur -> {
             MvnNewestProjVO mvnNewestProjVO = mvnService.getNewestMvnProj(cur.getProjectId());
             migrationInstanceVOS.add(new MigrationInstanceVO(
@@ -122,6 +131,8 @@ public class MigrationServiceImpl implements MigrationService {
                     cur.getStartCommitLink(),
                     cur.getEndCommitLink()));
         });
+
+        //返回结果
         int count = ruleInstancePOS.size();
         MigInsListVO migInsListVO = new MigInsListVO(count, migrationInstanceVOS);
         return migInsListVO;
