@@ -22,4 +22,16 @@ public class RuleInstancePO {
 
     @Generated("org.mybatis.generator.api.MyBatisGenerator")
     private String endCommitLink;
+
+    private static RuleInstancePO nullInstance;
+
+    public static RuleInstancePO getNullInstance() {
+        if (nullInstance == null) nullInstance = new RuleInstancePO();
+        return nullInstance;
+    }
+
+    // 通过是否是同一个对象来判断是否是 null instance
+    public static boolean isNullInstance(RuleInstancePO po) {
+        return po == nullInstance;
+    }
 }

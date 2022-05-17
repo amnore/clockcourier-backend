@@ -1,20 +1,17 @@
 package com.edu.nju.clockcourier.service.impl;
 
 import com.edu.nju.clockcourier.dao.MigrationDataService;
+import com.edu.nju.clockcourier.dto.MvnPomAnalyseDTO;
 import com.edu.nju.clockcourier.po.MigrationRulePO;
+import com.edu.nju.clockcourier.po.RuleInstancePO;
 import com.edu.nju.clockcourier.service.MigrationService;
 import com.edu.nju.clockcourier.service.MvnService;
-import com.edu.nju.clockcourier.vo.MigrationEdgeVO;
-import com.edu.nju.clockcourier.vo.MigrationGraphVO;
-import com.edu.nju.clockcourier.vo.MvnLibVO;
+import com.edu.nju.clockcourier.vo.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
-import java.util.HashSet;
-import java.util.List;
-import java.util.PriorityQueue;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @Service
@@ -88,5 +85,34 @@ public class MigrationServiceImpl implements MigrationService {
                                 .filter(e -> transitiveConfidence.containsKey(e.getLibId()))
                                 .collect(Collectors.toList())))
                 .collect(Collectors.toList());
+    }
+
+    //解析pom文件并返回lib列表
+    //最好用个util来做计算吧
+    @Override
+    public MvnLibListVO analysePom(MvnPomAnalyseDTO dto) {
+
+        return null;
+    }
+
+    //简简单单获取一下实例
+    @Override
+    public MigInsListVO getInstance(Integer ruleId, Integer page) {
+        List<RuleInstancePO> ruleInstancePOS = dataService.getInstance(ruleId, page);
+        List<MigrationInstanceVO> migrationInstanceVOS = new ArrayList<>();
+        ruleInstancePOS.forEach(cur -> {
+            MvnNewestProjVO mvnNewestProjVO = mvnService.getNewestMvnProj(cur.getProjectId());
+            migrationInstanceVOS.add(new MigrationInstanceVO(
+                    cur.getRuleId(),
+                    mvnNewestProjVO.getName(),
+                    cur.getProjectId(),
+                    cur.getFileName(),
+                    mvnNewestProjVO.getUrl(),
+                    cur.getStartCommitLink(),
+                    cur.getEndCommitLink()));
+        });
+        int count = ruleInstancePOS.size();
+        MigInsListVO migInsListVO = new MigInsListVO(count, migrationInstanceVOS);
+        return migInsListVO;
     }
 }

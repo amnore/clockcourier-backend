@@ -49,7 +49,7 @@ public class MigrationController {
     }
 
     @GetMapping("/mvn/rule/{ruleId}/instance/get")
-    public ResponseVO<MigInsListVO> getInstance(@PathVariable String ruleId, @RequestParam Integer page) {
+    public ResponseVO<MigInsListVO> getInstance(@PathVariable Integer ruleId, @RequestParam Integer page) {
         MigInsListVO migInsListVO = new MigInsListVO();
         List<MigrationInstanceVO> migrationInstanceVOS = new ArrayList<>();
         MigrationInstanceVO migrationInstanceVO = new MigrationInstanceVO(1, "project", 1, "file", "www", "first commit", "end commit");
