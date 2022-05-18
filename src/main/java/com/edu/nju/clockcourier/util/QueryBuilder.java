@@ -6,7 +6,7 @@ import org.mybatis.dynamic.sql.SortSpecification;
 public class QueryBuilder {
 
     public static String buildLike(String str) {
-        if (Convention.isNull(str)) return null;
+        if (Convention.isNullStr(str)) return null;
         return "%" + str + "%";
     }
 

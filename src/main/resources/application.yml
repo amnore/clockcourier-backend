@@ -26,5 +26,5 @@ spring:
       connection-timeout: 60000
       connection-test-query: select 1
 
-db:
+display:
   page-size: 15

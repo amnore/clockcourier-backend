@@ -2,11 +2,6 @@ package com.edu.nju.clockcourier.util;
 
 public class Sorter {
 
-
-    private static boolean isSpecial(char a) {
-        return !(Character.isDigit(a) || Character.isLetter(a));
-    }
-
     private static int compareOnce(char ca, char cb) {
         return ca - cb;
     }

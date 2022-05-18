@@ -11,15 +11,12 @@
 | name | type | description |
 | :---: | :---: | :---: |
 | `project_id` | integer | mvn 项目的唯一编号 |
-| `group_id` | varchar(128) | mvn 项目 groupId |
-| `artifact_id` | integer(128) | mvn 项目 artifactId |
 | `name` | varchar(1024) | 项目名称 |
 | `url` | varchar(1024) | 项目路径, github |
-| `description` | varchar(8192) | 项目描述信息 |
 
 key: `project_id`.
 
-indexes: `[project_id, (group_id, artifact_id)]`.
+indexes: `[project_id]`.
 
 ### mvn_libs
 
@@ -32,6 +29,7 @@ indexes: `[project_id, (group_id, artifact_id)]`.
 | `artifact_id` | varchar(128) | mvn artifactId |
 | `mvn_ctr_url` | varchar(1024) | mvn 中央仓库地址 |
 | `github_url` | varchar(1024) | github 地址 |
+| `description` | varchar(8192) | lib 描述信息 |
 
 key: `lib_id`.
 

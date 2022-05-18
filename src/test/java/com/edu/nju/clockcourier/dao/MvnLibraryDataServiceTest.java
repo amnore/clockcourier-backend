@@ -4,9 +4,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 @SpringBootTest
-class MigrationDataServiceTest {
+class MvnLibraryDataServiceTest {
 
     @Autowired
-    private MigrationDataService migrationDataService;
+    private MvnLibraryDataService mvnDataService;
 
 }

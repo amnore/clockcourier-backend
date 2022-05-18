@@ -2,17 +2,17 @@ package com.edu.nju.clockcourier.vo;
 
 import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
 
 import java.util.List;
 
 @Data
 @AllArgsConstructor
-@NoArgsConstructor
-public class MvnLibListVO {
+public class MigrationNodeVO {
 
-    private Integer pageAll;
+    private MvnLibVO fromLibInfo;
 
-    private List<MvnLibVO> libs;
+    private double transitiveConfidence;
+
+    private List<MigrationRuleVO> edges;
 
 }

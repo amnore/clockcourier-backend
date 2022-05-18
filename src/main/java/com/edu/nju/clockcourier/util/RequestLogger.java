@@ -62,7 +62,7 @@ public class RequestLogger {
         log.setBasePath(StrUtil.removeSuffix(urlStr, URLUtil.url(urlStr).getPath()));
         log.setIp(request.getRemoteUser());
         log.setMethod(request.getMethod());
-        log.setParameter(Reflecter.getParameter(method, joinPoint.getArgs()));
+        log.setParameter(Reflector.getParameter(method, joinPoint.getArgs()));
         log.setResult(result);
         log.setSpendTime((int) (endTime - startTime));
 

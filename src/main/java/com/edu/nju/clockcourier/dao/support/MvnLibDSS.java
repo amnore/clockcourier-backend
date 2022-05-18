@@ -6,26 +6,23 @@ import org.mybatis.dynamic.sql.SqlTable;
 import javax.annotation.Generated;
 import java.sql.JDBCType;
 
+@Generated("org.mybatis.generator.api.MyBatisGenerator")
 public final class MvnLibDSS {
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+
     public static final MvnLib mvnLib = new MvnLib();
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<Integer> libId = mvnLib.libId;
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<String> groupId = mvnLib.groupId;
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<String> artifactId = mvnLib.artifactId;
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<String> mvnCtrUrl = mvnLib.mvnCtrUrl;
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<String> githubUrl = mvnLib.githubUrl;
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+    public static final SqlColumn<String> description = mvnLib.description;
+
     public static final class MvnLib extends SqlTable {
         public final SqlColumn<Integer> libId = column("lib_id", JDBCType.INTEGER);
 
@@ -37,8 +34,11 @@ public final class MvnLibDSS {
 
         public final SqlColumn<String> githubUrl = column("github_url", JDBCType.VARCHAR);
 
+        public final SqlColumn<String> description = column("description", JDBCType.VARCHAR);
+
         public MvnLib() {
             super("mvn_libs");
         }
     }
+
 }

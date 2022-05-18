@@ -18,3 +18,4 @@
 
 - [api](https://app.swaggerhub.com/apis-docs/xxh160/lmcc-api/3.0.0)
 - 数据库 schema: [schema](doc/iter-3/schema.md)
+- 重构记录: [refactor](doc/iter-3/refactor.md)

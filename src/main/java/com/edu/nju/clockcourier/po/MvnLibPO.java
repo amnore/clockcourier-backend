@@ -1,29 +1,21 @@
 package com.edu.nju.clockcourier.po;
 
-import lombok.AllArgsConstructor;
 import lombok.Data;
-import lombok.NoArgsConstructor;
-
-import javax.annotation.Generated;
 
 @Data
-@NoArgsConstructor
-@AllArgsConstructor
 public class MvnLibPO {
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+
     private Integer libId;
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     private String groupId;
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     private String artifactId;
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     private String mvnCtrUrl;
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     private String githubUrl;
+
+    private String description;
 
     private static MvnLibPO nullInstance;
 
@@ -37,8 +29,4 @@ public class MvnLibPO {
         return po == nullInstance;
     }
 
-    public MvnLibPO(String groupId, String artifactId) {
-        this.groupId = groupId;
-        this.artifactId = artifactId;
-    }
 }

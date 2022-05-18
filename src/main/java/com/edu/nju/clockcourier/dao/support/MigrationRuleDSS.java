@@ -6,35 +6,27 @@ import org.mybatis.dynamic.sql.SqlTable;
 import javax.annotation.Generated;
 import java.sql.JDBCType;
 
+@Generated("org.mybatis.generator.api.MyBatisGenerator")
 public final class MigrationRuleDSS {
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
+
     public static final MigrationRule migrationRule = new MigrationRule();
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<Integer> ruleId = migrationRule.ruleId;
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<Integer> fromId = migrationRule.fromId;
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<Integer> toId = migrationRule.toId;
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<Double> confidence = migrationRule.confidence;
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<Double> ruleSup = migrationRule.ruleSup;
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<Double> msgSup = migrationRule.msgSup;
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<Double> disSup = migrationRule.disSup;
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final SqlColumn<Double> apiSup = migrationRule.apiSup;
 
-    @Generated("org.mybatis.generator.api.MyBatisGenerator")
     public static final class MigrationRule extends SqlTable {
         public final SqlColumn<Integer> ruleId = column("rule_id", JDBCType.INTEGER);
 
@@ -56,4 +48,5 @@ public final class MigrationRuleDSS {
             super("migration_rules");
         }
     }
+
 }

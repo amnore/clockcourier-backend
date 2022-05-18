@@ -14,7 +14,7 @@
             <property name="hasLombok" value="true"/>
         </plugin>
 
-        <!-- suppressDate是去掉生成日期那行注释，suppressAllComments是去掉所有的注解 -->
+        <!-- suppressDate 是去掉生成日期那行注释, suppressAllComments 是去掉所有的注解 -->
         <commentGenerator>
             <property name="suppressDate" value="true"/>
             <property name="suppressAllComments" value="true"/>
@@ -36,35 +36,16 @@
             <property name="enableSubPackages" value="true"/>
         </javaClientGenerator>
 
-        <!--        <table tableName="project_dependencies" domainObjectName="ProjectDependency" enableCountByExample="false"-->
-        <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-        <!--               selectByExampleQueryId="false"/>-->
-        <!--        <table tableName="projects" domainObjectName="Project" enableCountByExample="false"-->
-        <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-        <!--               selectByExampleQueryId="false"/>-->
-        <!--        <table tableName="repositories" domainObjectName="Repository" enableCountByExample="false"-->
-        <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-        <!--               selectByExampleQueryId="false"/>-->
-        <!--        <table tableName="repository_dependencies" domainObjectName="RepositoryDependency"-->
-        <!--               enableCountByExample="false"-->
-        <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-        <!--               selectByExampleQueryId="false"/>-->
-        <!--        <table tableName="mvn_dependencies" domainObjectName="MvnDependency" enableCountByExample="false"-->
-        <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-        <!--               selectByExampleQueryId="false"/>-->
-        <!--        <table tableName="mvn_libs" domainObjectName="MvnLib" enableCountByExample="false"-->
-        <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-        <!--               selectByExampleQueryId="false"/>-->
-        <!--        <table tableName="mvn_projects" domainObjectName="MvnProject" enableCountByExample="false"-->
-        <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-        <!--               selectByExampleQueryId="false"/>-->
-        <!--        <table tableName="migration_rules" domainObjectName="MigrationRule" enableCountByExample="false"-->
-        <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-        <!--               selectByExampleQueryId="false"/>-->
-        <!--        <table tableName="rule_instances" domainObjectName="RuleInstance" enableCountByExample="false"-->
-        <!--               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"-->
-        <!--               selectByExampleQueryId="false"/>-->
         <table tableName="mvn_libs" domainObjectName="MvnLib" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"/>
+        <table tableName="mvn_projects" domainObjectName="MvnProject" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"/>
+        <table tableName="migration_rules" domainObjectName="MigrationRule" enableCountByExample="false"
+               enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
+               selectByExampleQueryId="false"/>
+        <table tableName="rule_instances" domainObjectName="RuleInstance" enableCountByExample="false"
                enableUpdateByExample="false" enableDeleteByExample="false" enableSelectByExample="false"
                selectByExampleQueryId="false"/>
     </context>

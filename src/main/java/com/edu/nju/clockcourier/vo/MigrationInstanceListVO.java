@@ -9,10 +9,10 @@ import java.util.List;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class MvnLibListVO {
+public class MigrationInstanceListVO {
 
-    private Integer pageAll;
+    private Integer count;
 
-    private List<MvnLibVO> libs;
+    private List<MigrationInstanceVO> instances;
 
 }
