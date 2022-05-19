@@ -11,7 +11,8 @@ public enum ReturnMessage {
     InvalidDTO("Invalid DTO"),
     InvalidPom("Invalid pom file"),
     NoSuchMvnLibExp("No such maven library."),
-    NoSuchMvnProjExp("No such maven project.");
+    NoSuchMvnProjExp("No such maven project."),
+    NoSuchRuleExp("No such migration rule.");
 
     private final String msg;
 

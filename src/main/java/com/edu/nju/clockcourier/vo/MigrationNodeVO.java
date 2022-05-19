@@ -11,8 +11,10 @@ public class MigrationNodeVO {
 
     private MvnLibVO fromLibInfo;
 
-    private double transitiveConfidence;
-
     private List<MigrationRuleVO> edges;
+
+    public static MigrationNodeVO build(MvnLibVO lib, List<MigrationRuleVO> edges) {
+        return new MigrationNodeVO(lib, edges);
+    }
 
 }

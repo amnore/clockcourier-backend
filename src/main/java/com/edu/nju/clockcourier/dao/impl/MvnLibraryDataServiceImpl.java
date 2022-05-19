@@ -50,6 +50,7 @@ public class MvnLibraryDataServiceImpl implements MvnLibraryDataService {
     @Override
     public Pair<List<MvnLibPO>, Integer> allMvnLibAndFilter(MvnLibFilterDTO filter) {
         int size = filter.getEndIndex() - filter.getStartIndex();
+        // 选择符合条件的 libraries
         SelectStatementProvider selector = SqlBuilder
                 .select(MvnLibMapper.selectList)
                 .from(MvnLibDSS.mvnLib)
@@ -59,6 +60,8 @@ public class MvnLibraryDataServiceImpl implements MvnLibraryDataService {
                 .limit(size).offset(filter.getStartIndex())
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
+        List<MvnLibPO> all = mvnLibMapper.selectMany(selector);
+        // 计算总数
         SelectStatementProvider count = SqlBuilder
                 .select(MvnLibMapper.selectList)
                 .from(MvnLibDSS.mvnLib)
@@ -66,7 +69,6 @@ public class MvnLibraryDataServiceImpl implements MvnLibraryDataService {
                 .and(MvnLibDSS.artifactId, isLikeWhenPresent(QueryBuilder.buildLike(filter.getArtifactId())))
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
-        List<MvnLibPO> all = mvnLibMapper.selectMany(selector);
         int allSize = mvnLibMapper.selectMany(count).size();
         return Pair.of(all, allSize);
     }

@@ -7,6 +7,4 @@ public class MvnPomAnalyseDTO {
 
     private String pom;
 
-    private Integer page;
-
 }

@@ -4,7 +4,6 @@ import cn.hutool.core.util.StrUtil;
 import cn.hutool.core.util.URLUtil;
 import cn.hutool.json.JSONUtil;
 import com.edu.nju.clockcourier.po.LogPO;
-import io.swagger.annotations.ApiOperation;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
@@ -39,21 +38,17 @@ public class RequestLogger {
         long startTime = System.currentTimeMillis();
         Object result = joinPoint.proceed();
 
-        //获取当前请求对象
+        // 获取当前请求对象
         ServletRequestAttributes attributes = (ServletRequestAttributes) RequestContextHolder.getRequestAttributes();
         if (attributes == null) return result;
         HttpServletRequest request = attributes.getRequest();
 
-        //记录请求信息
+        // 记录请求信息
         LogPO log = new LogPO();
 
         Signature signature = joinPoint.getSignature();
         MethodSignature methodSignature = (MethodSignature) signature;
         Method method = methodSignature.getMethod();
-        if (method.isAnnotationPresent(ApiOperation.class)) {
-            ApiOperation apiOperation = method.getAnnotation(ApiOperation.class);
-            log.setDescription(apiOperation.value());
-        }
 
         long endTime = System.currentTimeMillis();
 

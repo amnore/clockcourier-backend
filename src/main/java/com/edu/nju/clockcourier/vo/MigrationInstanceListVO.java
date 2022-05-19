@@ -11,7 +11,7 @@ import java.util.List;
 @NoArgsConstructor
 public class MigrationInstanceListVO {
 
-    private Integer count;
+    private Integer pageAll;
 
     private List<MigrationInstanceVO> instances;
 

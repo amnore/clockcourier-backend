@@ -2,7 +2,7 @@ package com.edu.nju.clockcourier.controller;
 
 import com.edu.nju.clockcourier.dto.MvnLibFilterDTO;
 import com.edu.nju.clockcourier.dto.MvnPomAnalyseDTO;
-import com.edu.nju.clockcourier.service.MvnLibraryService;
+import com.edu.nju.clockcourier.service.MvnService;
 import com.edu.nju.clockcourier.vo.MvnLibListVO;
 import com.edu.nju.clockcourier.vo.MvnLibVO;
 import com.edu.nju.clockcourier.vo.ResponseVO;
@@ -15,11 +15,11 @@ import java.util.List;
 @RequestMapping("/library/mvn")
 public class MvnLibraryController {
 
-    private final MvnLibraryService service;
+    private final MvnService service;
 
     @Autowired
-    public MvnLibraryController(MvnLibraryService service) {
-        this.service = service;
+    public MvnLibraryController(MvnService mvnService) {
+        this.service = mvnService;
     }
 
     @GetMapping("/{libId}/get")
