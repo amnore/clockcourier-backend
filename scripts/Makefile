@@ -2,6 +2,7 @@ CUR_TIME      := $(shell date +"%Y-%m-%d_%H.%M.%S")
 CONFIG_DIR    := /home/xiayi/SE3/backend
 PROD_CONFIG   := $(CONFIG_DIR)/application-prod.yml
 TEST_CONFIG   := $(CONFIG_DIR)/application-dev.yml
+DOCKER_FILE   := ./scripts/Dockerfile
 RESOURCE      := ./src/main/resources
 MVN           := ./mvnw
 MVN_BUILD_ARG := -P prod
@@ -40,8 +41,8 @@ test:
 
 deploy:
 	@echo "== Deploy =="
-	docker build -t se3/$(PROJ_NAME):$(CUR_TIME) .
-	docker run -d -p 8082:8082 --name $(PROJ_NAME) \
+	docker build -f $(DOCKER_FILE) -t se3/$(PROJ_NAME):$(CUR_TIME) .
+	docker run -e TZ="Asia/Shanghai" -d -p 8082:8082 --name $(PROJ_NAME) \
 		-v $(CONFIG_DIR)/logs:/logs \
     se3/$(PROJ_NAME):$(CUR_TIME)
 
