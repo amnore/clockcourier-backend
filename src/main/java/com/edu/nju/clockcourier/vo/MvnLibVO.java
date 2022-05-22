@@ -16,10 +16,20 @@ public class MvnLibVO {
 
     private String artifactId;
 
+    private String mvnCtrUrl;
+
+    private String repoUrl;
+
+    private String description;
+
     public static MvnLibVO build(MvnLibPO mvnLibPO) {
+        // github_url -> repo_url, 历史遗留问题...
         return new MvnLibVO(mvnLibPO.getLibId(),
                 mvnLibPO.getGroupId(),
-                mvnLibPO.getArtifactId());
+                mvnLibPO.getArtifactId(),
+                mvnLibPO.getMvnCtrUrl(),
+                mvnLibPO.getGithubUrl(),
+                mvnLibPO.getDescription());
     }
 
 }
