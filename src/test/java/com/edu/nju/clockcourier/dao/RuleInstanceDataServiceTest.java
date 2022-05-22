@@ -1,10 +1,16 @@
 package com.edu.nju.clockcourier.dao;
 
+import com.edu.nju.clockcourier.po.RuleInstancePO;
+import org.junit.Ignore;
+import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
+import static org.junit.jupiter.api.Assertions.assertEquals;
+
 @SpringBootTest
+@Disabled
 public class RuleInstanceDataServiceTest {
 
     private final RuleInstanceDataService ruleInstanceDataService;
@@ -15,10 +21,12 @@ public class RuleInstanceDataServiceTest {
     }
 
     @Test
-    public void relativeInstanceTest() {
+    @Ignore
+    public void getRelativeInstance() {
         var res = this.ruleInstanceDataService.getRelativeInstance(1, 2, 2);
-        System.out.println(res.getSecond());
-        res.getFirst().forEach(System.out::println);
+        for (RuleInstancePO ruleInstance : res.getFirst()) {
+            assertEquals(1, ruleInstance.getRuleId());
+        }
     }
 
 }
