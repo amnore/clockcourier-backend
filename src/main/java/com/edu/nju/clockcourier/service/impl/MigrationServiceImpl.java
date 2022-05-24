@@ -38,32 +38,19 @@ public class MigrationServiceImpl implements MigrationService {
 
     @Override
     public List<MigrationNodeVO> getMigrationGraph(Integer libId) {
-        // 返回图中所有点的列表
-        List<MigrationNodeVO> res = new ArrayList<>();
-        Set<Integer> hasVisited = new HashSet<>();
-        Queue<Integer> idQueue = new ArrayDeque<>();
-        idQueue.add(libId);
-        // 遍历所有候选 lib, 也就是图中所有点
-        while (!idQueue.isEmpty()) {
-            Integer curId = idQueue.remove();
-            // 如果已经访问过, 直接跳过
-            if (hasVisited.contains(curId)) continue;
-            // 加入已经访问的集合
-            hasVisited.add(curId);
-            // 当前 lib 的信息
-            MvnLibVO libInfo = this.mvnService.getSpecificMvnLib(curId);
-            // 所有从当前 lib 可以迁移到的库信息
-            List<MigrationRulePO> rules = this.migrationRuleDataService
-                    .rulesWithSpecificStart(curId);
-            for (MigrationRulePO rule : rules) {
-                // 加入待访问列表
-                idQueue.add(rule.getToId());
-                // 将构造成的 node 加入结果集
-                res.add(MigrationNodeVO.build(libInfo, rules.stream()
-                        .map(MigrationRuleVO::build)
-                        .collect(Collectors.toList())));
-            }
-        }
+        var rootNode = mvnService.getSpecificMvnLib(libId);
+        var edges = migrationRuleDataService.rulesWithSpecificStart(libId).stream()
+            .map(MigrationRuleVO::build)
+            .collect(Collectors.toList());
+        var nodes = edges.stream().map(e -> mvnService.getSpecificMvnLib(e.getToId()))
+            .collect(Collectors.toList());
+
+        var res = new ArrayList<MigrationNodeVO>();
+        res.add(MigrationNodeVO.build(rootNode, edges));
+        nodes.stream()
+            .map(n -> MigrationNodeVO.build(n, List.of()))
+            .forEach(res::add);
+
         return res;
     }
 
