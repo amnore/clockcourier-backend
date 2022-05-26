@@ -13,6 +13,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
@@ -50,6 +51,8 @@ public class MvnLibraryDataServiceImpl implements MvnLibraryDataService {
     @Override
     public Pair<List<MvnLibPO>, Integer> allMvnLibAndFilter(MvnLibFilterDTO filter) {
         int size = filter.getEndIndex() - filter.getStartIndex();
+
+        System.err.printf("allMvnLibAndFilter: begin %s\n", Instant.now());
         // 选择符合条件的 libraries
         SelectStatementProvider selector = SqlBuilder
                 .select(MvnLibMapper.selectList)
@@ -61,6 +64,8 @@ public class MvnLibraryDataServiceImpl implements MvnLibraryDataService {
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
         List<MvnLibPO> all = mvnLibMapper.selectMany(selector);
+
+        System.err.printf("allMvnLibAndFilter: count %s\n", Instant.now());
         // 计算总数
         SelectStatementProvider count = SqlBuilder
                 .select(MvnLibMapper.selectList)
@@ -70,6 +75,8 @@ public class MvnLibraryDataServiceImpl implements MvnLibraryDataService {
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
         int allSize = mvnLibMapper.selectMany(count).size();
+
+        System.err.printf("allMvnLibAndFilter: end %s\n", Instant.now());
         return Pair.of(all, allSize);
     }
 

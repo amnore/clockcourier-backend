@@ -18,6 +18,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -40,8 +41,12 @@ public class MvnServiceImpl implements MvnService {
 
     @Override
     public MvnLibListVO getMvnLibs(MvnLibFilterDTO filter) {
+
+        System.err.printf("getMvnLibs begin: %s\n", Instant.now());
         Pair<List<MvnLibPO>, Integer> p = this.mvnLibraryDataService
                 .allMvnLibAndFilter(filter);
+        System.err.printf("getMvnLibs allMvnLibAndFilter: %s\n", Instant.now());
+
         List<MvnLibPO> mvnLibs = p.getFirst();
         List<MvnLibVO> res = mvnLibs.stream()
                 .map(MvnLibVO::build)
