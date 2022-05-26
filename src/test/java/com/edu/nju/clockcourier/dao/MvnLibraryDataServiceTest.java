@@ -3,15 +3,14 @@ package com.edu.nju.clockcourier.dao;
 import com.edu.nju.clockcourier.constant.MvnLibSortRule;
 import com.edu.nju.clockcourier.dto.MvnLibFilterDTO;
 import com.edu.nju.clockcourier.po.MvnLibPO;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 
 @SpringBootTest
-@Disabled
 public class MvnLibraryDataServiceTest {
 
     private final MvnLibraryDataService mvnDataService;
@@ -29,17 +28,17 @@ public class MvnLibraryDataServiceTest {
 
     @Test
     public void getMvnLib2() {
-        MvnLibPO mvnLibPO = this.mvnDataService.getMvnLib("1", "2");
-        assertEquals("1", mvnLibPO.getGroupId());
-        assertEquals("2", mvnLibPO.getArtifactId());
+        MvnLibPO mvnLibPO = this.mvnDataService.getMvnLib("org.jbehave.web", "jbehave-trader-webapp");
+        assertEquals("org.jbehave.web", mvnLibPO.getGroupId());
+        assertEquals("jbehave-trader-webapp", mvnLibPO.getArtifactId());
     }
 
     @Test
     public void allMvnLibAndFilter() {
 
         MvnLibFilterDTO dto = new MvnLibFilterDTO();
-        dto.setArtifactId("1");
-        dto.setGroupId("2");
+        dto.setArtifactId("ja");
+        dto.setGroupId("org");
         dto.setSort(MvnLibSortRule.ArtifactId);
         dto.setStartIndex(1);
         dto.setEndIndex(2);
@@ -48,8 +47,8 @@ public class MvnLibraryDataServiceTest {
         var pair = mvnDataService.allMvnLibAndFilter(dto);
 
         for (MvnLibPO lib : pair.getFirst()) {
-            assertEquals("1", lib.getArtifactId());
-            assertEquals("2", lib.getGroupId());
+            assertTrue(lib.getArtifactId().contains("ja"));
+            assertTrue(lib.getGroupId().contains("org"));
         }
     }
 
