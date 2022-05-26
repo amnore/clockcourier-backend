@@ -38,6 +38,7 @@ public class MigrationServiceImpl implements MigrationService {
     public List<MigrationNodeVO> getMigrationGraph(Integer libId) {
         var rootNode = mvnService.getSpecificMvnLib(libId);
         var edges = migrationRuleDataService.rulesWithSpecificStart(libId).stream().map(MigrationRuleVO::build)
+                .sorted((a, b) -> Double.compare(a.getConfidence(), b.getConfidence())).limit(10)
                 .collect(Collectors.toList());
         var nodes = edges.stream().map(e -> {
             try {
