@@ -26,10 +26,8 @@ public class MigrationServiceImpl implements MigrationService {
     private final DisplayConfig config;
 
     @Autowired
-    public MigrationServiceImpl(MvnService mvnService,
-                                MigrationRuleDataService migrationRuleDataService,
-                                RuleInstanceDataService ruleInstanceDataService,
-                                DisplayConfig config) {
+    public MigrationServiceImpl(MvnService mvnService, MigrationRuleDataService migrationRuleDataService,
+            RuleInstanceDataService ruleInstanceDataService, DisplayConfig config) {
         this.mvnService = mvnService;
         this.migrationRuleDataService = migrationRuleDataService;
         this.ruleInstanceDataService = ruleInstanceDataService;
@@ -39,17 +37,19 @@ public class MigrationServiceImpl implements MigrationService {
     @Override
     public List<MigrationNodeVO> getMigrationGraph(Integer libId) {
         var rootNode = mvnService.getSpecificMvnLib(libId);
-        var edges = migrationRuleDataService.rulesWithSpecificStart(libId).stream()
-            .map(MigrationRuleVO::build)
-            .collect(Collectors.toList());
-        var nodes = edges.stream().map(e -> mvnService.getSpecificMvnLib(e.getToId()))
-            .collect(Collectors.toList());
+        var edges = migrationRuleDataService.rulesWithSpecificStart(libId).stream().map(MigrationRuleVO::build)
+                .collect(Collectors.toList());
+        var nodes = edges.stream().map(e -> {
+            try {
+                return mvnService.getSpecificMvnLib(e.getToId());
+            } catch (CustomException err) {
+                return null;
+            }
+        }).filter(n -> n != null).collect(Collectors.toList());
 
         var res = new ArrayList<MigrationNodeVO>();
         res.add(MigrationNodeVO.build(rootNode, edges));
-        nodes.stream()
-            .map(n -> MigrationNodeVO.build(n, List.of()))
-            .forEach(res::add);
+        nodes.stream().map(n -> MigrationNodeVO.build(n, List.of())).forEach(res::add);
 
         return res;
     }
@@ -57,23 +57,21 @@ public class MigrationServiceImpl implements MigrationService {
     @Override
     public MigrationRuleVO getRule(Integer ruleId) {
         MigrationRulePO po = this.migrationRuleDataService.getRule(ruleId);
-        if (MigrationRulePO.isNullInstance(po)) throw new CustomException(ReturnMessage.NoSuchRuleExp.getMsg());
+        if (MigrationRulePO.isNullInstance(po))
+            throw new CustomException(ReturnMessage.NoSuchRuleExp.getMsg());
         return MigrationRuleVO.build(po);
     }
 
     @Override
     public MigrationInstanceListVO getInstance(Integer ruleId, Integer page) {
         // 根据 ruleId 获取迁移规则实例列表
-        Pair<List<RuleInstancePO>, Integer> info = ruleInstanceDataService
-                .getRelativeInstance(ruleId, page, Integer.parseInt(config.getPageSize()));
+        Pair<List<RuleInstancePO>, Integer> info = ruleInstanceDataService.getRelativeInstance(ruleId, page,
+                Integer.parseInt(config.getPageSize()));
         // 每条迁移实例添加上 project 信息
-        List<MigrationInstanceVO> list = info.getFirst()
-                .stream()
-                .map(c -> {
-                    MvnProjectVO project = this.mvnService.getMvnProject(c.getProjectId());
-                    return MigrationInstanceVO.build(c, project);
-                })
-                .collect(Collectors.toList());
+        List<MigrationInstanceVO> list = info.getFirst().stream().map(c -> {
+            MvnProjectVO project = this.mvnService.getMvnProject(c.getProjectId());
+            return MigrationInstanceVO.build(c, project);
+        }).collect(Collectors.toList());
         return new MigrationInstanceListVO(config.pageAll(info.getSecond()), list);
     }
 
