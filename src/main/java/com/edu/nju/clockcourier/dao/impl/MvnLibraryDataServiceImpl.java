@@ -66,7 +66,7 @@ public class MvnLibraryDataServiceImpl implements MvnLibraryDataService {
                 .render(RenderingStrategies.MYBATIS3);
         List<MvnLibPO> all = mvnLibMapper.selectMany(selector);
 
-        System.err.printf("allMvnLibAndFilter: count %s\n", Instant.now());
+        // System.err.printf("allMvnLibAndFilter: count %s\n", Instant.now());
         // 计算总数
         SelectStatementProvider count = SqlBuilder
                 .countFrom(MvnLibDSS.mvnLib)
@@ -76,7 +76,7 @@ public class MvnLibraryDataServiceImpl implements MvnLibraryDataService {
                 .render(RenderingStrategies.MYBATIS3);
         int allSize = (int) mvnLibMapper.count(count);
 
-        System.err.printf("allMvnLibAndFilter: end %s\n", Instant.now());
+        // System.err.printf("allMvnLibAndFilter: end %s\n", Instant.now());
         return Pair.of(all, allSize);
     }
 
