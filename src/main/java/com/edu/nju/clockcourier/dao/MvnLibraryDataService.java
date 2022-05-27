@@ -16,4 +16,8 @@ public interface MvnLibraryDataService {
 
     Pair<List<MvnLibPO>, Integer> allMvnLibAndFilter(MvnLibFilterDTO filter);
 
+    List<Integer> allMvnLibId();
+
+    void updateStartRuleNum(Integer libId, Integer num);
+
 }

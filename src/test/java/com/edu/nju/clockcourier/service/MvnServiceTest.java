@@ -45,8 +45,6 @@ public class MvnServiceTest {
 
     private static MvnProjectPO mvnProjectPO;
 
-    private static List<MvnLibPO> mvnLibPOS;
-
     private static Pair<List<MvnLibPO>, Integer> p;
 
     private static MvnLibFilterDTO dto;
@@ -67,7 +65,7 @@ public class MvnServiceTest {
         mvnProjectPO.setName("project");
         mvnProjectPO.setUrl("www");
 
-        mvnLibPOS = new ArrayList<>();
+        List<MvnLibPO> mvnLibPOS = new ArrayList<>();
         mvnLibPOS.add(mvnLibPO);
         p = Pair.of(mvnLibPOS, 1);
 
@@ -76,7 +74,7 @@ public class MvnServiceTest {
     }
 
     @Test
-    void getMvnLibs() {
+    public void getMvnLibsTest() {
         given(mvnLibraryDataService.allMvnLibAndFilter(dto)).willReturn(p);
         given(displayConfig.pageAll(1)).willReturn(1);
         MvnLibListVO mvnLibListVO = mvnService.getMvnLibs(dto);
@@ -87,15 +85,15 @@ public class MvnServiceTest {
     }
 
     @Test
-    void getSpecificMvnLib() {
+    public void getSpecificMvnLibTest() {
         given(mvnLibraryDataService.getMvnLib(1)).willReturn(mvnLibPO);
         MvnLibVO mvnLibVO = mvnService.getSpecificMvnLib(1);
         assertEquals(mvnLibVO.getLibId(), 1);
     }
 
-    //todo:数据库填充数据后补充assertEqual
+    //todo: 数据库填充数据后补充assertEqual
     @Test
-    void extractPomDeps() {
+    public void extractPomDepsTest() {
         String pom = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n" +
                 "         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\">\n" +
@@ -113,9 +111,10 @@ public class MvnServiceTest {
     }
 
     @Test
-    void getMvnProject() {
+    public void getMvnProjectTest() {
         given(mvnProjectDataService.getProject(1)).willReturn(mvnProjectPO);
         MvnProjectVO mvnProjectVO = mvnService.getMvnProject(1);
         assertEquals(1, mvnProjectVO.getProjectId());
     }
+    
 }

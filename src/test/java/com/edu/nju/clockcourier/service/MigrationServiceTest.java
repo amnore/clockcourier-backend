@@ -43,17 +43,12 @@ public class MigrationServiceTest {
 
     private static MigrationRulePO migrationRulePO;
 
-    private static RuleInstancePO ruleInstancePO;
-
-    private static List<RuleInstancePO> ruleInstancePOS;
-
     private static MvnProjectVO mvnProjectVO;
 
     private static Pair<List<RuleInstancePO>, Integer> p;
 
     @BeforeAll
     public static void initData() {
-
         migrationRulePO = new MigrationRulePO();
         migrationRulePO.setRuleId(1);
         migrationRulePO.setConfidence(1.0);
@@ -64,39 +59,37 @@ public class MigrationServiceTest {
         migrationRulePO.setDisSup(1.0);
         migrationRulePO.setMsgSup(1.0);
 
-        ruleInstancePO = new RuleInstancePO();
+        RuleInstancePO ruleInstancePO = new RuleInstancePO();
         ruleInstancePO.setRuleId(1);
         ruleInstancePO.setProjectId(1);
         ruleInstancePO.setFileName("filename");
         ruleInstancePO.setStartCommitLink("start");
         ruleInstancePO.setEndCommitLink("end");
 
-        ruleInstancePOS = new ArrayList<>();
+        List<RuleInstancePO> ruleInstancePOS = new ArrayList<>();
         ruleInstancePOS.add(ruleInstancePO);
 
         mvnProjectVO = new MvnProjectVO();
         mvnProjectVO.setProjectId(1);
         mvnProjectVO.setName("name");
         mvnProjectVO.setUrl("url");
-
         p = Pair.of(ruleInstancePOS, 1);
+    }
+
+    @Test
+    public void getMigrationGraph() {
 
     }
 
     @Test
-    void getMigrationGraph() {
-
-    }
-
-    @Test
-    void getRule() {
+    public void getRule() {
         given(migrationRuleDataService.getRule(1)).willReturn(migrationRulePO);
         MigrationRuleVO migrationRuleVO = migrationService.getRule(1);
         assertEquals(1, migrationRuleVO.getRuleId());
     }
 
     @Test
-    void getInstance() {
+    public void getInstanceTest() {
         given(ruleInstanceDataService.getRelativeInstance(1, 1, 15)).willReturn(p);
         given(mvnService.getMvnProject(1)).willReturn(mvnProjectVO);
         given(config.getPageSize()).willReturn("15");
@@ -107,4 +100,5 @@ public class MigrationServiceTest {
         }
         assertEquals(1, migrationInstanceListVO.getPageAll());
     }
+
 }

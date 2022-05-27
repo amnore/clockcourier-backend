@@ -10,4 +10,6 @@ public interface MigrationRuleDataService {
 
     List<MigrationRulePO> rulesWithSpecificStart(Integer fromId);
 
+    int ruleCountWithSpecificStart(Integer fromId);
+
 }

@@ -1,7 +1,6 @@
 package com.edu.nju.clockcourier.dao;
 
 import com.edu.nju.clockcourier.po.RuleInstancePO;
-import org.junit.Ignore;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
@@ -19,8 +18,7 @@ public class RuleInstanceDataServiceTest {
     }
 
     @Test
-    @Ignore
-    public void getRelativeInstance() {
+    public void getRelativeInstanceTest() {
         var res = this.ruleInstanceDataService.getRelativeInstance(1, 2, 2);
         for (RuleInstancePO ruleInstance : res.getFirst()) {
             assertEquals(1, ruleInstance.getRuleId());

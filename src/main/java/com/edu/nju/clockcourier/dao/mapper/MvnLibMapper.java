@@ -30,7 +30,7 @@ import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 @Generated("org.mybatis.generator.api.MyBatisGenerator")
 public interface MvnLibMapper {
 
-    BasicColumn[] selectList = BasicColumn.columnList(libId, groupId, artifactId, mvnCtrUrl, githubUrl, description);
+    BasicColumn[] selectList = BasicColumn.columnList(libId, groupId, artifactId, mvnCtrUrl, githubUrl, description, startRuleNum);
 
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
     long count(SelectStatementProvider selectStatement);
@@ -45,18 +45,19 @@ public interface MvnLibMapper {
     int insertMultiple(MultiRowInsertStatementProvider<MvnLibPO> multipleInsertStatement);
 
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
-    @Results(id = "MvnLibResult", value = {
+    @Results(id = "MvnLibPOResult", value = {
             @Result(column = "lib_id", property = "libId", jdbcType = JdbcType.INTEGER, id = true),
             @Result(column = "group_id", property = "groupId", jdbcType = JdbcType.VARCHAR),
             @Result(column = "artifact_id", property = "artifactId", jdbcType = JdbcType.VARCHAR),
             @Result(column = "mvn_ctr_url", property = "mvnCtrUrl", jdbcType = JdbcType.VARCHAR),
             @Result(column = "github_url", property = "githubUrl", jdbcType = JdbcType.VARCHAR),
-            @Result(column = "description", property = "description", jdbcType = JdbcType.VARCHAR)
+            @Result(column = "description", property = "description", jdbcType = JdbcType.VARCHAR),
+            @Result(column = "start_rule_num", property = "startRuleNum", jdbcType = JdbcType.INTEGER)
     })
     Optional<MvnLibPO> selectOne(SelectStatementProvider selectStatement);
 
     @SelectProvider(type = SqlProviderAdapter.class, method = "select")
-    @ResultMap("MvnLibResult")
+    @ResultMap("MvnLibPOResult")
     List<MvnLibPO> selectMany(SelectStatementProvider selectStatement);
 
     @UpdateProvider(type = SqlProviderAdapter.class, method = "update")
@@ -84,6 +85,7 @@ public interface MvnLibMapper {
                         .map(mvnCtrUrl).toProperty("mvnCtrUrl")
                         .map(githubUrl).toProperty("githubUrl")
                         .map(description).toProperty("description")
+                        .map(startRuleNum).toProperty("startRuleNum")
         );
     }
 
@@ -95,6 +97,7 @@ public interface MvnLibMapper {
                         .map(mvnCtrUrl).toProperty("mvnCtrUrl")
                         .map(githubUrl).toProperty("githubUrl")
                         .map(description).toProperty("description")
+                        .map(startRuleNum).toProperty("startRuleNum")
         );
     }
 
@@ -106,6 +109,7 @@ public interface MvnLibMapper {
                         .map(mvnCtrUrl).toPropertyWhenPresent("mvnCtrUrl", record::getMvnCtrUrl)
                         .map(githubUrl).toPropertyWhenPresent("githubUrl", record::getGithubUrl)
                         .map(description).toPropertyWhenPresent("description", record::getDescription)
+                        .map(startRuleNum).toPropertyWhenPresent("startRuleNum", record::getStartRuleNum)
         );
     }
 
@@ -137,7 +141,8 @@ public interface MvnLibMapper {
                 .set(artifactId).equalTo(record::getArtifactId)
                 .set(mvnCtrUrl).equalTo(record::getMvnCtrUrl)
                 .set(githubUrl).equalTo(record::getGithubUrl)
-                .set(description).equalTo(record::getDescription);
+                .set(description).equalTo(record::getDescription)
+                .set(startRuleNum).equalTo(record::getStartRuleNum);
     }
 
     static UpdateDSL<UpdateModel> updateSelectiveColumns(MvnLibPO record, UpdateDSL<UpdateModel> dsl) {
@@ -146,7 +151,8 @@ public interface MvnLibMapper {
                 .set(artifactId).equalToWhenPresent(record::getArtifactId)
                 .set(mvnCtrUrl).equalToWhenPresent(record::getMvnCtrUrl)
                 .set(githubUrl).equalToWhenPresent(record::getGithubUrl)
-                .set(description).equalToWhenPresent(record::getDescription);
+                .set(description).equalToWhenPresent(record::getDescription)
+                .set(startRuleNum).equalToWhenPresent(record::getStartRuleNum);
     }
 
     default int updateByPrimaryKey(MvnLibPO record) {
@@ -156,6 +162,7 @@ public interface MvnLibMapper {
                         .set(mvnCtrUrl).equalTo(record::getMvnCtrUrl)
                         .set(githubUrl).equalTo(record::getGithubUrl)
                         .set(description).equalTo(record::getDescription)
+                        .set(startRuleNum).equalTo(record::getStartRuleNum)
                         .where(libId, isEqualTo(record::getLibId))
         );
     }
@@ -167,6 +174,7 @@ public interface MvnLibMapper {
                         .set(mvnCtrUrl).equalToWhenPresent(record::getMvnCtrUrl)
                         .set(githubUrl).equalToWhenPresent(record::getGithubUrl)
                         .set(description).equalToWhenPresent(record::getDescription)
+                        .set(startRuleNum).equalToWhenPresent(record::getStartRuleNum)
                         .where(libId, isEqualTo(record::getLibId))
         );
     }

@@ -14,7 +14,9 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.util.Pair;
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -27,7 +29,7 @@ public class MigrationServiceImpl implements MigrationService {
 
     @Autowired
     public MigrationServiceImpl(MvnService mvnService, MigrationRuleDataService migrationRuleDataService,
-            RuleInstanceDataService ruleInstanceDataService, DisplayConfig config) {
+                                RuleInstanceDataService ruleInstanceDataService, DisplayConfig config) {
         this.mvnService = mvnService;
         this.migrationRuleDataService = migrationRuleDataService;
         this.ruleInstanceDataService = ruleInstanceDataService;
@@ -46,7 +48,7 @@ public class MigrationServiceImpl implements MigrationService {
             } catch (CustomException err) {
                 return null;
             }
-        }).filter(n -> n != null).collect(Collectors.toList());
+        }).filter(Objects::nonNull).collect(Collectors.toList());
 
         var res = new ArrayList<MigrationNodeVO>();
         res.add(MigrationNodeVO.build(rootNode, edges));

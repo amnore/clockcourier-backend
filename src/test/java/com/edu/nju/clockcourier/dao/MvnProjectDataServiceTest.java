@@ -18,8 +18,9 @@ class MvnProjectDataServiceTest {
     }
 
     @Test
-    void getProject() {
+    public void getProjectTest() {
         MvnProjectPO mvnProjectPO = mvnProjectDataService.getProject(1);
         assertEquals(1, mvnProjectPO.getProjectId());
     }
+
 }

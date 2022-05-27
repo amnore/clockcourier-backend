@@ -23,6 +23,8 @@ public final class MvnLibDSS {
 
     public static final SqlColumn<String> description = mvnLib.description;
 
+    public static final SqlColumn<Integer> startRuleNum = mvnLib.startRuleNum;
+
     public static final class MvnLib extends SqlTable {
         public final SqlColumn<Integer> libId = column("lib_id", JDBCType.INTEGER);
 
@@ -35,6 +37,8 @@ public final class MvnLibDSS {
         public final SqlColumn<String> githubUrl = column("github_url", JDBCType.VARCHAR);
 
         public final SqlColumn<String> description = column("description", JDBCType.VARCHAR);
+
+        public final SqlColumn<Integer> startRuleNum = column("start_rule_num", JDBCType.INTEGER);
 
         public MvnLib() {
             super("mvn_libs");

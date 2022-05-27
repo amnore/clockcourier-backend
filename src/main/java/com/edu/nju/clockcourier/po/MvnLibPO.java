@@ -17,6 +17,8 @@ public class MvnLibPO {
 
     private String description;
 
+    private Integer startRuleNum;
+
     private static MvnLibPO nullInstance;
 
     public static MvnLibPO getNullInstance() {

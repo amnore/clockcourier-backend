@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.time.Instant;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import static org.mybatis.dynamic.sql.SqlBuilder.isEqualTo;
 import static org.mybatis.dynamic.sql.SqlBuilder.isLikeWhenPresent;
@@ -59,7 +60,7 @@ public class MvnLibraryDataServiceImpl implements MvnLibraryDataService {
                 .from(MvnLibDSS.mvnLib)
                 .where(MvnLibDSS.groupId, isLikeWhenPresent(QueryBuilder.buildLike(filter.getGroupId())))
                 .and(MvnLibDSS.artifactId, isLikeWhenPresent(QueryBuilder.buildLike(filter.getArtifactId())))
-                .orderBy(QueryBuilder.buildReverse(filter.getSort().getSortRule(), filter.getIsReverse()))
+                .orderBy(QueryBuilder.buildReverse(filter.getSort().getSortRule(), filter.getIsReverse()), MvnLibDSS.startRuleNum.descending())
                 .limit(size).offset(filter.getStartIndex())
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
@@ -77,6 +78,25 @@ public class MvnLibraryDataServiceImpl implements MvnLibraryDataService {
 
         System.err.printf("allMvnLibAndFilter: end %s\n", Instant.now());
         return Pair.of(all, allSize);
+    }
+
+    @Override
+    public List<Integer> allMvnLibId() {
+        SelectStatementProvider selector = SqlBuilder
+                .select(MvnLibDSS.libId)
+                .from(MvnLibDSS.mvnLib)
+                .build()
+                .render(RenderingStrategies.MYBATIS3);
+        return this.mvnLibMapper.selectMany(selector)
+                .stream().map(MvnLibPO::getLibId)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public void updateStartRuleNum(Integer libId, Integer num) {
+        this.mvnLibMapper.update(c -> c.set(MvnLibDSS.startRuleNum)
+                .equalTo(num)
+                .where(MvnLibDSS.libId, isEqualTo(libId)));
     }
 
 }

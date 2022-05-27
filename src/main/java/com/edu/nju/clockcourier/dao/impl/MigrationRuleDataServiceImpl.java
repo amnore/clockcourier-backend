@@ -41,4 +41,14 @@ public class MigrationRuleDataServiceImpl implements MigrationRuleDataService {
         return this.migrationRuleMapper.selectMany(selector);
     }
 
+    @Override
+    public int ruleCountWithSpecificStart(Integer fromId) {
+        SelectStatementProvider count = SqlBuilder
+                .countFrom(MigrationRuleDSS.migrationRule)
+                .where(MigrationRuleDSS.fromId, isEqualTo(fromId))
+                .build()
+                .render(RenderingStrategies.MYBATIS3);
+        return (int) migrationRuleMapper.count(count);
+    }
+
 }
