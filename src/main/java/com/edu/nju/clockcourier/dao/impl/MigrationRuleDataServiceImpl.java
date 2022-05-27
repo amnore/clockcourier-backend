@@ -36,6 +36,7 @@ public class MigrationRuleDataServiceImpl implements MigrationRuleDataService {
                 .select(MigrationRuleMapper.selectList)
                 .from(MigrationRuleDSS.migrationRule)
                 .where(MigrationRuleDSS.fromId, isEqualTo(fromId))
+                .orderBy(MigrationRuleDSS.confidence.descending())
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
         return this.migrationRuleMapper.selectMany(selector);
