@@ -40,8 +40,8 @@ public class MvnLibraryDataServiceTest {
         dto.setArtifactId("ja");
         dto.setGroupId("org");
         dto.setSort(MvnLibSortRule.ArtifactId);
-        dto.setStartIndex(1);
-        dto.setEndIndex(2);
+        dto.setStartIndex(10);
+        dto.setEndIndex(20);
         dto.setIsReverse(true);
         // test case 1
         Pair<List<MvnLibPO>, Integer> pair1 = mvnDataService.allMvnLibAndFilter(dto);
@@ -63,6 +63,18 @@ public class MvnLibraryDataServiceTest {
             assertTrue(lib.getGroupId().contains("org"));
             if (last != null) {
                 assertTrue(Sorter.DictCompare(lib.getArtifactId(), last.getArtifactId()) >= 0);
+            }
+            last = lib;
+        }
+        // test case 4
+        dto.setIsReverse(true);
+        dto.setSort(MvnLibSortRule.RuleNum);
+        dto.setGroupId(null);
+        Pair<List<MvnLibPO>, Integer> pair4 = mvnDataService.allMvnLibAndFilter(dto);
+        last = null;
+        for (MvnLibPO lib : pair4.getFirst()) {
+            if (last != null) {
+                assertTrue(last.getStartRuleNum() >= lib.getStartRuleNum());
             }
             last = lib;
         }

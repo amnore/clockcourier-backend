@@ -8,7 +8,8 @@ import org.mybatis.dynamic.sql.SqlColumn;
 public enum MvnLibSortRule {
 
     GroupId(MvnLibDSS.groupId),
-    ArtifactId(MvnLibDSS.artifactId);
+    ArtifactId(MvnLibDSS.artifactId),
+    RuleNum(MvnLibDSS.startRuleNum);
 
     private final SqlColumn<?> sortRule;
 

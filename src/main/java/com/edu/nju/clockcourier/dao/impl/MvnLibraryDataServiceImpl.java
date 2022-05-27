@@ -60,7 +60,7 @@ public class MvnLibraryDataServiceImpl implements MvnLibraryDataService {
                 .from(MvnLibDSS.mvnLib)
                 .where(MvnLibDSS.groupId, isLikeWhenPresent(QueryBuilder.buildLike(filter.getGroupId())))
                 .and(MvnLibDSS.artifactId, isLikeWhenPresent(QueryBuilder.buildLike(filter.getArtifactId())))
-                .orderBy(QueryBuilder.buildReverse(filter.getSort().getSortRule(), filter.getIsReverse()), MvnLibDSS.startRuleNum.descending())
+                .orderBy(QueryBuilder.buildReverse(filter.getSort().getSortRule(), filter.getIsReverse()))
                 .limit(size).offset(filter.getStartIndex())
                 .build()
                 .render(RenderingStrategies.MYBATIS3);
