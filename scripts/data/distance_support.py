@@ -4,11 +4,13 @@ from typing import NamedTuple, List, Dict
 from sys import stdin
 from csv import DictReader
 
+
 class RepoCommit(NamedTuple):
     repoName: str
     startCommit: str
     endCommit: str
     filePath: str
+
 
 class Candidate(NamedTuple):
     fromId: int
@@ -16,9 +18,11 @@ class Candidate(NamedTuple):
     repoCommitList: List[RepoCommit]
     commitDistanceList: List[int]
 
+
 class Lib(NamedTuple):
     groupId: str
     artifactId: str
+
 
 lib_id: Dict[Lib, int] = {}
 with open('lmcc_mvn_libs.csv') as csv:
@@ -51,11 +55,11 @@ while True:
 
     sum = 0
     for distance in candidate.commitDistanceList:
-        sum += 1 / (1 + distance**2)
+        sum += 1 / (1 + distance ** 2)
 
     distance_support = sum / len(candidate.commitDistanceList)
     convert_id = lambda id: lib_id[migration_helper_lib[id]]
     try:
         print(convert_id(candidate.fromId), convert_id(candidate.toId), distance_support, sep=',')
-    except KeyError: # some artifacts are not present in lioProject
+    except KeyError:  # some artifacts are not present in lioProject
         pass
