@@ -91,13 +91,13 @@ public class MigrationServiceTest {
         mvnLibVO.setMvnCtrUrl("");
         mvnLibVO.setRepoUrl("");
 
-        mvnLibVO = new MvnLibVO();
-        mvnLibVO.setLibId(2);
-        mvnLibVO.setGroupId("group2");
-        mvnLibVO.setArtifactId("artifact2");
-        mvnLibVO.setDescription("");
-        mvnLibVO.setMvnCtrUrl("");
-        mvnLibVO.setRepoUrl("");
+        mvnLibVO2 = new MvnLibVO();
+        mvnLibVO2.setLibId(2);
+        mvnLibVO2.setGroupId("group2");
+        mvnLibVO2.setArtifactId("artifact2");
+        mvnLibVO2.setDescription("");
+        mvnLibVO2.setMvnCtrUrl("");
+        mvnLibVO2.setRepoUrl("");
     }
 
     @Test

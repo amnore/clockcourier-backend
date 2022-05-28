@@ -43,6 +43,8 @@ public class MvnServiceTest {
 
     private static MvnLibPO mvnLibPO;
 
+    private static MvnLibPO mvnLibPO2;
+
     private static MvnProjectPO mvnProjectPO;
 
     private static Pair<List<MvnLibPO>, Integer> p;
@@ -59,6 +61,14 @@ public class MvnServiceTest {
         mvnLibPO.setMvnCtrUrl("www");
         mvnLibPO.setDescription("des");
         mvnLibPO.setGithubUrl("s");
+
+        mvnLibPO2 = new MvnLibPO();
+        mvnLibPO2.setLibId(2);
+        mvnLibPO2.setArtifactId("spring-boot-starter-data-jdbc");
+        mvnLibPO2.setGroupId("org.springframework.boot");
+        mvnLibPO2.setMvnCtrUrl("www");
+        mvnLibPO2.setDescription("des");
+        mvnLibPO2.setGithubUrl("s");
 
         mvnProjectPO = new MvnProjectPO();
         mvnProjectPO.setProjectId(1);
@@ -107,6 +117,7 @@ public class MvnServiceTest {
         MvnPomAnalyseDTO dto = new MvnPomAnalyseDTO();
         dto.setPom(pom);
         List<MvnLibVO> mvnLibVOS = mvnService.extractPomDeps(dto);
+        given(mvnLibraryDataService.getMvnLib("org.springframework.boot", "spring-boot-starter-data-jdbc")).willReturn(mvnLibPO2);
         for (MvnLibVO mvnLibVO : mvnLibVOS) {
             assertTrue(mvnLibVO.getGroupId().contains("org.springframework.boot"));
             assertTrue(mvnLibVO.getArtifactId().contains("spring-boot-starter-data-jdbc"));
