@@ -6,10 +6,7 @@ import com.edu.nju.clockcourier.dao.RuleInstanceDataService;
 import com.edu.nju.clockcourier.po.MigrationRulePO;
 import com.edu.nju.clockcourier.po.RuleInstancePO;
 import com.edu.nju.clockcourier.service.impl.MigrationServiceImpl;
-import com.edu.nju.clockcourier.vo.MigrationInstanceListVO;
-import com.edu.nju.clockcourier.vo.MigrationInstanceVO;
-import com.edu.nju.clockcourier.vo.MigrationRuleVO;
-import com.edu.nju.clockcourier.vo.MvnProjectVO;
+import com.edu.nju.clockcourier.vo.*;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
@@ -43,7 +40,13 @@ public class MigrationServiceTest {
 
     private static MigrationRulePO migrationRulePO;
 
+    private static List<MigrationRulePO> migrationRulePOList;
+
     private static MvnProjectVO mvnProjectVO;
+
+    private static MvnLibVO mvnLibVO;
+
+    private static MigrationRuleVO migrationRuleVO;
 
     private static Pair<List<RuleInstancePO>, Integer> p;
 
@@ -58,6 +61,9 @@ public class MigrationServiceTest {
         migrationRulePO.setRuleSup(1.0);
         migrationRulePO.setDisSup(1.0);
         migrationRulePO.setMsgSup(1.0);
+
+        migrationRulePOList = new ArrayList<>();
+        migrationRulePOList.add(migrationRulePO);
 
         RuleInstancePO ruleInstancePO = new RuleInstancePO();
         ruleInstancePO.setRuleId(1);
@@ -74,10 +80,21 @@ public class MigrationServiceTest {
         mvnProjectVO.setName("name");
         mvnProjectVO.setUrl("url");
         p = Pair.of(ruleInstancePOS, 1);
+
+        mvnLibVO.setLibId(1);
+        mvnLibVO.setGroupId("group");
+        mvnLibVO.setArtifactId("artifact");
+
     }
 
     @Test
     public void getMigrationGraph() {
+        given(mvnService.getSpecificMvnLib(1)).willReturn(mvnLibVO);
+        given(migrationRuleDataService.rulesWithSpecificStart(1)).willReturn(migrationRulePOList);
+        List<MigrationNodeVO> migrationNodeVOS = migrationService.getMigrationGraph(1);
+        for (MigrationNodeVO migrationNodeVO : migrationNodeVOS) {
+            assertEquals(1, migrationNodeVO.getFromLibInfo().getLibId());
+        }
 
     }
 

@@ -12,7 +12,6 @@ import com.edu.nju.clockcourier.vo.MvnLibListVO;
 import com.edu.nju.clockcourier.vo.MvnLibVO;
 import com.edu.nju.clockcourier.vo.MvnProjectVO;
 import org.junit.jupiter.api.BeforeAll;
-import org.junit.jupiter.api.Disabled;
 import org.junit.jupiter.api.Test;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
@@ -92,9 +91,7 @@ public class MvnServiceTest {
         assertEquals(mvnLibVO.getLibId(), 1);
     }
 
-    //todo: 数据库填充数据后补充assertEqual
     @Test
-    @Disabled
     public void extractPomDepsTest() {
         String pom = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n" +
@@ -109,7 +106,11 @@ public class MvnServiceTest {
                 "</project>";
         MvnPomAnalyseDTO dto = new MvnPomAnalyseDTO();
         dto.setPom(pom);
-        mvnService.extractPomDeps(dto);
+        List<MvnLibVO> mvnLibVOS = mvnService.extractPomDeps(dto);
+        for (MvnLibVO mvnLibVO : mvnLibVOS) {
+            assertTrue(mvnLibVO.getGroupId().contains("org.springframework.boot"));
+            assertTrue(mvnLibVO.getArtifactId().contains("spring-boot-starter-data-jdbc"));
+        }
     }
 
     @Test
