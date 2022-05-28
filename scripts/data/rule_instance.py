@@ -2,110 +2,119 @@ import pymongo
 import csv
 import pandas as pd
 
-github = "https://github.com/"
-myclient = pymongo.MongoClient('mongodb://localhost:27017/')
-mydb = myclient["migration_helper"]
-# 候选迁移规则
-mc = mydb["libraryMigrationCandidate"]
-# 原表对应
-ga = pd.read_csv('ag.csv', index_col=0)
+# 读取csv
+libs = pd.read_csv('lmcc_mvn_libs.csv')
+projects = pd.read_csv('lmcc_mvn_projects.csv')
 
-libs = pd.read_csv('lmcc_mvn_libs.csv', index_col=0)
-projects = pd.read_csv('lmcc_mvn_projects.csv', index_col=0)
+# 创建lib字典
+libs = libs.values.tolist()
+libsMap = dict()
 
-# 查找id
-# end=ga.find_one({'_id':5})
-# print(end)
 cur = 0
 
+for lib in libs:
+    group_id = str(lib[1])
+    # print(group_id)
+    artifact_id = str(lib[2])
+    # print(artifact_id)
+    key = group_id + artifact_id
+    # print(key)
+    libsMap[key] = lib[0]
+
+# 创建project字典
+projects = projects.values.tolist()
+projectsMap = dict()
+
+for project in projects:
+    name = str(project[1])
+    projectsMap[name] = project[0]
+
+# 拼接要用的url
+github = "https://github.com/"
+
+# 连接mongoDB
+myclient = pymongo.MongoClient('mongodb://localhost:27017/')
+
+# 连接数据库
+mydb = myclient["migration_helper"]
+
+# 获取候选迁移规则表
+mc = mydb["libraryMigrationCandidate"]
+
+# 获取id对应表
+ga = mydb["libraryGroupArtifact"]
+
+# 检测当前是否已创建目标文件
+flag=0
+
+# 要转化为csv的数据
 data = []
-mc
-for x in mc.find():
+mcr = mc.find()
+for x in mcr:
     # 如果可能迁移字段不为空，进行组合
-
     # 如果没有可能相关的提交，则跳过
-    if x['possibleCommitList']:
+    try:
+        if x['repoCommitList']:
 
-        # 取出有用的字段
-        fromId = x['fromId']
-        toId = x['toId']
+            # 取出有用的字段
+            fromId = x['fromId']
+            toId = x['toId']
 
-        # 先根据这两个id去找对应的id，没有就跳过
+            # 先根据这两个id去找对应的id，没有就跳过
 
-        # from_lib
-        from_lib = ga[ga.index == fromId].values
-        # from_lib=ga.find_one({'_id':fromId})
-        # print(from_lib)
-        # 如果找不到，则跳过
-        # if(not from_lib):
-        #     continue
-        fromGroupId = from_lib[0][0]
-        fromArtifactId = from_lib[0][1]
+            # from_lib
+            from_lib = ga.find_one({'_id': fromId})
 
-        fromId = libs[(libs["group_id"] == fromGroupId) & (libs["artifact_id"] == fromArtifactId)]
-        if fromId.index.to_list():
-            fromId = fromId.index.to_list()[0]
-        else:
-            continue
-        # 如果找不到，则跳过
-        if not fromId:
-            continue
+            fromGroupId = str(from_lib.get("groupId"))
+            fromArtifactId = str(from_lib.get("artifactId"))
 
-        # print("id1:",from_lib.get('_id'),"Id:",fromId)
+            fromId = libsMap.get(fromGroupId + fromArtifactId)
 
-        # to_lib
-        # to_lib = ga.find_one({'_id': toId})
-        to_lib = ga[ga.index == toId].values
-        # 如果找不到，则跳过
-        # if (not to_lib):
-        #     continue
-        toGroupId = to_lib[0][0]
-        toArtifactId = to_lib[0][1]
+            # to_lib
+            to_lib = ga.find_one({'_id': toId})
 
-        toId = libs[(libs["group_id"] == toGroupId) & (libs["artifact_id"] == toArtifactId)]
+            toGroupId = str(to_lib.get("groupId"))
+            toArtifactId = str(to_lib.get("artifactId"))
 
-        if toId.index.to_list():
-            toId = toId.index.to_list()[0]
-        else:
-            continue
-        # 如果找不到，则跳过
-        if not toId:
-            continue
+            toId = libsMap.get(toGroupId + toArtifactId)
 
-        # print(fromGroupId)
+            commitList = x['repoCommitList']
+            # 0:repoName 1:startCommit 2:endCommit 3:fileName
+            for commit in commitList:
+                repoName = commit[0]
+                repoName = repoName.replace('_', '/', 1)
+                # print(repoName)
+                # 根据repoName查找projectId
+                projectId = projectsMap.get(repoName)
 
-        # print("id2:", to_lib.get('_id'), "Id:", toId)
-
-        commitList = x['possibleCommitList']
-        # 0:repoName 1:startCommit 2:endCommit 3:fileName
-        for commit in commitList:
-            repoName = commit[0]
-            repoName = repoName.replace('_', '/', 1)
-            # print(repoName)
-            # 根据repoName查找projectId,没有就跳过
-            projectId = projects[(projects["name"] == repoName)]
-            if projectId.index.to_list():
-                projectId = projectId.index.to_list()[0]
-            else:
-                continue
-            # print(projectId)
-            startCommit = commit[1]
-            endCommit = commit[2]
-            fileName = commit[3]
-            # 组合url
-            # 先对仓库名进行替换,替换第一个下划线即得到仓库名
-            startCommitLink = github + repoName + '/commit/' + startCommit
-            endCommitLink = github + repoName + '/commit/' + endCommit
-            # print(startCommitLink)
-
-            # print([fromId,toId,projectId,fileName,startCommitLink,endCommitLink])
-            data.append([fromId, toId, projectId, fileName, startCommitLink, endCommitLink])
-            cur += 1
-            if cur % 100 == 0:
-                print("现在在处理第", cur, "条实例")
-
+                startCommit = commit[1]
+                endCommit = commit[2]
+                fileName = commit[3]
+                # 组合url
+                # 先对仓库名进行替换,替换第一个下划线即得到仓库名
+                startCommitLink = github + repoName + '/commit/' + startCommit
+                endCommitLink = github + repoName + '/commit/' + endCommit
+                # print(startCommitLink)
+                data.append([fromId, toId, projectId, fileName, startCommitLink, endCommitLink])
+                cur+=1
+                if cur%100000==0:
+                    print("现在在处理第",cur,"条实例")
+                    if flag==0:
+                        # 如果当前未创建目标文件，则新建目标文件
+                        flag=1
+                        df = pd.DataFrame(data)
+                        df.columns = ["fromId", "toId", "projectId", "fileName", "startCommitLink", "endCommitLink"]
+                        df.to_csv("ruleInstance.csv", encoding='utf-8', index=False)
+                        data=[]
+                    else:
+                        # 若当前已创建目标文件，则追加写入
+                        df = pd.DataFrame(data)
+                        df.to_csv("ruleInstance.csv", encoding='utf-8',mode='a',header=False,index=False)
+                        data=[]
+    except:
+        pass
+        continue
         # print(fromId,toId,x['possibleCommitList'][0][0])
 
 df = pd.DataFrame(data)
-df.columns = ["fromId", "toId", "projectId", "fileName", "startCommitLink", "endCommitLink"]
-df.to_csv("ruleInstance.csv", encoding='utf-8', index=False)
+df.to_csv("ruleInstance.csv", encoding='utf-8',mode='a',header=False,index=False)

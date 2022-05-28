@@ -15,6 +15,10 @@ migRuleMap = dict()
 
 data = []
 
+flag=0
+
+cur=0
+
 for rule in rules:
     id = rule[0]
     from_id = str(int(float(rule[1])))
@@ -34,8 +38,18 @@ for instance in instances:
     key = from_id + ':' + to_id
     rule_id = migRuleMap.get(key)
     data.append([int(float(rule_id)), instance[2], instance[3], instance[4], instance[5]])
-    print(int(float(rule_id)), instance[2], instance[3], instance[4], instance[5])
-
+    cur+=1
+    if(cur%100000==0):
+        print("现在处理到",cur,"条")
+        if(flag==0):
+            flag=1
+            df = pd.DataFrame(data)
+            df.columns = ["ruleId", "projectId", "file_name", "start_commit_link", "end_commit_link"]
+            df.to_csv("trueRuleInstance.csv", encoding='utf-8', index=False)
+            data=[]
+        else:
+            df = pd.DataFrame(data)
+            df.to_csv("trueRuleInstance.csv", encoding='utf-8', mode='a', header=False, index=False)
+            data = []
 df = pd.DataFrame(data)
-df.columns = ["ruleId", "projectId", "file_name", "start_commit_link", "end_commit_link"]
-df.to_csv("trueRuleInstance.csv", encoding='utf-8', index=False)
+df.to_csv("trueRuleInstance.csv", encoding='utf-8', mode='a', header=False, index=False)
