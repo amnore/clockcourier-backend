@@ -18,6 +18,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
+import static org.junit.jupiter.api.Assertions.assertTrue;
 import static org.mockito.BDDMockito.given;
 
 @SpringBootTest
@@ -107,7 +108,7 @@ public class MigrationServiceTest {
         given(migrationRuleDataService.rulesWithSpecificStart(1)).willReturn(migrationRulePOList);
         List<MigrationNodeVO> migrationNodeVOS = migrationService.getMigrationGraph(1);
         for (MigrationNodeVO migrationNodeVO : migrationNodeVOS) {
-            assertEquals(1, migrationNodeVO.getFromLibInfo().getLibId());
+            assertTrue(migrationNodeVO.getFromLibInfo().getLibId() == 1 || migrationNodeVO.getFromLibInfo().getLibId() == 2);
         }
 
     }

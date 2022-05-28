@@ -103,6 +103,7 @@ public class MvnServiceTest {
 
     @Test
     public void extractPomDepsTest() {
+        given(mvnLibraryDataService.getMvnLib("org.springframework.boot", "spring-boot-starter-data-jdbc")).willReturn(mvnLibPO2);
         String pom = "<?xml version=\"1.0\" encoding=\"UTF-8\"?>\n" +
                 "<project xmlns=\"http://maven.apache.org/POM/4.0.0\" xmlns:xsi=\"http://www.w3.org/2001/XMLSchema-instance\"\n" +
                 "         xsi:schemaLocation=\"http://maven.apache.org/POM/4.0.0 https://maven.apache.org/xsd/maven-4.0.0.xsd\">\n" +
@@ -117,7 +118,6 @@ public class MvnServiceTest {
         MvnPomAnalyseDTO dto = new MvnPomAnalyseDTO();
         dto.setPom(pom);
         List<MvnLibVO> mvnLibVOS = mvnService.extractPomDeps(dto);
-        given(mvnLibraryDataService.getMvnLib("org.springframework.boot", "spring-boot-starter-data-jdbc")).willReturn(mvnLibPO2);
         for (MvnLibVO mvnLibVO : mvnLibVOS) {
             assertTrue(mvnLibVO.getGroupId().contains("org.springframework.boot"));
             assertTrue(mvnLibVO.getArtifactId().contains("spring-boot-starter-data-jdbc"));
