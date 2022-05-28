@@ -46,6 +46,8 @@ public class MigrationServiceTest {
 
     private static MvnLibVO mvnLibVO;
 
+    private static MvnLibVO mvnLibVO2;
+
     private static MigrationRuleVO migrationRuleVO;
 
     private static Pair<List<RuleInstancePO>, Integer> p;
@@ -85,12 +87,23 @@ public class MigrationServiceTest {
         mvnLibVO.setLibId(1);
         mvnLibVO.setGroupId("group");
         mvnLibVO.setArtifactId("artifact");
+        mvnLibVO.setDescription("");
+        mvnLibVO.setMvnCtrUrl("");
+        mvnLibVO.setRepoUrl("");
 
+        mvnLibVO = new MvnLibVO();
+        mvnLibVO.setLibId(2);
+        mvnLibVO.setGroupId("group2");
+        mvnLibVO.setArtifactId("artifact2");
+        mvnLibVO.setDescription("");
+        mvnLibVO.setMvnCtrUrl("");
+        mvnLibVO.setRepoUrl("");
     }
 
     @Test
     public void getMigrationGraph() {
         given(mvnService.getSpecificMvnLib(1)).willReturn(mvnLibVO);
+        given(mvnService.getSpecificMvnLib(2)).willReturn(mvnLibVO2);
         given(migrationRuleDataService.rulesWithSpecificStart(1)).willReturn(migrationRulePOList);
         List<MigrationNodeVO> migrationNodeVOS = migrationService.getMigrationGraph(1);
         for (MigrationNodeVO migrationNodeVO : migrationNodeVOS) {
