@@ -81,6 +81,7 @@ public class MigrationServiceTest {
         mvnProjectVO.setUrl("url");
         p = Pair.of(ruleInstancePOS, 1);
 
+        mvnLibVO = new MvnLibVO();
         mvnLibVO.setLibId(1);
         mvnLibVO.setGroupId("group");
         mvnLibVO.setArtifactId("artifact");
